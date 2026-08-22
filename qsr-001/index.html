@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Burger Blaze — Flame-Grilled. Fast. Unforgettable.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- RESET & VARIABLES ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --crimson: #E63946;
+    --crimson-deep: #B5121F;
+    --mustard: #F4B841;
+    --mustard-deep: #E09F20;
+    --cream: #FFF8EC;
+    --ink: #14110F;
+    --ink-soft: #2A2622;
+    --muted: #8A827A;
+    --line: rgba(20, 17, 15, 0.08);
+    --radius-sm: 14px;
+    --radius-md: 22px;
+    --radius-lg: 32px;
+    --radius-xl: 44px;
+    --shadow-soft: 0 10px 30px -12px rgba(20,17,15,0.18);
+    --shadow-glow: 0 0 0 0 rgba(230,57,70,0);
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --ease-out: cubic-bezier(.16,1,.3,1);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.5;
+    cursor: none;
+  }
+  @media (max-width: 900px) { body { cursor: auto; } }
+
+  /* Grain overlay for texture */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; cursor: none; border: none; background: none; color: inherit; }
+  @media (max-width: 900px) { button { cursor: pointer; } }
+
+  /* ---------- CUSTOM CURSOR ---------- */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--mustard);
+    border-radius: 50%;
+    transition: width .25s var(--ease), height .25s var(--ease), background .25s var(--ease);
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--crimson);
+    border-radius: 50%;
+    transition: width .35s var(--ease), height .35s var(--ease), border-color .25s var(--ease), transform .15s var(--ease);
+  }
+  .cursor-hover .cursor-ring {
+    width: 70px; height: 70px;
+    border-color: var(--mustard);
+    background: rgba(244,184,65,0.08);
+  }
+  .cursor-hover .cursor-dot { width: 0; height: 0; }
+  @media (max-width: 900px) { .cursor-dot, .cursor-ring { display: none; } }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  @media (max-width: 600px) { .wrap { padding: 0 18px; } }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar {
+    position: fixed;
+    top: 18px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 10px 10px 20px;
+    background: rgba(255, 248, 236, 0.75);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
+  }
+  .logo {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo .flame {
+    width: 22px; height: 22px;
+    background: radial-gradient(circle at 30% 30%, var(--mustard), var(--crimson) 70%);
+    border-radius: 50% 50% 50% 10% / 60% 60% 40% 40%;
+    transform: rotate(-20deg);
+    box-shadow: 0 0 18px rgba(230,57,70,0.5);
+  }
+  .topbar .status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; color: var(--ink-soft);
+    padding: 6px 14px;
+    background: rgba(20,17,15,0.05);
+    border-radius: 999px;
+  }
+  .status .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #22a85a;
+    box-shadow: 0 0 0 0 rgba(34,168,90,0.6);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,168,90,0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(34,168,90,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,168,90,0); }
+  }
+  .top-cta {
+    padding: 10px 18px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: transform .3s var(--ease), background .3s var(--ease);
+  }
+  .top-cta:hover { background: var(--crimson); transform: translateY(-1px); }
+  @media (max-width: 700px) {
+    .topbar { padding: 8px 8px 8px 16px; gap: 10px; }
+    .topbar .status { display: none; }
+    .top-cta { padding: 8px 14px; font-size: 12px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding: 140px 0 80px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero { padding: 120px 0 40px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-soft);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--crimson);
+    box-shadow: 0 0 10px var(--crimson);
+  }
+
+  h1.display {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 9vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  h1.display .accent {
+    color: var(--crimson);
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+  }
+  h1.display .accent::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 8%;
+    height: 14%;
+    background: var(--mustard);
+    border-radius: 999px;
+    z-index: -1;
+    opacity: 0.85;
+  }
+  h1.display .outline {
+    -webkit-text-stroke: 2px var(--ink);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 26px;
+    font-size: 18px;
+    max-width: 480px;
+    color: var(--ink-soft);
+  }
+
+  .hero-actions {
+    margin-top: 34px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Magnetic buttons */
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    will-change: transform;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    box-shadow: 0 10px 30px -10px rgba(20,17,15,0.45);
+  }
+  .btn-primary::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--crimson);
+    transform: translateY(100%);
+    transition: transform .4s var(--ease-out);
+    z-index: 0;
+  }
+  .btn-primary > * { position: relative; z-index: 1; }
+  .btn-primary:hover::before { transform: translateY(0); }
+  .btn-primary:hover { box-shadow: 0 18px 40px -10px rgba(230,57,70,0.5); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+  .btn .arrow {
+    width: 22px; height: 22px;
+    background: var(--mustard);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform .3s var(--ease);
+  }
+  .btn:hover .arrow { transform: rotate(-45deg); }
+  .btn .arrow svg { width: 12px; height: 12px; }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1/1.05;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: linear-gradient(145deg, var(--crimson), var(--crimson-deep));
+    box-shadow: 0 40px 80px -30px rgba(230,57,70,0.5), inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .hero-visual::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(244,184,65,0.4), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(181,18,31,0.6), transparent 50%);
+    z-index: 1;
+  }
+  .hero-visual img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    transition: transform 1s var(--ease);
+  }
+  .hero-visual:hover img { transform: scale(1.1); }
+
+  .hero-badge {
+    position: absolute;
+    z-index: 2;
+    padding: 14px 18px;
+    background: rgba(255,248,236,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-badge.top-left { top: 20px; left: 20px; }
+  .hero-badge.bottom-right { bottom: 20px; right: 20px; }
+  .hero-badge .mini {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--mustard);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .hero-badge .label { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+  /* Floating tags around hero */
+  .float-tag {
+    position: absolute;
+    padding: 10px 16px;
+    background: var(--cream);
+    border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    box-shadow: var(--shadow-soft);
+    display: flex; align-items: center; gap: 8px;
+    z-index: 3;
+  }
+  .float-tag.t1 { top: -14px; right: 40px; }
+  .float-tag.t2 { bottom: 30px; left: -30px; }
+  .float-tag .ic {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--crimson);
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  @media (max-width: 900px) {
+    .float-tag.t2 { display: none; }
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee {
+    margin-top: 80px;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    background: var(--cream);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: scroll 30s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 60px;
+    color: var(--ink);
+  }
+  .marquee-item .sep {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--crimson);
+  }
+  .marquee-item.alt { color: var(--crimson); font-style: italic; }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ---------- SECTION HEAD ---------- */
+  section { padding: 100px 0; position: relative; }
+  @media (max-width: 700px) { section { padding: 70px 0; } }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+  }
+  .section-head h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 700px;
+  }
+  .section-head h2 em {
+    color: var(--crimson);
+    font-style: italic;
+  }
+  .section-head p {
+    max-width: 360px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .section-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-num::before {
+    content: ""; width: 24px; height: 1px; background: var(--muted);
+  }
+
+  /* ---------- BENTO MENU ---------- */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 18px;
+  }
+  .bento-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    overflow: hidden;
+    transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    cursor: none;
+  }
+  @media (max-width: 900px) { .bento-card { cursor: pointer; } }
+
+  .bento-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -20px rgba(20,17,15,0.25);
+  }
+
+  .bento-card .card-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    position: relative; z-index: 2;
+  }
+  .bento-card .card-count {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+  }
+  .bento-card .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: transform .4s var(--ease);
+  }
+  .bento-card:hover .card-icon { transform: rotate(-10deg) scale(1.1); }
+
+  .bento-card .card-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-top: 20px;
+    position: relative; z-index: 2;
+  }
+  .bento-card .card-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    position: relative; z-index: 2;
+  }
+  .bento-card .card-meta .price {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .bento-card .card-meta .more {
+    display: inline-flex; align-items: center; gap: 6px;
+    opacity: 0.8;
+    transition: gap .3s var(--ease);
+  }
+  .bento-card:hover .card-meta .more { gap: 12px; }
+
+  /* Card variants */
+  .c-burgers {
+    grid-column: span 4;
+    grid-row: span 2;
+    background: linear-gradient(145deg, #1a1411, #2a1f1a);
+    color: var(--cream);
+    background-image:
+      linear-gradient(145deg, rgba(26,20,17,0.85), rgba(42,31,26,0.7)),
+      url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+  }
+  .c-burgers::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(230,57,70,0.3), transparent 60%);
+    pointer-events: none;
+  }
+  .c-burgers .card-title { font-size: clamp(42px, 5vw, 72px); }
+  .c-burgers .card-icon { background: var(--crimson); color: var(--cream); }
+
+  .c-sides {
+    grid-column: span 2;
+    background: var(--mustard);
+    color: var(--ink);
+  }
+  .c-sides .card-icon { background: var(--ink); color: var(--mustard); }
+
+  .c-drinks {
+    grid-column: span 2;
+    background: var(--crimson);
+    color: var(--cream);
+  }
+  .c-drinks .card-icon { background: rgba(255,255,255,0.2); }
+
+  .c-combos {
+    grid-column: span 2;
+    background: var(--ink);
+    color: var(--cream);
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(244,184,65,0.2), transparent 50%);
+  }
+  .c-combos .card-icon { background: var(--mustard); color: var(--ink); }
+
+  .c-desserts {
+    grid-column: span 3;
+    background: linear-gradient(145deg, #fff3d6, #ffe4a8);
+    color: var(--ink);
+  }
+  .c-desserts .card-icon { background: var(--crimson); color: var(--cream); }
+
+  .c-new {
+    grid-column: span 3;
+    background: var(--cream);
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+    background-image:
+      radial-gradient(circle at 80% 20%, rgba(230,57,70,0.08), transparent 50%);
+  }
+  .c-new .card-icon { background: var(--ink); color: var(--cream); }
+  .c-new .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--crimson);
+    color: var(--cream);
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 1000px) {
+    .bento { grid-template-columns: repeat(4, 1fr); }
+    .c-burgers { grid-column: span 4; grid-row: span 2; }
+    .c-sides, .c-drinks, .c-combos { grid-column: span 2; }
+    .c-desserts, .c-new { grid-column: span 2; }
+  }
+  @media (max-width: 600px) {
+    .bento { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .bento-card { padding: 20px; min-height: 180px; }
+    .c-burgers { grid-column: span 2; grid-row: span 1; min-height: 260px; }
+    .c-sides, .c-drinks, .c-combos, .c-desserts, .c-new { grid-column: span 2; }
+  }
+
+  /* ---------- FEATURED BURGER ---------- */
+  .featured {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: var(--radius-xl);
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    margin: 40px 0;
+  }
+  @media (max-width: 700px) { .featured { padding: 36px 24px; } }
+
+  .featured::before {
+    content: "";
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(230,57,70,0.3), transparent 60%);
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+  .featured::after {
+    content: "";
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(244,184,65,0.15), transparent 60%);
+    bottom: -150px; left: -100px;
+    pointer-events: none;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .featured-grid { grid-template-columns: 1fr; gap: 30px; }
+  }
+
+  .featured h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .featured h3 em { color: var(--mustard); font-style: italic; }
+  .featured .desc {
+    margin-top: 20px;
+    color: rgba(255,248,236,0.7);
+    max-width: 420px;
+    font-size: 16px;
+  }
+  .featured .price-row {
+    margin-top: 30px;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .featured .price-row .price {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--mustard);
+  }
+  .featured .price-row .old {
+    font-size: 18px;
+    color: rgba(255,248,236,0.4);
+    text-decoration: line-through;
+  }
+
+  .featured-visual {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: linear-gradient(145deg, var(--crimson), var(--crimson-deep));
+  }
+  .featured-visual img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .featured-visual:hover img { transform: scale(1.08) rotate(-2deg); }
+
+  .featured-visual .flame-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    padding: 10px 16px;
+    background: var(--mustard);
+    color: var(--ink);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stats-row {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,248,236,0.1);
+  }
+  .stat .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--mustard);
+    line-height: 1;
+  }
+  .stat .lbl {
+    margin-top: 6px;
+    font-size: 12px;
+    color: rgba(255,248,236,0.6);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- PROCESS / STORY ---------- */
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+  }
+  .story-card {
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .5s var(--ease);
+  }
+  .story-card:hover { transform: translateY(-4px); }
+
+  .story-card.s1 {
+    grid-column: span 5;
+    background: var(--crimson);
+    color: var(--cream);
+    min-height: 320px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .story-card.s2 {
+    grid-column: span 4;
+    background: var(--ink);
+    color: var(--cream);
+    background-image:
+      radial-gradient(circle at 80% 20%, rgba(244,184,65,0.2), transparent 50%);
+  }
+  .story-card.s3 {
+    grid-column: span 3;
+    background: var(--mustard);
+    color: var(--ink);
+  }
+  .story-card.s4 {
+    grid-column: span 7;
+    background: var(--cream);
+    border: 1.5px solid var(--line);
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  .story-card.s4 .img {
+    width: 180px; height: 180px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .story-card.s4 .img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .story-card .step {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 14px;
+  }
+  .story-card h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .story-card p {
+    margin-top: 12px;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 1000px) {
+    .story-grid { grid-template-columns: repeat(6, 1fr); }
+    .story-card.s1 { grid-column: span 6; }
+    .story-card.s2 { grid-column: span 3; }
+    .story-card.s3 { grid-column: span 3; }
+    .story-card.s4 { grid-column: span 6; }
+  }
+  @media (max-width: 600px) {
+    .story-card { grid-column: span 6 !important; }
+    .story-card.s4 { flex-direction: column; align-items: flex-start; }
+    .story-card.s4 .img { width: 100%; height: 160px; }
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 24px;
+  }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-card {
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-main {
+    background: var(--ink);
+    color: var(--cream);
+    min-height: 420px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background-image:
+      radial-gradient(circle at 90% 10%, rgba(230,57,70,0.25), transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(244,184,65,0.15), transparent 50%);
+  }
+  .contact-main h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .contact-main h3 em { color: var(--mustard); font-style: italic; }
+  .contact-main .info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 30px;
+  }
+  @media (max-width: 500px) { .contact-main .info { grid-template-columns: 1fr; } }
+  .contact-main .info .lbl {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,248,236,0.5);
+    margin-bottom: 6px;
+  }
+  .contact-main .info .val {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .contact-side {
+    background: var(--mustard);
+    color: var(--ink);
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 420px;
+  }
+  .contact-side h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hours {
+    margin-top: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .hours .row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(20,17,15,0.15);
+    font-size: 14px;
+  }
+  .hours .row:last-child { border-bottom: none; }
+  .hours .row .day { font-weight: 600; }
+  .hours .row .time { color: var(--ink-soft); }
+
+  /* ---------- BOTTOM NAV (sticky) ---------- */
+  .bottom-nav {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    background: rgba(20,17,15,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255,248,236,0.08);
+    border-radius: 999px;
+    box-shadow: 0 20px 50px -10px rgba(20,17,15,0.5);
+  }
+  .bottom-nav a {
+    padding: 12px 22px;
+    border-radius: 999px;
+    color: rgba(255,248,236,0.7);
+    font-weight: 600;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 8px;
+    transition: all .3s var(--ease);
+    position: relative;
+  }
+  .bottom-nav a svg { width: 16px; height: 16px; }
+  .bottom-nav a.active {
+    background: var(--crimson);
+    color: var(--cream);
+    box-shadow: 0 6px 20px -4px rgba(230,57,70,0.6);
+  }
+  .bottom-nav a:not(.active):hover {
+    color: var(--cream);
+    background: rgba(255,248,236,0.08);
+  }
+  .bottom-nav .order-btn {
+    background: var(--mustard);
+    color: var(--ink);
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    transition: transform .3s var(--ease), background .3s var(--ease);
+  }
+  .bottom-nav .order-btn:hover {
+    background: var(--cream);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 500px) {
+    .bottom-nav { padding: 6px; gap: 4px; }
+    .bottom-nav a { padding: 10px 14px; font-size: 13px; }
+    .bottom-nav a span { display: none; }
+    .bottom-nav .order-btn span { display: inline; }
+  }
+
+  /* Footer spacer for bottom nav */
+  .footer-space { height: 100px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 40px 0 120px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .foot-grid .copy {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-grid .links {
+    display: flex; gap: 24px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .foot-grid .links a:hover { color: var(--crimson); }
+
+  /* ---------- REVEAL ANIMATIONS ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* Parallax helper */
+  .parallax { will-change: transform; }
+
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- Top Bar -->
+<header class="topbar">
+  <div class="logo">
+    <span class="flame"></span>
+    Burger Blaze
+  </div>
+  <div class="status">
+    <span class="dot"></span>
+    Open · Closes 11 PM
+  </div>
+  <a href="#menu" class="top-cta" data-magnetic>Order Now</a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text reveal">
+        <div class="eyebrow">Est. 2019 · Flame-Grilled Daily</div>
+        <h1 class="display">
+          Burgers<br>
+          with <span class="accent">bite</span>,<br>
+          <span class="outline">built fast.</span>
+        </h1>
+        <p class="hero-sub">
+          Hand-smashed patties, toasted brioche, and sauces made in-house.
+          From grill to your hands in under 7 minutes — no shortcuts, no compromise.
+        </p>
+        <div class="hero-actions">
+          <a href="menu.html" class="btn btn-primary" data-magnetic>
+            <span>Explore the menu</span>
+            <span class="arrow">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#14110F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a href="#story" class="btn btn-ghost" data-magnetic>Our story</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal parallax" data-parallax="0.08">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=1000&q=80" alt="Signature Blaze Burger" />
+        <div class="hero-badge top-left">
+          <div class="mini">4.9</div>
+          <div>
+            <div style="font-weight:700;">12,400+ reviews</div>
+            <div class="label">Google · Yelp</div>
+          </div>
+        </div>
+        <div class="hero-badge bottom-right">
+          <div class="mini" style="background:var(--crimson);color:var(--cream);">⚡</div>
+          <div>
+            <div style="font-weight:700;">7 min avg</div>
+            <div class="label">Grill to hand</div>
+          </div>
+        </div>
+        <div class="float-tag t1">🔥 Flame-grilled</div>
+        <div class="float-tag t2">🥬 Farm-fresh</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <div class="marquee-item">Smash Burgers <span class="sep"></span></div>
+      <div class="marquee-item alt">Crispy Fries <span class="sep"></span></div>
+      <div class="marquee-item">Hand-Spun Shakes <span class="sep"></span></div>
+      <div class="marquee-item alt">Loaded Combos <span class="sep"></span></div>
+      <div class="marquee-item">Secret Sauce <span class="sep"></span></div>
+      <div class="marquee-item alt">Open Late <span class="sep"></span></div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item">Smash Burgers <span class="sep"></span></div>
+      <div class="marquee-item alt">Crispy Fries <span class="sep"></span></div>
+      <div class="marquee-item">Hand-Spun Shakes <span class="sep"></span></div>
+      <div class="marquee-item alt">Loaded Combos <span class="sep"></span></div>
+      <div class="marquee-item">Secret Sauce <span class="sep"></span></div>
+      <div class="marquee-item alt">Open Late <span class="sep"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU BENTO -->
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">01 — The Menu</div>
+        <h2>Pick your <em>flavor</em>,<br>we'll handle the flame.</h2>
+      </div>
+      <p>Six categories. Zero filler. Every item is built around one idea: bold, fast, and worth coming back for.</p>
+    </div>
+
+    <div class="bento">
+      <a href="menu.html#burgers" class="bento-card c-burgers reveal" data-magnetic>
+        <div class="card-head">
+          <div class="card-count">/ 01</div>
+          <div class="card-icon">🍔</div>
+        </div>
+        <div>
+          <div class="card-title">Smash<br>Burgers</div>
+          <div class="card-meta">
+            <span>12 signatures</span>
+            <span class="price">from $9.50</span>
+            <span class="more">View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="menu.html#sides" class="bento-card c-sides reveal" data-magnetic>
+        <div class="card-head">
+          <div class="card-count">/ 02</div>
+          <div class="card-icon">🍟</div>
+        </div>
+        <div>
+          <div class="card-title">Sides</div>
+          <div class="card-meta">
+            <span>8 items</span>
+            <span class="more">View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="menu.html#drinks" class="bento-card c-drinks reveal" data-magnetic>
+        <div class="card-head">
+          <div class="card-count">/ 03</div>
+          <div class="card-icon">🥤</div>
+        </div>
+        <div>
+          <div class="card-title">Drinks</div>
+          <div class="card-meta">
+            <span>14 items</span>
+            <span class="more">View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="menu.html#combos" class="bento-card c-combos reveal" data-magnetic>
+        <div class="card-head">
+          <div class="card-count">/ 04</div>
+          <div class="card-icon">🎁</div>
+        </div>
+        <div>
+          <div class="card-title">Combos</div>
+          <div class="card-meta">
+            <span>Save 20%</span>
+            <span class="more">View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="menu.html#shakes" class="bento-card c-desserts reveal" data-magnetic>
+        <div class="card-head">
+          <div class="card-count">/ 05</div>
+          <div class="card-icon">🍦</div>
+        </div>
+        <div>
+          <div class="card-title">Shakes &<br>Desserts</div>
+          <div class="card-meta">
+            <span>6 items</span>
+            <span class="more">View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="menu.html#special" class="bento-card c-new reveal" data-magnetic>
+        <div class="card-head">
+          <span class="tag">New Drop</span>
+          <div class="card-icon">✨</div>
+        </div>
+        <div>
+          <div class="card-title">The Blaze<br>Special</div>
+          <div class="card-meta">
+            <span>Limited · July</span>
+            <span class="price">$13.90</span>
+            <span class="more">Try →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section style="padding-top:20px;">
+  <div class="wrap">
+    <div class="featured reveal">
+      <div class="featured-grid">
+        <div>
+          <div class="section-num" style="color:rgba(255,248,236,0.5);">02 — Signature</div>
+          <h3>The <em>Inferno</em><br>Double Smash.</h3>
+          <p class="desc">
+            Two 3oz beef patties, smashed crispy-edged. Pepper jack, caramelized onions,
+            smoked gouda, house blaze sauce, brioche bun toasted in beef tallow.
+          </p>
+          <div class="price-row">
+            <span class="price">$14.90</span>
+            <span class="old">$17.50</span>
+          </div>
+          <div style="margin-top:28px;">
+            <a href="#" class="btn btn-primary" data-magnetic style="background:var(--mustard);color:var(--ink);">
+              <span>Add to order</span>
+              <span class="arrow" style="background:var(--crimson);">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#FFF8EC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat">
+              <div class="num">6oz</div>
+              <div class="lbl">Beef total</div>
+            </div>
+            <div class="stat">
+              <div class="num">4.9★</div>
+              <div class="lbl">Fan rating</div>
+            </div>
+            <div class="stat">
+              <div class="num">#1</div>
+              <div class="lbl">Best seller</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="featured-visual parallax" data-parallax="0.06">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=900&q=80" alt="Inferno Double Smash" />
+          <div class="flame-badge">🔥 Signature</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY / PROCESS -->
+<section id="story">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">03 — How We Build It</div>
+        <h2>Four steps.<br>One <em>obsession</em>.</h2>
+      </div>
+      <p>Every burger at Blaze follows the same ritual — a process refined across 120,000 orders and counting.</p>
+    </div>
+
+    <div class="story-grid">
+      <div class="story-card s1 reveal">
+        <div>
+          <div class="step">Step 01</div>
+          <h4>Hand-formed,<br>never frozen.</h4>
+        </div>
+        <p>100% chuck-brisket blend, ground in-house every morning. Shaped to order, never pre-made.</p>
+      </div>
+
+      <div class="story-card s2 reveal">
+        <div>
+          <div class="step">Step 02</div>
+          <h4>Smashed<br>at 500°F.</h4>
+        </div>
+        <p>Cast-iron plancha, 10 seconds of pressure. That's how you get the crust.</p>
+      </div>
+
+      <div class="story-card s3 reveal">
+        <div>
+          <div class="step">Step 03</div>
+          <h4>Sauces,<br>in-house.</h4>
+        </div>
+        <p>Seven signature sauces. Made weekly. No bottles.</p>
+      </div>
+
+      <div class="story-card s4 reveal">
+        <div class="img">
+          <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&q=80" alt="Brioche bun" />
+        </div>
+        <div>
+          <div class="step">Step 04</div>
+          <h4>Brioche, toasted in beef tallow.</h4>
+          <p>That's the secret most places won't tell you. Golden, crisp, and just a little bit dangerous.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">04 — Find Us</div>
+        <h2>Come hungry.<br>Leave <em>happy</em>.</h2>
+      </div>
+      <p>Walk-in, call ahead, or order for pickup. We're ready when you are.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card contact-main reveal">
+        <div>
+          <div class="section-num" style="color:rgba(255,248,236,0.5);">Visit the flagship</div>
+          <h3>Let's get<br>you <em>fed</em>.</h3>
+        </div>
+        <div class="info">
+          <div>
+            <div class="lbl">Address</div>
+            <div class="val">412 Flame Ave<br>Brooklyn, NY 11211</div>
+          </div>
+          <div>
+            <div class="lbl">Phone</div>
+            <div class="val">(718) 555-BLAZE</div>
+          </div>
+          <div>
+            <div class="lbl">Email</div>
+            <div class="val">hello@burgerblaze.co</div>
+          </div>
+          <div>
+            <div class="lbl">Delivery</div>
+            <div class="val">UberEats · DoorDash</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card contact-side reveal">
+        <div>
+          <div class="section-num" style="color:rgba(20,17,15,0.6);">Hours</div>
+          <h4>We're open<br>when you need us.</h4>
+        </div>
+        <div class="hours">
+          <div class="row"><span class="day">Mon – Thu</span><span class="time">11am – 11pm</span></div>
+          <div class="row"><span class="day">Fri – Sat</span><span class="time">11am – 1am</span></div>
+          <div class="row"><span class="day">Sunday</span><span class="time">12pm – 10pm</span></div>
+        </div>
+        <a href="#" class="btn btn-primary" data-magnetic style="background:var(--ink);color:var(--cream);margin-top:24px;align-self:flex-start;">
+          <span>Get directions</span>
+          <span class="arrow">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#14110F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-space"></div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="logo">
+        <span class="flame"></span>
+        Burger Blaze
+      </div>
+      <div class="links">
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="copy">© 2026 Burger Blaze. Flame-grilled in Brooklyn.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="#home" class="active" data-nav>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2V11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="menu.html" data-nav>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span>Menu</span>
+  </a>
+  <a href="#contact" data-nav>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>
+    <span>Contact</span>
+  </a>
+  <a href="menu.html" class="order-btn" data-magnetic>
+    <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;"><path d="M3 3h2l3 12h11l2-8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
+    <span>Order</span>
+  </a>
+</nav>
+
+<script>
+  /* ---------- CUSTOM CURSOR ---------- */
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover state
+  const hoverTargets = document.querySelectorAll('a, button, .bento-card, [data-magnetic]');
+  hoverTargets.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  /* ---------- MAGNETIC BUTTONS ---------- */
+  document.querySelectorAll('[data-magnetic]').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---------- PARALLAX ---------- */
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    parallaxEls.forEach(el => {
+      const speed = parseFloat(el.dataset.parallax) || 0.1;
+      const rect = el.getBoundingClientRect();
+      const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed;
+      el.style.transform = `translateY(${offset}px)`;
+    });
+  }, { passive: true });
+
+  /* ---------- BOTTOM NAV ACTIVE STATE ---------- */
+  const navLinks = document.querySelectorAll('.bottom-nav a[data-nav]');
+  const sections = ['home', 'contact'].map(id => document.getElementById(id));
+
+  // 1. Scroll Spy (ignores menu.html)
+  window.addEventListener('scroll', () => {
+    let current = 'home';
+    sections.forEach(sec => {
+      if (!sec) return;
+      const top = sec.offsetTop - 200;
+      if (window.scrollY >= top) current = sec.id;
+    });
+    
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === 'menu.html') return; // Skip external links
+      link.classList.toggle('active', href === '#' + current);
+    });
+  }, { passive: true });
+
+  // 2. Smooth Scroll (ONLY for internal # anchors)
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      // Only prevent default if it's an internal anchor link
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 60, behavior: 'smooth' });
+        }
+      }
+      // If href is 'menu.html', it skips this block and navigates normally
+    });
+  });
+  
+</script>
+
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "qsr-001",
+    appendTo: "#contact",
+    accent: "#E4572E"
+  };
+</script>
+<script src="../webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>

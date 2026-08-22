@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crust & Daily Brew — Slow Coffee, Honest Pizza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta:#C65D3C;
+    --terracotta-deep:#A0432A;
+    --beige:#F5EBE0;
+    --cream:#FAF3E7;
+    --sage:#87A878;
+    --sage-deep:#5E7A52;
+    --espresso:#2B1D16;
+    --espresso-soft:#3E2C22;
+    --ink:#1A120B;
+    --muted:#8A7A6B;
+    --line:rgba(43,29,22,0.12);
+    --glow: 0 0 0 rgba(198,93,60,0);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--cream);
+    color:var(--espresso);
+    line-height:1.6;
+    overflow-x:hidden;
+    cursor:none;
+  }
+
+  /* ---------- Custom Cursor ---------- */
+  .cursor-dot, .cursor-ring{
+    position:fixed;
+    top:0;left:0;
+    pointer-events:none;
+    z-index:9999;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    transition:width .25s ease, height .25s ease, background .25s ease, border-color .25s ease, opacity .3s ease;
+    mix-blend-mode:normal;
+  }
+  .cursor-dot{
+    width:6px;height:6px;
+    background:var(--terracotta);
+  }
+  .cursor-ring{
+    width:36px;height:36px;
+    border:1.5px solid var(--espresso);
+    opacity:.4;
+  }
+  body.cursor-hover .cursor-ring{
+    width:64px;height:64px;
+    border-color:var(--terracotta);
+    opacity:.7;
+    background:rgba(198,93,60,0.06);
+  }
+  body.cursor-hover .cursor-dot{opacity:0}
+
+  @media (hover:none){
+    body{cursor:auto}
+    .cursor-dot,.cursor-ring{display:none}
+  }
+
+  /* ---------- Typography ---------- */
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.02em;line-height:1.05}
+  .eyebrow{
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+  section{padding:120px 0;position:relative}
+
+  /* ---------- Navigation ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;
+    z-index:100;
+    padding:22px 28px;
+    display:flex;justify-content:space-between;align-items:center;
+    transition:background .4s ease, backdrop-filter .4s ease, padding .3s ease;
+  }
+  nav.scrolled{
+    background:rgba(250,243,231,0.85);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    padding:14px 28px;
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:'Fraunces',serif;
+    font-size:1.35rem;
+    font-weight:500;
+    color:var(--espresso);
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:28px;height:28px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, var(--terracotta), var(--terracotta-deep));
+    box-shadow:0 0 20px rgba(198,93,60,0.35);
+    position:relative;
+  }
+  .logo-mark::after{
+    content:"";
+    position:absolute;inset:6px;
+    border-radius:50%;
+    border:1px solid rgba(250,243,231,0.6);
+  }
+  .nav-links{display:flex;gap:38px;align-items:center}
+  .nav-links a{
+    color:var(--espresso);
+    text-decoration:none;
+    font-size:.9rem;
+    font-weight:400;
+    position:relative;
+    padding:4px 0;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;bottom:0;left:0;
+    width:0;height:1px;background:var(--terracotta);
+    transition:width .35s ease;
+  }
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    padding:10px 22px;
+    background:var(--espresso);
+    color:var(--cream);
+    border-radius:100px;
+    font-size:.85rem;
+    transition:background .3s ease, transform .3s ease;
+  }
+  .nav-cta:hover{background:var(--terracotta);color:var(--cream)}
+  .nav-cta::after{display:none}
+
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:8px}
+  .hamburger span{width:24px;height:1.5px;background:var(--espresso);transition:transform .3s ease, opacity .3s ease}
+  .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    padding:140px 0 80px;
+    position:relative;
+    overflow:hidden;
+    display:flex;align-items:center;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(198,93,60,0.18), transparent 50%),
+      radial-gradient(circle at 10% 80%, rgba(135,168,120,0.18), transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, var(--beige) 100%);
+    z-index:0;
+  }
+  .hero-grain{
+    position:absolute;inset:0;
+    opacity:.35;pointer-events:none;z-index:1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.11 0 0 0 0 0.07 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .hero-inner{position:relative;z-index:2;width:100%}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.8rem, 6.5vw, 5.8rem);
+    font-weight:300;
+    color:var(--espresso);
+    margin:22px 0 28px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--terracotta);
+    font-weight:400;
+  }
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line span{display:inline-block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+  .hero h1 .line:nth-child(2) span{animation-delay:.12s}
+  .hero h1 .line:nth-child(3) span{animation-delay:.24s}
+  @keyframes rise{from{transform:translateY(110%)}to{transform:translateY(0)}}
+
+  .hero p.lead{
+    font-size:1.08rem;
+    color:var(--espresso-soft);
+    max-width:460px;
+    margin-bottom:40px;
+    opacity:0;animation:fadeUp .8s .5s ease forwards;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .65s ease forwards}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 30px;
+    border-radius:100px;
+    font-size:.92rem;
+    font-weight:500;
+    text-decoration:none;
+    border:none;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease;
+    will-change:transform;
+  }
+  .btn-primary{
+    background:var(--espresso);
+    color:var(--cream);
+    box-shadow:0 8px 24px rgba(43,29,22,0.18), 0 0 0 rgba(198,93,60,0);
+  }
+  .btn-primary:hover{
+    background:var(--terracotta);
+    box-shadow:0 12px 32px rgba(198,93,60,0.35), 0 0 40px rgba(198,93,60,0.25);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--espresso);
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{border-color:var(--espresso);background:rgba(43,29,22,0.04)}
+  .btn .arrow{transition:transform .3s ease}
+  .btn:hover .arrow{transform:translateX(4px)}
+
+  .hero-meta{
+    display:flex;gap:40px;margin-top:60px;
+    opacity:0;animation:fadeUp .8s .8s ease forwards;
+  }
+  .hero-meta .stat{display:flex;flex-direction:column}
+  .hero-meta .num{font-family:'Fraunces',serif;font-size:1.8rem;color:var(--espresso);font-weight:400}
+  .hero-meta .lbl{font-size:.75rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+
+  /* Hero image collage */
+  .hero-visual{
+    position:relative;
+    height:560px;
+    opacity:0;animation:fadeUp 1s .3s ease forwards;
+  }
+  .hero-img{
+    position:absolute;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(43,29,22,0.3);
+    transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-img.main{
+    top:0;right:0;
+    width:78%;height:72%;
+    background:var(--beige);
+  }
+  .hero-img.secondary{
+    bottom:0;left:0;
+    width:52%;height:48%;
+    background:var(--beige);
+    border:6px solid var(--cream);
+  }
+  .hero-img.badge{
+    top:48%;right:-4%;
+    width:140px;height:140px;
+    border-radius:50%;
+    background:var(--terracotta);
+    color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    font-family:'Fraunces',serif;
+    font-size:.85rem;
+    line-height:1.2;
+    padding:18px;
+    box-shadow:0 20px 40px -10px rgba(198,93,60,0.5);
+    animation:spin 22s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-img.badge span{display:block}
+
+  .hero-visual:hover .hero-img.main{transform:translateY(-8px) rotate(-1deg)}
+  .hero-visual:hover .hero-img.secondary{transform:translateY(6px) rotate(1deg)}
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    padding:30px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    background:var(--beige);
+  }
+  .marquee-track{
+    display:flex;gap:60px;
+    animation:scroll 35s linear infinite;
+    white-space:nowrap;
+    width:max-content;
+  }
+  .marquee-item{
+    font-family:'Fraunces',serif;
+    font-size:1.6rem;
+    font-style:italic;
+    color:var(--espresso);
+    display:flex;align-items:center;gap:60px;
+  }
+  .marquee-item::after{
+    content:"✦";
+    color:var(--terracotta);
+    font-style:normal;
+    font-size:1rem;
+  }
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---------- About / Story ---------- */
+  .about{background:var(--cream)}
+  .section-head{margin-bottom:70px;max-width:720px}
+  .section-head h2{
+    font-size:clamp(2.2rem,4.5vw,3.8rem);
+    margin-top:14px;
+    color:var(--espresso);
+  }
+  .section-head h2 em{font-style:italic;color:var(--terracotta)}
+  .section-head p{margin-top:20px;color:var(--espresso-soft);font-size:1.05rem;max-width:560px}
+
+  .bento{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:minmax(140px,auto);
+    gap:18px;
+  }
+  .tile{
+    border-radius:24px;
+    overflow:hidden;
+    position:relative;
+    background:var(--beige);
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
+  }
+  .tile:hover{transform:translateY(-4px);box-shadow:0 30px 60px -20px rgba(43,29,22,0.25)}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+  .tile:hover img{transform:scale(1.05)}
+  .tile-overlay{
+    position:absolute;inset:0;
+    padding:26px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    background:linear-gradient(180deg, transparent 40%, rgba(43,29,22,0.75) 100%);
+    color:var(--cream);
+  }
+  .tile-overlay h3{font-size:1.4rem;font-weight:400}
+  .tile-overlay p{font-size:.85rem;opacity:.85;margin-top:4px}
+
+  .t1{grid-column:span 3;grid-row:span 2;min-height:380px}
+  .t2{grid-column:span 3;grid-row:span 1;min-height:180px}
+  .t3{grid-column:span 2;grid-row:span 1;min-height:180px}
+  .t4{grid-column:span 1;grid-row:span 1;min-height:180px;background:var(--terracotta);color:var(--cream);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+  .t4 .quote{font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;line-height:1.3}
+  .t5{grid-column:span 2;grid-row:span 2;min-height:380px}
+  .t6{grid-column:span 2;grid-row:span 1;min-height:180px;background:var(--sage);color:var(--cream);padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+  .t6 .big-num{font-family:'Fraunces',serif;font-size:3.2rem;line-height:1}
+  .t6 .lbl{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;opacity:.85}
+
+  /* ---------- Menu ---------- */
+  .menu{background:var(--beige);position:relative;overflow:hidden}
+  .menu::before{
+    content:"";position:absolute;
+    top:-100px;right:-100px;
+    width:400px;height:400px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(198,93,60,0.15), transparent 70%);
+    pointer-events:none;
+  }
+  .menu-tabs{display:flex;gap:8px;margin-bottom:50px;flex-wrap:wrap}
+  .menu-tab{
+    padding:10px 22px;
+    border-radius:100px;
+    background:transparent;
+    border:1px solid var(--line);
+    font-size:.85rem;
+    color:var(--espresso);
+    transition:all .3s ease;
+    font-family:'Inter',sans-serif;
+  }
+  .menu-tab.active, .menu-tab:hover{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:20px;
+  }
+  .menu-card{
+    background:var(--cream);
+    border-radius:22px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    transition:transform .4s ease, box-shadow .4s ease;
+    border:1px solid rgba(43,29,22,0.04);
+  }
+  .menu-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px -16px rgba(43,29,22,0.2)}
+  .menu-card .img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden}
+  .menu-card .img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+  .menu-card:hover .img-wrap img{transform:scale(1.08)}
+  .menu-card .tag{
+    position:absolute;top:14px;left:14px;
+    background:rgba(250,243,231,0.92);
+    backdrop-filter:blur(8px);
+    padding:5px 12px;border-radius:100px;
+    font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--terracotta);font-weight:500;
+  }
+  .menu-card .body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
+  .menu-card h4{font-size:1.3rem;font-weight:500;margin-bottom:6px}
+  .menu-card .desc{font-size:.88rem;color:var(--muted);flex:1;margin-bottom:16px}
+  .menu-card .foot{display:flex;justify-content:space-between;align-items:center}
+  .menu-card .price{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--terracotta)}
+  .menu-card .add{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--espresso);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    border:none;font-size:1.1rem;
+    transition:background .3s ease, transform .3s ease;
+  }
+  .menu-card .add:hover{background:var(--terracotta);transform:rotate(90deg)}
+
+  .mc1{grid-column:span 5}
+  .mc2{grid-column:span 4}
+  .mc3{grid-column:span 3}
+  .mc4{grid-column:span 3}
+  .mc5{grid-column:span 5}
+  .mc6{grid-column:span 4}
+
+  /* ---------- Gallery ---------- */
+  .gallery{background:var(--cream)}
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:180px;
+    gap:14px;
+  }
+  .g-item{
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+    cursor:none;
+  }
+  .g-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease, filter .5s ease}
+  .g-item::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 60%, rgba(43,29,22,0.5));
+    opacity:0;transition:opacity .4s ease;
+  }
+  .g-item:hover img{transform:scale(1.1)}
+  .g-item:hover::after{opacity:1}
+  .g1{grid-column:span 2;grid-row:span 2}
+  .g2{grid-column:span 1;grid-row:span 1}
+  .g3{grid-column:span 1;grid-row:span 2}
+  .g4{grid-column:span 1;grid-row:span 1}
+  .g5{grid-column:span 2;grid-row:span 1}
+  .g6{grid-column:span 1;grid-row:span 1}
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;inset:0;
+    background:rgba(26,18,11,0.92);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+    display:none;
+    align-items:center;justify-content:center;
+    padding:40px;
+    opacity:0;transition:opacity .3s ease;
+  }
+  .lightbox.open{display:flex;opacity:1}
+  .lightbox img{max-width:90%;max-height:85vh;border-radius:16px;box-shadow:0 40px 80px rgba(0,0,0,0.5)}
+  .lightbox-close{
+    position:absolute;top:30px;right:30px;
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(250,243,231,0.1);
+    border:1px solid rgba(250,243,231,0.2);
+    color:var(--cream);
+    font-size:1.2rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ---------- Visit / Info ---------- */
+  .visit{
+    background:var(--espresso);
+    color:var(--cream);
+    position:relative;
+    overflow:hidden;
+  }
+  .visit::before{
+    content:"";position:absolute;
+    bottom:-200px;left:-100px;
+    width:500px;height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(198,93,60,0.25), transparent 70%);
+  }
+  .visit .section-head h2{color:var(--cream)}
+  .visit .section-head .eyebrow{color:var(--terracotta)}
+  .visit-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:60px;
+    align-items:start;
+    position:relative;z-index:1;
+  }
+  .hours-list{list-style:none;margin-top:30px}
+  .hours-list li{
+    display:flex;justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid rgba(250,243,231,0.12);
+    font-size:1rem;
+  }
+  .hours-list li:last-child{border-bottom:none}
+  .hours-list .day{font-family:'Fraunces',serif;font-size:1.2rem}
+  .hours-list .time{color:rgba(250,243,231,0.7);font-size:.95rem}
+  .hours-list li.today .day{color:var(--terracotta)}
+  .hours-list li.today .time{color:var(--cream)}
+
+  .visit-card{
+    background:rgba(250,243,231,0.05);
+    border:1px solid rgba(250,243,231,0.1);
+    border-radius:24px;
+    padding:36px;
+    backdrop-filter:blur(10px);
+  }
+  .visit-card h3{font-size:1.6rem;margin-bottom:20px}
+  .visit-card .info-row{
+    display:flex;gap:16px;align-items:flex-start;
+    padding:14px 0;
+    border-bottom:1px solid rgba(250,243,231,0.08);
+  }
+  .visit-card .info-row:last-child{border-bottom:none}
+  .visit-card .info-row .ico{
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(198,93,60,0.15);
+    color:var(--terracotta);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;font-size:.95rem;
+  }
+  .visit-card .info-row .txt{font-size:.95rem;line-height:1.5}
+  .visit-card .info-row .txt strong{display:block;color:var(--cream);font-weight:500;margin-bottom:2px}
+  .visit-card .info-row .txt span{color:rgba(250,243,231,0.65)}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--ink);
+    color:rgba(250,243,231,0.6);
+    padding:60px 0 30px;
+  }
+  .foot-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+    margin-bottom:50px;
+  }
+  .foot-brand .logo{color:var(--cream);margin-bottom:16px}
+  .foot-brand p{font-size:.9rem;max-width:320px;line-height:1.6}
+  .foot-col h5{color:var(--cream);font-family:'Inter',sans-serif;font-weight:500;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:18px}
+  .foot-col a{display:block;color:rgba(250,243,231,0.6);text-decoration:none;font-size:.9rem;margin-bottom:10px;transition:color .3s ease}
+  .foot-col a:hover{color:var(--terracotta)}
+  .foot-bottom{
+    border-top:1px solid rgba(250,243,231,0.08);
+    padding-top:24px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:.82rem;
+    flex-wrap:wrap;gap:12px;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px){
+    section{padding:80px 0}
+    .hero{padding:120px 0 60px}
+    .hero-grid{grid-template-columns:1fr;gap:50px}
+    .hero-visual{height:420px;max-width:500px;margin:0 auto}
+    .hero-meta{gap:28px}
+    .nav-links{
+      position:fixed;top:0;right:-100%;
+      width:80%;max-width:360px;height:100vh;
+      background:var(--cream);
+      flex-direction:column;
+      justify-content:center;align-items:flex-start;
+      padding:40px;gap:24px;
+      transition:right .4s ease;
+      box-shadow:-20px 0 60px rgba(0,0,0,0.1);
+    }
+    .nav-links.open{right:0}
+    .nav-links a{font-size:1.3rem;font-family:'Fraunces',serif}
+    .hamburger{display:flex}
+    .bento{grid-template-columns:repeat(2,1fr)}
+    .t1,.t2,.t3,.t4,.t5,.t6{grid-column:span 2;grid-row:span 1;min-height:220px}
+    .t1,.t5{min-height:280px}
+    .menu-grid{grid-template-columns:1fr}
+    .mc1,.mc2,.mc3,.mc4,.mc5,.mc6{grid-column:span 1}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+    .g1,.g2,.g3,.g4,.g5,.g6{grid-column:span 1;grid-row:span 1}
+    .g1{grid-column:span 2;grid-row:span 1}
+    .visit-grid{grid-template-columns:1fr;gap:40px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:30px}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 20px}
+    .hero-meta{flex-wrap:wrap;gap:20px}
+    .foot-grid{grid-template-columns:1fr}
+    .hero-img.badge{width:110px;height:110px;font-size:.75rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <span class="logo-mark"></span>
+    Crust &amp; Daily Brew
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#story">Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#visit">Visit</a>
+    <a href="#visit" class="nav-cta">Order Ahead</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Est. 2019 · Small-batch since day one</span>
+        <h1>
+          <span class="line"><span>Slow-brewed</span></span>
+          <span class="line"><span>coffee. <em>Hand-stretched</em></span></span>
+          <span class="line"><span>crust.</span></span>
+        </h1>
+        <p class="lead">A neighborhood corner where the espresso pulls long, the dough rests overnight, and every slice tastes like someone actually cared.</p>
+        <div class="hero-ctas">
+          <a href="#menu" class="btn btn-primary magnetic" data-magnetic>
+            See today's menu
+            <span class="arrow">→</span>
+          </a>
+          <a href="#visit" class="btn btn-ghost magnetic" data-magnetic>
+            Find the shop
+          </a>
+        </div>
+        <div class="hero-meta">
+          <div class="stat"><span class="num">12+</span><span class="lbl">Years baking</span></div>
+          <div class="stat"><span class="num">48hr</span><span class="lbl">Cold ferment</span></div>
+          <div class="stat"><span class="num">4.9★</span><span class="lbl">Local favorite</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" data-parallax>
+        <div class="hero-img main">
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&q=80" alt="Wood-fired pizza">
+        </div>
+        <div class="hero-img secondary">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&q=80" alt="Latte art">
+        </div>
+        <div class="hero-img badge">
+          <span>Fresh<br>out of the<br>oven ✦</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item">Wood-fired since 2019</div>
+    <div class="marquee-item">Single-origin beans</div>
+    <div class="marquee-item">48-hour cold ferment</div>
+    <div class="marquee-item">Local flour, milled weekly</div>
+    <div class="marquee-item">Open 7 days</div>
+    <div class="marquee-item">Wood-fired since 2019</div>
+    <div class="marquee-item">Single-origin beans</div>
+    <div class="marquee-item">48-hour cold ferment</div>
+    <div class="marquee-item">Local flour, milled weekly</div>
+    <div class="marquee-item">Open 7 days</div>
+  </div>
+</div>
+
+<!-- About / Story -->
+<section class="about" id="story">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Story</span>
+      <h2>Two obsessions, <em>one oven.</em></h2>
+      <p>We started with a used espresso machine and a stubborn belief that good bread can't be rushed. Seven years later, not much has changed — except the line out the door on Saturday mornings.</p>
+    </div>
+
+    <div class="bento">
+      <div class="tile t1 reveal">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&q=80" alt="Pizza making">
+        <div class="tile-overlay">
+          <h3>The Dough Room</h3>
+          <p>Where 48 hours of patience becomes a perfect crust.</p>
+        </div>
+      </div>
+      <div class="tile t2 reveal">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80" alt="Coffee beans">
+        <div class="tile-overlay">
+          <h3>Roasted in-house</h3>
+          <p>Every Tuesday. Small batch. Always seasonal.</p>
+        </div>
+      </div>
+      <div class="tile t3 reveal">
+        <img src="https://images.unsplash.com/photo-1629157247277-48f870757026?w=700&q=80" alt="Fresh basil">
+        <div class="tile-overlay">
+          <h3>Garden fresh</h3>
+        </div>
+      </div>
+      <div class="tile t4 reveal">
+        <p class="quote">"We'd rather close early than serve something we wouldn't eat ourselves."</p>
+      </div>
+      <div class="tile t5 reveal">
+        <img src="https://images.unsplash.com/photo-1554502078-ef0fc409efce?w=800&q=80" alt="Interior">
+        <div class="tile-overlay">
+          <h3>The corner spot</h3>
+          <p>18 seats, one long counter, and a lot of morning light.</p>
+        </div>
+      </div>
+      <div class="tile t6 reveal">
+        <span class="lbl">Cups poured this year</span>
+        <span class="big-num">42,810</span>
+        <span class="lbl">And counting ✦</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Today's Menu</span>
+      <h2>What's <em>on the board.</em></h2>
+      <p>A short list, done well. The menu shifts with the season and whatever looks best at the market that morning.</p>
+    </div>
+
+    <div class="menu-tabs reveal">
+      <button class="menu-tab active" data-filter="all">All</button>
+      <button class="menu-tab" data-filter="pizza">Pizza</button>
+      <button class="menu-tab" data-filter="coffee">Coffee</button>
+      <button class="menu-tab" data-filter="pastry">Pastry</button>
+    </div>
+
+    <div class="menu-grid">
+      <article class="menu-card mc1 reveal" data-cat="pizza">
+        <div class="img-wrap">
+          <span class="tag">Signature</span>
+          <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=800&q=80" alt="Margherita">
+        </div>
+        <div class="body">
+          <h4>San Marzano Margherita</h4>
+          <p class="desc">Hand-crushed tomatoes, fior di latte, basil, aged parmesan, olive oil.</p>
+          <div class="foot">
+            <span class="price">$18</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card mc2 reveal" data-cat="coffee">
+        <div class="img-wrap">
+          <span class="tag">House</span>
+          <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=700&q=80" alt="Cortado">
+        </div>
+        <div class="body">
+          <h4>Oat Cortado</h4>
+          <p class="desc">Double ristretto, steamed oat milk, a whisper of cardamom.</p>
+          <div class="foot">
+            <span class="price">$5.50</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card mc3 reveal" data-cat="pastry">
+        <div class="img-wrap">
+          <span class="tag">New</span>
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80" alt="Croissant">
+        </div>
+        <div class="body">
+          <h4>Morning Croissant</h4>
+          <p class="desc">72-hour laminated dough, French butter.</p>
+          <div class="foot">
+            <span class="price">$4.50</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card mc4 reveal" data-cat="pizza">
+        <div class="img-wrap">
+          <span class="tag">Seasonal</span>
+          <img src="images/food/fig-pizza.jpg" alt="Fig pizza">
+        </div>
+        <div class="body">
+          <h4>Fig &amp; Gorgonzola</h4>
+          <p class="desc">Fresh figs, gorgonzola, honey, walnuts, arugula.</p>
+          <div class="foot">
+            <span class="price">$22</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card mc5 reveal" data-cat="coffee">
+        <div class="img-wrap">
+          <span class="tag">Slow bar</span>
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80" alt="Pour over">
+        </div>
+        <div class="body">
+          <h4>Ethiopia Yirgacheffe · Pour Over</h4>
+          <p class="desc">Jasmine, bergamot, stone fruit. Brewed to order in about four patient minutes.</p>
+          <div class="foot">
+            <span class="price">$7</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card mc6 reveal" data-cat="pastry">
+        <div class="img-wrap">
+          <span class="tag">Weekend only</span>
+          <img src="images/food/pistachio-bun.jpg" alt="Pistachio bun">
+        </div>
+        <div class="body">
+          <h4>Pistachio Kardemumma Bun</h4>
+          <p class="desc">Swedish cardamom dough, Sicilian pistachio cream.</p>
+          <div class="foot">
+            <span class="price">$6</span>
+            <button class="add" aria-label="Add">+</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">From the counter</span>
+      <h2>A few <em>frames.</em></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item g1 reveal" data-lightbox><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1000&q=80" alt=""></div>
+      <div class="g-item g2 reveal" data-lightbox><img src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&q=80" alt=""></div>
+      <div class="g-item g3 reveal" data-lightbox><img src="https://images.unsplash.com/photo-1521305916504-4a1121188589?w=700&q=80" alt=""></div>
+      <div class="g-item g4 reveal" data-lightbox><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&q=80" alt=""></div>
+      <div class="g-item g5 reveal" data-lightbox><img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=900&q=80" alt=""></div>
+      <div class="g-item g6 reveal" data-lightbox><img src="images/food/cafe-corner.jpg" alt="Cosy corner seating"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose" aria-label="Close">✕</button>
+  <img src="" alt="" id="lbImg">
+</div>
+
+<!-- Visit -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Come by</span>
+      <h2>The <em>corner</em> of Maple &amp; 5th.</h2>
+    </div>
+
+    <div class="visit-grid">
+      <div class="reveal">
+        <h3 style="font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:6px">Hours</h3>
+        <p style="color:rgba(250,243,231,0.6);font-size:.95rem">We close when the dough runs out.</p>
+        <ul class="hours-list" id="hoursList">
+          <li data-day="1"><span class="day">Monday</span><span class="time">7:00 — 16:00</span></li>
+          <li data-day="2"><span class="day">Tuesday</span><span class="time">7:00 — 16:00</span></li>
+          <li data-day="3"><span class="day">Wednesday</span><span class="time">7:00 — 16:00</span></li>
+          <li data-day="4"><span class="day">Thursday</span><span class="time">7:00 — 21:00</span></li>
+          <li data-day="5"><span class="day">Friday</span><span class="time">7:00 — 22:00</span></li>
+          <li data-day="6"><span class="day">Saturday</span><span class="time">8:00 — 22:00</span></li>
+          <li data-day="0"><span class="day">Sunday</span><span class="time">8:00 — 15:00</span></li>
+        </ul>
+      </div>
+
+      <div class="visit-card reveal">
+        <h3>Find us</h3>
+        <div class="info-row">
+          <div class="ico">◉</div>
+          <div class="txt">
+            <strong>Address</strong>
+            <span>214 Maple Street, corner of 5th<br>Riverside District</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="ico">☏</div>
+          <div class="txt">
+            <strong>Phone</strong>
+            <span>(555) 214 — 0719</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="ico">✉</div>
+          <div class="txt">
+            <strong>Email</strong>
+            <span>hello@crustanddailybrew.co</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="ico">✦</div>
+          <div class="txt">
+            <strong>Reservations</strong>
+            <span>Walk-ins welcome. Call ahead for groups of 6+.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo"><span class="logo-mark"></span>Crust &amp; Daily Brew</div>
+        <p>A small cafe and pizzeria on the corner of Maple &amp; 5th. Slow coffee, honest pizza, open faces.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#">Catering</a>
+        <a href="#">Gift cards</a>
+      </div>
+      <div class="foot-col">
+        <h5>Visit</h5>
+        <a href="#visit">Hours</a>
+        <a href="#visit">Location</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="foot-col">
+        <h5>Follow</h5>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+        <a href="#">Newsletter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Crust &amp; Daily Brew. Baked with care.</span>
+      <span>Made slowly, served warm.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- Custom cursor ---------- */
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  });
+  function loop(){
+    rx+=(mx-rx)*.18; ry+=(my-ry)*.18;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a, button, .tile, .g-item, .menu-card, [data-magnetic]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+  });
+
+  /* ---------- Magnetic buttons ---------- */
+  document.querySelectorAll('[data-magnetic]').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const x=e.clientX-r.left-r.width/2;
+      const y=e.clientY-r.top-r.height/2;
+      btn.style.transform=`translate(${x*.25}px,${y*.35}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='');
+  });
+
+  /* ---------- Nav scroll ---------- */
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>40);
+  });
+
+  /* ---------- Hamburger ---------- */
+  const hb=document.getElementById('hamburger');
+  const nl=document.getElementById('navLinks');
+  hb.addEventListener('click',()=>{
+    hb.classList.toggle('open');
+    nl.classList.toggle('open');
+  });
+  nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    hb.classList.remove('open');nl.classList.remove('open');
+  }));
+
+  /* ---------- Reveal on scroll ---------- */
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ---------- Parallax hero ---------- */
+  const pv=document.querySelector('[data-parallax]');
+  window.addEventListener('scroll',()=>{
+    if(!pv)return;
+    const y=window.scrollY;
+    if(y<800) pv.style.transform=`translateY(${y*.08}px)`;
+  });
+
+  /* ---------- Menu filter ---------- */
+  const tabs=document.querySelectorAll('.menu-tab');
+  const cards=document.querySelectorAll('.menu-card');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const f=t.dataset.filter;
+    cards.forEach(c=>{
+      const show = f==='all' || c.dataset.cat===f;
+      c.style.display = show ? '' : 'none';
+    });
+  }));
+
+  /* ---------- Lightbox ---------- */
+  const lb=document.getElementById('lightbox');
+  const lbImg=document.getElementById('lbImg');
+  document.querySelectorAll('[data-lightbox]').forEach(it=>{
+    it.addEventListener('click',()=>{
+      lbImg.src=it.querySelector('img').src;
+      lb.classList.add('open');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
+
+  /* ---------- Highlight today's hours ---------- */
+  const today=new Date().getDay();
+  document.querySelectorAll('#hoursList li').forEach(li=>{
+    if(parseInt(li.dataset.day)===today) li.classList.add('today');
+  });
+</script>
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "cafe-small-001",
+    appendTo: "body",
+    accent: "#8C6239"
+  };
+</script>
+<script src="webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>

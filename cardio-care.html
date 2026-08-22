@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dr. Sanjeev Kumar — Interventional Cardiologist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Root & Reset ---------- */
+  :root{
+    --bg: #f6f1ea;
+    --bg-2: #efe7dc;
+    --ink: #1a1613;
+    --ink-soft: #4a413b;
+    --muted: #8a7f76;
+    --line: rgba(26,22,19,0.08);
+    --accent: #a8384a;
+    --accent-soft: #c96b79;
+    --gold: #c9a96a;
+    --cream: #fbf7f1;
+    --glow: 0 0 0 rgba(168,56,74,0);
+    --glow-hover: 0 20px 60px -20px rgba(168,56,74,0.35), 0 0 40px -10px rgba(201,169,106,0.25);
+    --radius: 22px;
+    --radius-lg: 32px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:var(--cream)}
+
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.02em;line-height:1.05}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  .container{max-width:1320px;margin:0 auto;padding:0 32px}
+
+  /* ---------- Custom cursor glow ---------- */
+  .cursor-glow{
+    position:fixed;
+    width:400px;height:400px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(168,56,74,0.08) 0%, transparent 60%);
+    pointer-events:none;
+    z-index:1;
+    transform:translate(-50%,-50%);
+    transition:opacity .4s var(--ease);
+    mix-blend-mode:multiply;
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 0;
+    transition:all .5s var(--ease);
+    backdrop-filter:blur(0px);
+  }
+  nav.scrolled{
+    background:rgba(246,241,234,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between}
+  .logo{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:36px;height:36px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+    display:grid;place-items:center;
+    color:var(--cream);
+    box-shadow:0 0 20px rgba(168,56,74,0.3);
+  }
+  .logo-mark svg{width:18px;height:18px}
+  .nav-links{display:flex;gap:36px;align-items:center}
+  .nav-links a{
+    font-size:14px;font-weight:500;
+    position:relative;
+    transition:color .3s var(--ease);
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-4px;
+    width:0;height:1px;background:var(--accent);
+    transition:width .4s var(--ease);
+  }
+  .nav-links a:hover{color:var(--accent)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    padding:12px 24px;
+    background:var(--ink);color:var(--cream);
+    border-radius:100px;
+    font-size:14px;font-weight:500;
+    transition:all .4s var(--ease);
+  }
+  .nav-cta:hover{
+    background:var(--accent);
+    box-shadow:0 10px 30px -10px rgba(168,56,74,0.5);
+    transform:translateY(-2px);
+  }
+  .menu-toggle{display:none;background:none;border:none;cursor:pointer;font-size:22px}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:160px 0 80px;
+    position:relative;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:24px;
+    align-items:stretch;
+  }
+  .hero-main{
+    background:var(--cream);
+    border-radius:var(--radius-lg);
+    padding:64px 56px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    min-height:560px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .hero-main::before{
+    content:'';position:absolute;
+    top:-100px;right:-100px;
+    width:400px;height:400px;
+    background:radial-gradient(circle, rgba(168,56,74,0.08), transparent 70%);
+    border-radius:50%;
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 16px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:100px;
+    font-size:13px;font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:32px;
+    width:fit-content;
+  }
+  .hero-tag .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:.6;transform:scale(1.3)}
+  }
+  .hero h1{
+    font-size:clamp(48px,6.5vw,96px);
+    font-weight:300;
+    letter-spacing:-0.03em;
+    line-height:0.95;
+    margin-bottom:32px;
+  }
+  .hero h1 .italic{font-style:italic;font-weight:300;color:var(--accent)}
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line span{display:inline-block;transform:translateY(110%);animation:reveal 1.2s var(--ease) forwards}
+  .hero h1 .line:nth-child(2) span{animation-delay:.15s}
+  .hero h1 .line:nth-child(3) span{animation-delay:.3s}
+  @keyframes reveal{to{transform:translateY(0)}}
+
+  .hero-desc{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin-bottom:40px;
+    opacity:0;animation:fadeUp 1s var(--ease) .6s forwards;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s var(--ease) .8s forwards}
+  .btn{
+    padding:16px 30px;
+    border-radius:100px;
+    font-size:15px;font-weight:500;
+    cursor:pointer;border:none;
+    transition:all .4s var(--ease);
+    display:inline-flex;align-items:center;gap:10px;
+    position:relative;overflow:hidden;
+  }
+  .btn-primary{
+    background:var(--ink);color:var(--cream);
+  }
+  .btn-primary:hover{
+    background:var(--accent);
+    box-shadow:var(--glow-hover);
+    transform:translateY(-3px);
+  }
+  .btn-ghost{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{
+    border-color:var(--ink);
+    background:var(--ink);color:var(--cream);
+  }
+  .btn .arrow{transition:transform .4s var(--ease)}
+  .btn:hover .arrow{transform:translateX(4px)}
+
+  /* Hero side cards */
+  .hero-side{display:grid;grid-template-rows:1fr 1fr;gap:24px}
+  .hero-card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:32px;
+    position:relative;overflow:hidden;
+    transition:all .5s var(--ease);
+  }
+  .hero-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--glow-hover);
+    border-color:rgba(168,56,74,0.2);
+  }
+  .hero-card.doctor{
+    background:linear-gradient(135deg,#2a1f1c,#1a1613);
+    color:var(--cream);
+    display:flex;align-items:flex-end;
+    min-height:260px;
+  }
+  .doctor-img{
+    position:absolute;top:0;right:0;bottom:0;
+    width:60%;
+    background:linear-gradient(135deg,rgba(168,56,74,0.3),rgba(201,169,106,0.2));
+    mask-image:radial-gradient(ellipse at 70% 50%, black 40%, transparent 80%);
+    display:flex;align-items:flex-end;justify-content:center;
+  }
+  .doctor-img svg{width:64%;height:92%;opacity:.92}
+  .doctor-info{position:relative;z-index:2}
+  .doctor-info .name{font-family:'Fraunces',serif;font-size:24px;margin-bottom:4px}
+  .doctor-info .role{font-size:13px;opacity:.7;letter-spacing:.05em;text-transform:uppercase}
+
+  .hero-card.stat{
+    display:flex;flex-direction:column;justify-content:space-between;
+    background:var(--bg-2);
+  }
+  .stat-num{
+    font-family:'Fraunces',serif;
+    font-size:72px;
+    font-weight:300;
+    line-height:1;
+    color:var(--accent);
+  }
+  .stat-label{font-size:14px;color:var(--ink-soft);margin-top:8px}
+  .stat-row{display:flex;gap:24px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .stat-mini .n{font-family:'Fraunces',serif;font-size:28px;font-weight:400}
+  .stat-mini .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    padding:40px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    margin-top:80px;
+  }
+  .marquee-track{
+    display:flex;gap:60px;
+    animation:scroll 30s linear infinite;
+    white-space:nowrap;
+  }
+  .marquee-item{
+    font-family:'Fraunces',serif;
+    font-size:24px;
+    font-style:italic;
+    color:var(--ink-soft);
+    display:flex;align-items:center;gap:60px;
+  }
+  .marquee-item::after{
+    content:'✦';
+    color:var(--accent);
+    font-style:normal;
+    font-size:16px;
+  }
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---------- Section base ---------- */
+  section{padding:120px 0;position:relative}
+  .section-head{margin-bottom:64px;max-width:800px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:500;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{
+    content:'';width:30px;height:1px;background:var(--accent);
+  }
+  .section-title{
+    font-size:clamp(36px,5vw,64px);
+    font-weight:300;
+    margin-bottom:20px;
+  }
+  .section-title .italic{font-style:italic;color:var(--accent)}
+  .section-desc{font-size:17px;color:var(--ink-soft);max-width:560px}
+
+  /* ---------- About bento ---------- */
+  .about-bento{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:minmax(180px,auto);
+    gap:20px;
+  }
+  .bento{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px;
+    position:relative;overflow:hidden;
+    transition:all .5s var(--ease);
+  }
+  .bento:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--glow-hover);
+    border-color:rgba(168,56,74,0.2);
+  }
+  .bento h3{font-size:28px;margin-bottom:12px;font-weight:400}
+  .bento p{color:var(--ink-soft);font-size:15px}
+  .bento-1{grid-column:span 3;grid-row:span 2}
+  .bento-2{grid-column:span 3}
+  .bento-3{grid-column:span 2}
+  .bento-4{grid-column:span 2;background:var(--ink);color:var(--cream)}
+  .bento-4 p{color:rgba(255,255,255,0.7)}
+  .bento-5{grid-column:span 2;background:linear-gradient(135deg,var(--accent),#7a2838);color:var(--cream)}
+  .bento-5 p{color:rgba(255,255,255,0.85)}
+  .bento-icon{
+    width:48px;height:48px;
+    border-radius:14px;
+    background:var(--bg);
+    display:grid;place-items:center;
+    margin-bottom:20px;
+    color:var(--accent);
+    transition:all .4s var(--ease);
+  }
+  .bento:hover .bento-icon{
+    background:var(--accent);color:var(--cream);
+    transform:rotate(-8deg) scale(1.05);
+  }
+  .bento-4 .bento-icon{background:rgba(255,255,255,0.08);color:var(--gold)}
+  .bento-5 .bento-icon{background:rgba(255,255,255,0.15);color:var(--cream)}
+  .big-number{
+    font-family:'Fraunces',serif;
+    font-size:96px;
+    font-weight:300;
+    line-height:1;
+    margin-bottom:12px;
+    background:linear-gradient(135deg,var(--cream),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* ---------- Services ---------- */
+  .services-bento{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:280px;
+    gap:20px;
+  }
+  .service{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px;
+    position:relative;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:space-between;
+    transition:all .5s var(--ease);
+    cursor:pointer;
+  }
+  .service::before{
+    content:'';position:absolute;
+    inset:0;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(168,56,74,0.12), transparent 40%);
+    opacity:0;transition:opacity .5s var(--ease);
+    pointer-events:none;
+  }
+  .service:hover::before{opacity:1}
+  .service:hover{
+    transform:translateY(-6px);
+    border-color:rgba(168,56,74,0.25);
+    box-shadow:var(--glow-hover);
+  }
+  .service.large{grid-column:span 2;grid-row:span 2}
+  .service-num{
+    font-family:'Fraunces',serif;
+    font-size:14px;
+    color:var(--muted);
+    letter-spacing:.1em;
+  }
+  .service-icon{
+    width:56px;height:56px;
+    border-radius:16px;
+    background:var(--bg);
+    display:grid;place-items:center;
+    color:var(--accent);
+    margin-bottom:18px;
+    margin-top:18px;
+    transition:all .4s var(--ease);
+  }
+  .service:hover .service-icon{
+    background:var(--accent);color:var(--cream);
+    transform:scale(1.08);
+  }
+  .service h3{font-size:26px;margin-bottom:10px;font-weight:400}
+  .service p{font-size:14px;color:var(--ink-soft)}
+  .service.large h3{font-size:38px}
+  .service-arrow{
+    align-self:flex-end;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--bg);
+    display:grid;place-items:center;
+    color:var(--ink);
+    transition:all .4s var(--ease);
+  }
+  .service:hover .service-arrow{
+    background:var(--ink);color:var(--cream);
+    transform:rotate(-45deg);
+  }
+
+  /* ---------- Approach ---------- */
+  .approach{background:var(--bg-2);border-radius:var(--radius-lg);margin:0 32px;padding:100px 64px}
+  .approach-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .approach-list{display:flex;flex-direction:column;gap:24px;margin-top:40px}
+  .approach-item{
+    display:flex;gap:20px;align-items:flex-start;
+    padding:24px;
+    background:var(--cream);
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    transition:all .4s var(--ease);
+  }
+  .approach-item:hover{
+    transform:translateX(6px);
+    border-color:rgba(168,56,74,0.2);
+    box-shadow:0 10px 30px -15px rgba(168,56,74,0.2);
+  }
+  .approach-num{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    color:var(--accent);
+    line-height:1;
+    min-width:40px;
+  }
+  .approach-item h4{font-size:20px;margin-bottom:6px;font-weight:500}
+  .approach-item p{font-size:14px;color:var(--ink-soft)}
+
+  .approach-visual{
+    aspect-ratio:1;
+    background:linear-gradient(135deg,var(--cream),var(--bg));
+    border-radius:var(--radius-lg);
+    position:relative;
+    display:grid;place-items:center;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .heart-svg{
+    width:60%;
+    animation:heartbeat 1.8s ease-in-out infinite;
+    filter:drop-shadow(0 0 30px rgba(168,56,74,0.3));
+  }
+  @keyframes heartbeat{
+    0%,100%{transform:scale(1)}
+    15%{transform:scale(1.08)}
+    30%{transform:scale(1)}
+    45%{transform:scale(1.05)}
+    60%{transform:scale(1)}
+  }
+  .approach-visual::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 30%, rgba(201,169,106,0.15), transparent 60%);
+  }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .testimonial{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px;
+    transition:all .5s var(--ease);
+    position:relative;
+  }
+  .testimonial:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--glow-hover);
+    border-color:rgba(168,56,74,0.2);
+  }
+  .testimonial::before{
+    content:'"';
+    position:absolute;top:10px;right:24px;
+    font-family:'Fraunces',serif;
+    font-size:120px;
+    color:var(--accent);
+    opacity:.15;
+    line-height:1;
+  }
+  .testimonial-text{
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    font-style:italic;
+    line-height:1.5;
+    margin-bottom:28px;
+    color:var(--ink);
+  }
+  .testimonial-author{display:flex;align-items:center;gap:14px}
+  .author-avatar{
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--gold));
+    display:grid;place-items:center;
+    color:var(--cream);
+    font-family:'Fraunces',serif;
+    font-weight:500;
+  }
+  .author-info .name{font-weight:500;font-size:15px}
+  .author-info .role{font-size:13px;color:var(--muted)}
+  .stars{color:var(--gold);font-size:14px;margin-bottom:16px;letter-spacing:2px}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:linear-gradient(135deg,#1a1613,#2a1f1c);
+    border-radius:var(--radius-lg);
+    padding:100px 64px;
+    color:var(--cream);
+    text-align:center;
+    position:relative;overflow:hidden;
+    margin:0 32px 120px;
+  }
+  .cta::before{
+    content:'';position:absolute;
+    top:-50%;left:-10%;
+    width:60%;height:200%;
+    background:radial-gradient(circle,rgba(168,56,74,0.3),transparent 60%);
+    animation:float 10s ease-in-out infinite;
+  }
+  .cta::after{
+    content:'';position:absolute;
+    bottom:-50%;right:-10%;
+    width:50%;height:200%;
+    background:radial-gradient(circle,rgba(201,169,106,0.2),transparent 60%);
+    animation:float 10s ease-in-out infinite reverse;
+  }
+  @keyframes float{
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(30px,-30px)}
+  }
+  .cta-content{position:relative;z-index:2;max-width:700px;margin:0 auto}
+  .cta h2{font-size:clamp(40px,5vw,72px);margin-bottom:24px;font-weight:300}
+  .cta h2 .italic{font-style:italic;color:var(--gold)}
+  .cta p{font-size:17px;opacity:.75;margin-bottom:40px}
+  .cta .btn-primary{background:var(--cream);color:var(--ink)}
+  .cta .btn-primary:hover{background:var(--accent);color:var(--cream)}
+
+  /* ---------- Contact ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .contact-info{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:48px;
+  }
+  .contact-info h3{font-size:32px;margin-bottom:12px}
+  .contact-info > p{color:var(--ink-soft);margin-bottom:40px}
+  .contact-item{
+    display:flex;gap:18px;align-items:flex-start;
+    padding:20px 0;
+    border-top:1px solid var(--line);
+    transition:all .3s var(--ease);
+  }
+  .contact-item:hover{padding-left:8px}
+  .contact-icon{
+    width:44px;height:44px;
+    border-radius:12px;
+    background:var(--bg);
+    display:grid;place-items:center;
+    color:var(--accent);
+    flex-shrink:0;
+  }
+  .contact-item .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+  .contact-item .value{font-size:16px;font-weight:500}
+
+  .contact-form{
+    background:var(--ink);
+    color:var(--cream);
+    border-radius:var(--radius-lg);
+    padding:48px;
+  }
+  .contact-form h3{font-size:32px;margin-bottom:8px}
+  .contact-form > p{opacity:.6;margin-bottom:32px;font-size:15px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .form-field{position:relative}
+  .form-field input,.form-field textarea,.form-field select{
+    width:100%;
+    padding:16px 18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px;
+    color:var(--cream);
+    font-family:inherit;font-size:14px;
+    transition:all .3s var(--ease);
+  }
+  .form-field input:focus,.form-field textarea:focus,.form-field select:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:rgba(255,255,255,0.08);
+    box-shadow:0 0 0 4px rgba(168,56,74,0.15);
+  }
+  .form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,0.4)}
+  .form-field textarea{resize:none;min-height:100px}
+  .form-field select{appearance:none;cursor:pointer}
+  .form-field select option{background:var(--ink)}
+  .contact-form .btn{width:100%;justify-content:center;margin-top:14px;background:var(--accent);color:var(--cream)}
+  .contact-form .btn:hover{background:var(--cream);color:var(--ink)}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--bg);
+    padding:60px 0 30px;
+    border-top:1px solid var(--line);
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--line);
+  }
+  .footer-brand p{color:var(--ink-soft);font-size:14px;margin-top:16px;max-width:320px}
+  .footer-col h5{font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px;color:var(--muted)}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .footer-col a{font-size:14px;color:var(--ink-soft);transition:color .3s var(--ease)}
+  .footer-col a:hover{color:var(--accent)}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:30px;
+    font-size:13px;color:var(--muted);
+  }
+
+  /* ---------- Reveal animations ---------- */
+  .reveal{opacity:0;transform:translateY(40px);transition:all 1s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-stagger > *{opacity:0;transform:translateY(30px);transition:all .8s var(--ease)}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0)}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.15s}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.25s}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.35s}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.45s}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.55s}
+  .reveal-stagger.in > *:nth-child(7){transition-delay:.65s}
+  .reveal-stagger.in > *:nth-child(8){transition-delay:.75s}
+  .reveal-stagger.in > *:nth-child(9){transition-delay:.85s}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1024px){
+    .hero-grid{grid-template-columns:1fr}
+    .about-bento{grid-template-columns:repeat(2,1fr)}
+    .bento-1,.bento-2,.bento-3,.bento-4,.bento-5{grid-column:span 2;grid-row:auto}
+    .services-bento{grid-template-columns:1fr 1fr}
+    .service.large{grid-column:span 2}
+    .approach-grid{grid-template-columns:1fr;gap:40px}
+    .testimonials-grid{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .container{padding:0 20px}
+    .nav-links{display:none}
+    .menu-toggle{display:block}
+    .hero{padding:120px 0 40px}
+    .hero-main{padding:40px 28px;min-height:auto}
+    section{padding:80px 0}
+    .approach,.cta{margin:0 20px;padding:60px 28px}
+    .services-bento{grid-template-columns:1fr}
+    .service.large{grid-column:span 1;grid-row:auto}
+    .form-row{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr}
+    .footer-bottom{flex-direction:column;gap:10px;text-align:center}
+    .cursor-glow{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-7-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-7 11-7 11z"/></svg>
+      </span>
+      Dr. Sanjeev Kumar
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="#stories">Stories</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Book Consultation</a>
+    <button class="menu-toggle">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          Accepting new patients · MD, FACC, FSCAI
+        </div>
+        <h1>
+          <span class="line"><span>Hearts cared</span></span>
+          <span class="line"><span>with <em class="italic">precision</em></span></span>
+          <span class="line"><span>&amp; compassion.</span></span>
+        </h1>
+        <p class="hero-desc">
+          Welcome to a practice where advanced cardiology meets genuine human connection. For over two decades, Dr. Sanjeev Kumar has guided patients through every beat — with evidence, empathy, and a steady hand.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Schedule a visit <span class="arrow">→</span></a>
+          <a href="#services" class="btn btn-ghost">Explore services</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-card doctor">
+          <div class="doctor-img">
+            <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrated portrait of Dr. Sanjeev Kumar">
+              <circle cx="100" cy="66" r="40" fill="var(--cream)"/>
+              <path d="M84 100 L116 100 L120 118 L80 118 Z" fill="var(--cream)"/>
+              <path d="M100 132 C60 132 34 152 26 190 L18 260 L182 260 L174 190 C166 152 140 132 100 132 Z" fill="var(--cream)"/>
+              <path d="M100 132 L78 150 L100 190 L122 150 Z" fill="var(--accent)" opacity=".18"/>
+              <path d="M84 140 C70 168 66 194 80 210 C92 224 110 220 114 204" fill="none" stroke="var(--gold)" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="118" cy="200" r="9" fill="var(--gold)"/>
+            </svg>
+          </div>
+          <div class="doctor-info">
+            <div class="name">Dr. Sanjeev Kumar</div>
+            <div class="role">Interventional Cardiologist</div>
+          </div>
+        </div>
+        <div class="hero-card stat">
+          <div>
+            <div class="stat-num" data-count="22">0</div>
+            <div class="stat-label">Years of dedicated cardiac care</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="n" data-count="15000">0</div><div class="l">Procedures</div></div>
+            <div class="stat-mini"><div class="n" data-count="98">0</div><div class="l">% Satisfaction</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item">Preventive Cardiology</div>
+    <div class="marquee-item">Interventional Procedures</div>
+    <div class="marquee-item">Heart Failure Management</div>
+    <div class="marquee-item">Echocardiography</div>
+    <div class="marquee-item">Lifestyle Medicine</div>
+    <div class="marquee-item">Preventive Cardiology</div>
+    <div class="marquee-item">Interventional Procedures</div>
+    <div class="marquee-item">Heart Failure Management</div>
+    <div class="marquee-item">Echocardiography</div>
+    <div class="marquee-item">Lifestyle Medicine</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">About the practice</div>
+      <h2 class="section-title">A lifetime of listening, <span class="italic">one heartbeat</span> at a time.</h2>
+      <p class="section-desc">We believe great cardiology begins with understanding the whole person — not just the numbers. Every plan is crafted around your life, your story, and your goals.</p>
+    </div>
+
+    <div class="about-bento reveal-stagger">
+      <div class="bento bento-1">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h3>A philosophy rooted in trust</h3>
+        <p>Dr. Kumar trained at leading cardiac centers across India and abroad, bringing together deep clinical expertise with a warm, patient-first approach. His practice is built on the belief that healing happens in partnership — where questions are welcomed, decisions are shared, and care continues long after the visit ends.</p>
+      </div>
+      <div class="bento bento-2">
+        <div class="big-number">22+</div>
+        <p>Years guiding patients through the most important moments of their cardiac journey.</p>
+      </div>
+      <div class="bento bento-3">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Board certified</h3>
+        <p>FACC · FSCAI</p>
+      </div>
+      <div class="bento bento-4">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Advanced diagnostics</h3>
+        <p>State-of-the-art imaging and non-invasive testing under one roof.</p>
+      </div>
+      <div class="bento bento-5">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Same-week appointments</h3>
+        <p>Urgent concerns seen within 48 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">What we offer</div>
+      <h2 class="section-title">Comprehensive cardiac care, <span class="italic">thoughtfully</span> delivered.</h2>
+      <p class="section-desc">From routine check-ups to complex interventions, every service is designed around clarity, comfort, and continuity of care.</p>
+    </div>
+
+    <div class="services-bento reveal-stagger">
+      <div class="service large">
+        <div>
+          <div class="service-num">01 / FLAGSHIP</div>
+          <div class="service-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3>Interventional Cardiology</h3>
+          <p>Minimally invasive procedures including angioplasty, stenting, and structural heart interventions — performed with precision and a gentle touch.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+
+      <div class="service">
+        <div>
+          <div class="service-num">02</div>
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Preventive Screening</h3>
+          <p>Comprehensive risk assessment and early detection programs.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+
+      <div class="service">
+        <div>
+          <div class="service-num">03</div>
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v4M16 4v4"/></svg>
+          </div>
+          <h3>Echocardiography</h3>
+          <p>Advanced ultrasound imaging of the heart's structure and function.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+
+      <div class="service">
+        <div>
+          <div class="service-num">04</div>
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <h3>Heart Failure Care</h3>
+          <p>Long-term management with personalized treatment plans.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+
+      <div class="service">
+        <div>
+          <div class="service-num">05</div>
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <h3>Lifestyle Medicine</h3>
+          <p>Nutrition, movement, and stress — the foundations of lasting heart health.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+
+      <div class="service">
+        <div>
+          <div class="service-num">06</div>
+          <div class="service-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Second Opinions</h3>
+          <p>Thoughtful, unhurried consultations for complex decisions.</p>
+        </div>
+        <div class="service-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach" style="padding-top:0">
+  <div class="approach">
+    <div class="approach-grid">
+      <div class="reveal">
+        <div class="eyebrow">Our approach</div>
+        <h2 class="section-title">Care that feels <span class="italic">human</span>.</h2>
+        <p class="section-desc">We've designed every step of your visit to feel calm, clear, and considered — because healing begins the moment you walk through the door.</p>
+        <div class="approach-list">
+          <div class="approach-item">
+            <div class="approach-num">01</div>
+            <div>
+              <h4>Listen first</h4>
+              <p>We begin every visit by hearing your story — symptoms, concerns, and goals — without rushing.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <div class="approach-num">02</div>
+            <div>
+              <h4>Explain clearly</h4>
+              <p>No jargon. We walk you through findings and options so you can make confident decisions.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <div class="approach-num">03</div>
+            <div>
+              <h4>Partner for life</h4>
+              <p>Your care doesn't end at the door. We stay with you through follow-ups, adjustments, and milestones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="approach-visual reveal">
+        <svg class="heart-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a8384a"/>
+              <stop offset="100%" stop-color="#c9a96a"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#heartGrad)" d="M100 170 C 40 130, 20 90, 40 60 C 55 40, 85 40, 100 70 C 115 40, 145 40, 160 60 C 180 90, 160 130, 100 170 Z"/>
+          <path fill="none" stroke="#fbf7f1" stroke-width="2" stroke-linecap="round" opacity=".6" d="M30 100 L 70 100 L 85 80 L 100 120 L 115 90 L 130 100 L 170 100"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="stories">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Patient stories</div>
+      <h2 class="section-title">Voices of those we've <span class="italic">walked alongside</span>.</h2>
+    </div>
+
+    <div class="testimonials-grid reveal-stagger">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Dr. Kumar took the time to truly understand my fears. After years of anxiety about my heart, I finally feel like I have a partner in my health — not just a doctor.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AM</div>
+          <div class="author-info">
+            <div class="name">Anita Mehta</div>
+            <div class="role">Patient since 2019</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">The care I received after my procedure was extraordinary. Every question was answered with patience. The entire team made what could have been frightening feel genuinely safe.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">RS</div>
+          <div class="author-info">
+            <div class="name">Rajesh Sharma</div>
+            <div class="role">Post-angioplasty recovery</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">What sets this practice apart is the warmth. You're greeted by name, listened to without interruption, and followed up with personally. It's medicine the way it should be.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">PK</div>
+          <div class="author-info">
+            <div class="name">Priya Kapoor</div>
+            <div class="role">Preventive care patient</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta reveal">
+  <div class="cta-content">
+    <h2>Your heart deserves <span class="italic">gentle</span> expertise.</h2>
+    <p>Whether it's a routine check-up or a second opinion on something important, we're here — with open ears and steady hands.</p>
+    <a href="#contact" class="btn btn-primary">Begin your visit <span class="arrow">→</span></a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Get in touch</div>
+      <h2 class="section-title">We'd love to <span class="italic">hear from you</span>.</h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Visit the clinic</h3>
+        <p>Open Monday through Saturday. Evening hours available by appointment.</p>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="label">Address</div>
+            <div class="value">Kumar Heart Clinic, 2nd Floor<br/>14 Civil Lines, New Delhi 110054</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="label">Phone</div>
+            <div class="value">+91 98XXX 12345</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="label">Email</div>
+            <div class="value">care@drsanjeevkumar.in</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="label">Hours</div>
+            <div class="value">Mon – Sat · 9:00 AM – 7:00 PM</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thank you — we\\'ll be in touch ✓'">
+        <h3>Request an appointment</h3>
+        <p>Share a few details and our team will reach out within one business day.</p>
+        <div class="form-row">
+          <div class="form-field"><input type="text" placeholder="Full name" required></div>
+          <div class="form-field"><input type="tel" placeholder="Phone number" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><input type="email" placeholder="Email address" required></div>
+          <div class="form-field">
+            <select required>
+              <option value="">Reason for visit</option>
+              <option>General consultation</option>
+              <option>Second opinion</option>
+              <option>Follow-up care</option>
+              <option>Preventive screening</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field" style="margin-bottom:14px">
+          <textarea placeholder="Tell us a little about what's on your mind (optional)"></textarea>
+        </div>
+        <button type="submit" class="btn">Send request <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-7-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-7 11-7 11z"/></svg>
+          </span>
+          Dr. Sanjeev Kumar
+        </a>
+        <p>Interventional cardiology practiced with warmth, precision, and a deep commitment to every patient who walks through our doors.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Clinic</h5>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#approach">Approach</a></li>
+          <li><a href="#stories">Stories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#">Interventional</a></li>
+          <li><a href="#">Preventive Care</a></li>
+          <li><a href="#">Echocardiography</a></li>
+          <li><a href="#">Second Opinions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="#contact">Book a visit</a></li>
+          <li><a href="#">Patient portal</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Dr. Sanjeev Kumar · Kumar Heart Clinic. All rights reserved.</div>
+      <div>Crafted with care · Privacy · Terms</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Cursor glow follow
+  const glow = document.getElementById('cursorGlow');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let gx = mx, gy = my;
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateGlow(){
+    gx += (mx - gx) * 0.08;
+    gy += (my - gy) * 0.08;
+    glow.style.left = gx + 'px';
+    glow.style.top = gy + 'px';
+    requestAnimationFrame(animateGlow);
+  }
+  animateGlow();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+  // Count-up animation
+  const countEls = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        const dur = 1800;
+        const start = performance.now();
+        const suffix = target >= 1000 ? '' : (target === 98 ? '%' : '+');
+        function tick(now){
+          const p = Math.min((now - start)/dur, 1);
+          const eased = 1 - Math.pow(1-p, 3);
+          const val = Math.floor(target * eased);
+          el.textContent = val.toLocaleString() + (p === 1 ? suffix : '');
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countIO.observe(el));
+
+  // Service card mouse glow
+  document.querySelectorAll('.service').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top)/r.height*100) + '%');
+    });
+  });
+
+  // Mobile menu (simple toggle)
+  const toggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle?.addEventListener('click', () => {
+    if(links.style.display === 'flex'){
+      links.style.display = '';
+    } else {
+      links.style.display = 'flex';
+      links.style.position = 'absolute';
+      links.style.top = '70px';
+      links.style.right = '20px';
+      links.style.background = 'var(--cream)';
+      links.style.flexDirection = 'column';
+      links.style.padding = '24px';
+      links.style.borderRadius = '20px';
+      links.style.border = '1px solid var(--line)';
+      links.style.boxShadow = '0 20px 60px -20px rgba(0,0,0,0.15)';
+    }
+  });
+</script>
+
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "cardio-care",
+    replace: "#contact form",
+    accent: "#C0362E"
+  };
+</script>
+<script src="webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>

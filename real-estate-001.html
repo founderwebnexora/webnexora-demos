@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apex Prime Realty — Curated Living, Elevated</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- RESET & BASE ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0b0b0d;
+    color: #e8e6e1;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  :root {
+    --bg: #0b0b0d;
+    --bg-soft: #111114;
+    --bg-card: #15151a;
+    --cream: #f5f1ea;
+    --cream-soft: #e8e2d6;
+    --muted: #8a8680;
+    --gold: #c9a961;
+    --gold-soft: #e4c98a;
+    --line: rgba(255,255,255,0.08);
+    --glow: 0 0 40px rgba(201,169,97,0.15);
+    --glow-strong: 0 0 80px rgba(201,169,97,0.25);
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Inter', sans-serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ---------- AMBIENT BACKGROUND ---------- */
+  .ambient {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(201,169,97,0.08), transparent 60%),
+      radial-gradient(900px 500px at 90% 20%, rgba(201,169,97,0.05), transparent 60%),
+      radial-gradient(800px 400px at 50% 100%, rgba(201,169,97,0.06), transparent 60%),
+      var(--bg);
+  }
+
+  /* ---------- TYPOGRAPHY ---------- */
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--gold); opacity: 0.6;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: all 0.4s var(--ease);
+    backdrop-filter: blur(0px);
+  }
+  .nav.scrolled {
+    padding: 14px 5vw;
+    background: rgba(11,11,13,0.78);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .nav-links {
+    display: flex; gap: 38px;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links a { position: relative; transition: color 0.3s; }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: -6px;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.4s var(--ease);
+  }
+  .nav-links a:hover { color: var(--gold-soft); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    padding: 11px 22px;
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.35s var(--ease);
+  }
+  .nav-cta:hover { background: var(--gold); color: #0b0b0d; box-shadow: var(--glow); }
+  .burger { display: none; width: 28px; height: 18px; position: relative; }
+  .burger span {
+    position: absolute; left: 0; width: 100%; height: 1px; background: var(--cream);
+    transition: all 0.3s var(--ease);
+  }
+  .burger span:nth-child(1) { top: 0; }
+  .burger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+  .burger span:nth-child(3) { bottom: 0; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 140px 5vw 80px;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: -1;
+    background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2000&q=80');
+    background-size: cover; background-position: center;
+    transform: scale(1.1);
+    transition: transform 0.1s linear;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(11,11,13,0.55) 0%, rgba(11,11,13,0.85) 100%),
+      radial-gradient(ellipse at center, transparent 0%, rgba(11,11,13,0.4) 100%);
+  }
+  .hero-content { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero h1 {
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    font-weight: 300;
+    margin: 28px 0 32px;
+    color: var(--cream);
+  }
+  .hero h1 .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+  .hero h1 .word span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: riseUp 1s var(--ease) forwards;
+  }
+  .hero h1 .word:nth-child(2) span { animation-delay: 0.12s; }
+  .hero h1 .word:nth-child(3) span { animation-delay: 0.24s; }
+  .hero h1 .word:nth-child(4) span { animation-delay: 0.36s; }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-soft);
+    font-weight: 400;
+  }
+  @keyframes riseUp { to { transform: translateY(0); } }
+
+  .hero-sub {
+    max-width: 540px;
+    font-size: 1.05rem;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fadeIn 1s var(--ease) 0.7s forwards;
+    margin-bottom: 48px;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .hero-ctas {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 1s var(--ease) 0.9s forwards;
+  }
+  .btn {
+    padding: 16px 32px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 100px;
+    transition: all 0.4s var(--ease);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color: #0b0b0d;
+    box-shadow: 0 8px 30px rgba(201,169,97,0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(201,169,97,0.4);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(245,241,234,0.3);
+    color: var(--cream);
+  }
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold-soft);
+    background: rgba(201,169,97,0.06);
+  }
+  .btn svg { width: 14px; height: 14px; }
+
+  .hero-meta {
+    position: absolute;
+    bottom: 40px; left: 5vw; right: 5vw;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeIn 1s var(--ease) 1.2s forwards;
+  }
+  .hero-meta .scroll-ind {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scroll-ind::after {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* ---------- STATS BAR ---------- */
+  .stats {
+    padding: 60px 5vw;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .stat-num .plus { color: var(--gold); }
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- SECTION BASE ---------- */
+  section { padding: 120px 5vw; position: relative; }
+  .section-head {
+    max-width: 1400px;
+    margin: 0 auto 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+  .section-head h2 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    color: var(--cream);
+    max-width: 600px;
+  }
+  .section-head h2 em { font-style: italic; color: var(--gold-soft); }
+  .section-head p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 440px;
+    margin-left: auto;
+  }
+
+  /* ---------- FEATURED BENTO GRID ---------- */
+  .bento {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 220px;
+    gap: 18px;
+  }
+  .bento-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.6s var(--ease);
+  }
+  .bento-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(11,11,13,0.95) 100%);
+    z-index: 1;
+    transition: opacity 0.4s;
+  }
+  .bento-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .bento-card:hover img { transform: scale(1.08); }
+  .bento-card:hover { transform: translateY(-4px); }
+  .bento-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px; z-index: 2;
+  }
+  .bento-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+  }
+  .bento-title {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .bento-price {
+    font-size: 0.9rem;
+    color: var(--cream-soft);
+    font-weight: 500;
+  }
+  .bento-card::after {
+    content: ''; position: absolute; inset: -1px;
+    border-radius: 18px;
+    padding: 1px;
+    background: linear-gradient(135deg, transparent 30%, rgba(201,169,97,0.4) 50%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .bento-card:hover::after { opacity: 1; }
+
+  /* Bento layout */
+  .bento-card:nth-child(1) { grid-column: span 4; grid-row: span 2; }
+  .bento-card:nth-child(2) { grid-column: span 2; grid-row: span 1; }
+  .bento-card:nth-child(3) { grid-column: span 2; grid-row: span 1; }
+  .bento-card:nth-child(4) { grid-column: span 3; grid-row: span 1; }
+  .bento-card:nth-child(5) { grid-column: span 3; grid-row: span 1; }
+
+  /* ---------- PROPERTIES GRID ---------- */
+  .filter-bar {
+    max-width: 1400px;
+    margin: 0 auto 40px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+    padding: 18px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+  }
+  .filter-chip {
+    padding: 10px 20px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    color: var(--muted);
+    transition: all 0.3s var(--ease);
+  }
+  .filter-chip.active, .filter-chip:hover {
+    background: rgba(201,169,97,0.12);
+    color: var(--gold-soft);
+  }
+
+  .properties {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+  }
+  .property {
+    background: var(--bg-card);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    transition: all 0.5s var(--ease);
+    position: relative;
+  }
+  .property::before {
+    content: ''; position: absolute;
+    top: -40%; left: -20%; width: 140%; height: 140%;
+    background: radial-gradient(circle, rgba(201,169,97,0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+  }
+  .property:hover::before { opacity: 1; }
+  .property:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,169,97,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow);
+  }
+  .property-img {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .property-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1s var(--ease);
+  }
+  .property:hover .property-img img { transform: scale(1.06); }
+  .property-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    padding: 6px 14px;
+    background: rgba(11,11,13,0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .property-fav {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 38px; height: 38px;
+    background: rgba(11,11,13,0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    transition: all 0.3s;
+  }
+  .property-fav:hover { background: var(--gold); color: #0b0b0d; }
+  .property-fav svg { width: 16px; height: 16px; }
+  .property-body { padding: 24px; }
+  .property-loc {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .property-name {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .property-specs {
+    display: flex; gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 18px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .property-specs span { display: flex; align-items: center; gap: 6px; }
+  .property-specs svg { width: 14px; height: 14px; opacity: 0.7; }
+  .property-foot {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .property-price {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--cream);
+  }
+  .property-price small {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 4px;
+  }
+  .property-link {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: gap 0.3s;
+  }
+  .property-link:hover { gap: 12px; }
+
+  /* ---------- PROJECTS ---------- */
+  .projects {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .project {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .project img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .project:hover img { transform: scale(1.05); }
+  .project::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(11,11,13,0.95) 100%);
+    z-index: 1;
+  }
+  .project-info {
+    position: absolute;
+    bottom: 40px; left: 40px; right: 40px;
+    z-index: 2;
+  }
+  .project-info .bento-tag { margin-bottom: 14px; }
+  .project-info h3 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .project-info p {
+    color: var(--cream-soft);
+    max-width: 420px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+  }
+  .project-meta {
+    display: flex; gap: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245,241,234,0.2);
+  }
+  .project-meta div { font-size: 0.78rem; }
+  .project-meta strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--gold-soft);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .project-meta span {
+    color: var(--cream-soft);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+
+  /* ---------- CONSULT SECTION ---------- */
+  .consult {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 60px;
+    background:
+      radial-gradient(ellipse at top left, rgba(201,169,97,0.12), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(201,169,97,0.08), transparent 50%),
+      linear-gradient(135deg, #15151a, #0f0f12);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .consult::before {
+    content: ''; position: absolute;
+    top: -50%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,169,97,0.1), transparent 60%);
+    pointer-events: none;
+  }
+  .consult h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .consult h2 em { font-style: italic; color: var(--gold-soft); }
+  .consult p {
+    color: var(--cream-soft);
+    margin-bottom: 32px;
+    font-size: 1rem;
+    max-width: 480px;
+  }
+  .consult-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .consult-feat {
+    display: flex; gap: 14px;
+    align-items: flex-start;
+  }
+  .consult-feat-ico {
+    width: 40px; height: 40px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(201,169,97,0.1);
+    border: 1px solid rgba(201,169,97,0.2);
+    display: grid; place-items: center;
+    color: var(--gold-soft);
+  }
+  .consult-feat-ico svg { width: 18px; height: 18px; }
+  .consult-feat h4 {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .consult-feat p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ---------- CONTACT FORM ---------- */
+  .contact-wrap {
+    background: rgba(11,11,13,0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-wrap::before {
+    content: ''; position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(201,169,97,0.4), transparent 40%, transparent 60%, rgba(201,169,97,0.3));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+  .contact-wrap::after {
+    content: ''; position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(201,169,97,0.08), transparent 40%);
+    pointer-events: none;
+    animation: drift 12s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(0,0); }
+    50% { transform: translate(10%, 10%); }
+  }
+  .contact-wrap h3 {
+    font-size: 1.8rem;
+    color: var(--cream);
+    margin-bottom: 8px;
+    position: relative; z-index: 1;
+  }
+  .contact-wrap > p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+  }
+  .form-group {
+    position: relative;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.3s var(--ease);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: rgba(201,169,97,0.5);
+    background: rgba(201,169,97,0.04);
+    box-shadow: 0 0 0 4px rgba(201,169,97,0.08), 0 0 30px rgba(201,169,97,0.15);
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(232,230,225,0.3); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color: #0b0b0d;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.4s var(--ease);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  .form-submit:hover::before { transform: translateX(100%); }
+  .form-submit:hover {
+    box-shadow: 0 10px 40px rgba(201,169,97,0.35);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 80px 5vw 40px;
+    border-top: 1px solid var(--line);
+    background: var(--bg-soft);
+  }
+  .footer-grid {
+    max-width: 1400px;
+    margin: 0 auto 60px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-brand p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 20px 0;
+    max-width: 320px;
+  }
+  .footer-col h5 {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 12px; }
+  .footer-col a {
+    color: var(--cream-soft);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--gold-soft); }
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  /* ---------- MOBILE STICKY CONSULT ---------- */
+  .mobile-consult {
+    display: none;
+    position: fixed;
+    bottom: 20px; left: 20px; right: 20px;
+    z-index: 90;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color: #0b0b0d;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(201,169,97,0.4);
+    animation: floatIn 0.8s var(--ease) 1.5s both;
+  }
+  @keyframes floatIn {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ---------- REVEAL ANIMATIONS ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  .reveal-stagger.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+  .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.2s; }
+  .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.3s; }
+  .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.4s; }
+  .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.5s; }
+  .reveal-stagger.visible > *:nth-child(7) { transition-delay: 0.6s; }
+  .reveal-stagger.visible > *:nth-child(8) { transition-delay: 0.7s; }
+  .reveal-stagger.visible > *:nth-child(9) { transition-delay: 0.8s; }
+
+  /* ---------- MOBILE MENU ---------- */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: rgba(11,11,13,0.97);
+  backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu a {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.3s;
+}
+.mobile-menu.open a {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mobile-menu.open a:nth-child(1) { transition-delay: 0.08s; }
+.mobile-menu.open a:nth-child(2) { transition-delay: 0.14s; }
+.mobile-menu.open a:nth-child(3) { transition-delay: 0.20s; }
+.mobile-menu.open a:nth-child(4) { transition-delay: 0.26s; }
+.mobile-menu.open a:nth-child(5) { transition-delay: 0.32s; }
+.mobile-menu a:hover { color: var(--gold-soft); }
+.mobile-menu .btn-primary {
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease) 0.4s, transform 0.5s var(--ease) 0.4s;
+}
+.mobile-menu.open .btn-primary {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Burger -> X animation */
+.burger.open span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 968px) {
+    .nav-links, .nav-cta { display: none; }
+    .burger { display: block; }
+    .section-head { grid-template-columns: 1fr; gap: 20px; }
+    .section-head p { margin-left: 0; }
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 200px;
+    }
+    .bento-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .bento-card:nth-child(2),
+    .bento-card:nth-child(3),
+    .bento-card:nth-child(4),
+    .bento-card:nth-child(5) { grid-column: span 1; grid-row: span 1; }
+    .projects { grid-template-columns: 1fr; }
+    .consult { grid-template-columns: 1fr; padding: 50px 30px; gap: 40px; }
+    .consult-features { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .mobile-consult { display: block; }
+    body { padding-bottom: 80px; }
+    section { padding: 80px 5vw; }
+    .hero { padding: 120px 5vw 60px; }
+  }
+  @media (max-width: 560px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-meta { display: none; }
+    .contact-wrap { padding: 28px 22px; }
+    .bento { grid-auto-rows: 180px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <span>Apex Prime</span>
+  </div>
+  <div class="nav-links">
+    <a href="#featured">Featured</a>
+    <a href="#properties">Residences</a>
+    <a href="#projects">Projects</a>
+  </div>
+  <a href="#consult" class="nav-cta">Book a Viewing</a>
+  <button class="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#featured">Featured</a>
+  <a href="#properties">Residences</a>
+  <a href="#projects">Projects</a>
+  <a href="#consult" class="btn btn-primary">Book a Viewing</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <span class="eyebrow">Est. 2008 — Curated Living</span>
+    <h1>
+      <span class="word"><span>Residences</span></span>
+      <span class="word"><span>of</span></span>
+      <span class="word"><span><em>distinction,</em></span></span>
+      <span class="word"><span>redefined.</span></span>
+    </h1>
+    <p class="hero-sub">A private portfolio of the world's most exceptional properties — handpicked for those who demand more than a home, but a legacy.</p>
+    <div class="hero-ctas">
+      <a href="#properties" class="btn btn-primary">
+        Explore Collection
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#consult" class="btn btn-ghost">Private Consultation</a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div class="scroll-ind">Scroll to discover</div>
+    <div>Over 240 curated listings worldwide</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats reveal-stagger">
+  <div class="stat"><div class="stat-num">240<span class="plus">+</span></div><div class="stat-label">Curated Listings</div></div>
+  <div class="stat"><div class="stat-num">$2.4B</div><div class="stat-label">In Transactions</div></div>
+  <div class="stat"><div class="stat-num">18</div><div class="stat-label">Years of Excellence</div></div>
+  <div class="stat"><div class="stat-num">98<span class="plus">%</span></div><div class="stat-label">Client Retention</div></div>
+</div>
+
+<!-- FEATURED BENTO -->
+<section id="featured">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">Featured Residences</span>
+      <h2>A handpicked selection of <em>exceptional</em> homes.</h2>
+    </div>
+    <p>Each residence in our featured collection has been personally vetted for architectural merit, location, and timeless appeal.</p>
+  </div>
+
+  <div class="bento reveal-stagger">
+    <div class="bento-card">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80" alt="">
+      <div class="bento-info">
+        <div class="bento-tag">Villa · Malibu</div>
+        <div class="bento-title">The Cliffside Estate</div>
+        <div class="bento-price">$18,500,000</div>
+      </div>
+    </div>
+    <div class="bento-card">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="bento-info">
+        <div class="bento-tag">Penthouse · NYC</div>
+        <div class="bento-title">Hudson Skyline</div>
+        <div class="bento-price">$12,200,000</div>
+      </div>
+    </div>
+    <div class="bento-card">
+      <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="bento-info">
+        <div class="bento-tag">Estate · Aspen</div>
+        <div class="bento-title">Alpine Retreat</div>
+        <div class="bento-price">$9,800,000</div>
+      </div>
+    </div>
+    <div class="bento-card">
+      <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1100&q=80" alt="">
+      <div class="bento-info">
+        <div class="bento-tag">Modern · Beverly Hills</div>
+        <div class="bento-title">Glass Pavilion</div>
+        <div class="bento-price">$24,000,000</div>
+      </div>
+    </div>
+    <div class="bento-card">
+      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1100&q=80" alt="">
+      <div class="bento-info">
+        <div class="bento-tag">Mansion · Hamptons</div>
+        <div class="bento-title">Oceanfront Manor</div>
+        <div class="bento-price">$31,500,000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL PROPERTIES -->
+<section id="properties">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">The Collection</span>
+      <h2>Every residence, <em>thoughtfully</em> presented.</h2>
+    </div>
+    <p>Browse our complete portfolio of exceptional properties across the globe's most coveted addresses.</p>
+  </div>
+
+  <div class="filter-bar reveal">
+    <button class="filter-chip active">All</button>
+    <button class="filter-chip">Villas</button>
+    <button class="filter-chip">Penthouses</button>
+    <button class="filter-chip">Estates</button>
+    <button class="filter-chip">Waterfront</button>
+    <button class="filter-chip">Modern</button>
+  </div>
+
+  <div class="properties reveal-stagger" id="propertyGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">Signature Projects</span>
+      <h2>Developments of <em>lasting</em> significance.</h2>
+    </div>
+    <p>Our in-house development arm creates landmark residences that define the character of the neighborhoods they inhabit.</p>
+  </div>
+
+  <div class="projects reveal-stagger">
+    <div class="project">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80" alt="">
+      <div class="project-info">
+        <div class="bento-tag">Residential Tower · Dubai</div>
+        <h3>The Meridian</h3>
+        <p>62 stories of sculpted glass rising above the marina — 148 private residences with panoramic Gulf views.</p>
+        <div class="project-meta">
+          <div><strong>148</strong><span>Residences</span></div>
+          <div><strong>62</strong><span>Floors</span></div>
+          <div><strong>2027</strong><span>Completion</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="project">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" alt="">
+      <div class="project-info">
+        <div class="bento-tag">Private Community · Tulum</div>
+        <h3>Casa del Mar</h3>
+        <p>A gated enclave of 24 oceanfront villas designed by Pritzker laureates, woven into the jungle canopy.</p>
+        <div class="project-meta">
+          <div><strong>24</strong><span>Villas</span></div>
+          <div><strong>18 ac</strong><span>Grounds</span></div>
+          <div><strong>2026</strong><span>Completion</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONSULT -->
+<section id="consult">
+  <div class="consult reveal">
+    <div>
+      <span class="eyebrow">Private Consultation</span>
+      <h2>Your next chapter, <em>curated</em> with care.</h2>
+      <p>Schedule a private consultation with one of our senior advisors. We'll listen, understand, and present a shortlist of residences that match not just your criteria — but your life.</p>
+      <div class="consult-features">
+        <div class="consult-feat">
+          <div class="consult-feat-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div><h4>Off-Market Access</h4><p>Exclusive listings not available publicly.</p></div>
+        </div>
+        <div class="consult-feat">
+          <div class="consult-feat-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div><h4>Discreet Service</h4><p>Confidential, unhurried, and tailored.</p></div>
+        </div>
+        <div class="consult-feat">
+          <div class="consult-feat-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div><h4>Global Reach</h4><p>Advisors in 14 countries, 40+ cities.</p></div>
+        </div>
+        <div class="consult-feat">
+          <div class="consult-feat-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div><h4>Dedicated Advisor</h4><p>One point of contact, end-to-end.</p></div>
+        </div>
+      </div>
+      <a href="#contact" class="btn btn-primary">Request Consultation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="contact-wrap" id="contact">
+      <h3>Begin the conversation.</h3>
+      <p>Tell us what you're seeking — we'll be in touch within 24 hours.</p>
+      <form id="consultForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Alexandra" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Whitmore" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+1 (555) 000-0000">
+        </div>
+        <div class="form-group">
+          <label>I'm interested in</label>
+          <select>
+            <option>Purchasing a residence</option>
+            <option>Selling my property</option>
+            <option>Investment opportunities</option>
+            <option>Development partnership</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell us more</label>
+          <textarea placeholder="Location, budget, lifestyle preferences..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Inquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><div class="logo-mark"></div><span>Apex Prime</span></div>
+      <p>A private real estate advisory curating the world's most exceptional residences since 2008.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#featured">Featured</a></li>
+        <li><a href="#properties">All Residences</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#">Journal</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#">Buying</a></li>
+        <li><a href="#">Selling</a></li>
+        <li><a href="#">Advisory</a></li>
+        <li><a href="#">Property Management</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#">+1 (212) 555-0199</a></li>
+        <li><a href="#">hello@apexprime.com</a></li>
+        <li><a href="#">432 Park Avenue, NYC</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Apex Prime Realty. All rights reserved.</div>
+    <div>Privacy · Terms · Accessibility</div>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY -->
+<a href="#consult" class="mobile-consult">Consult an Agent</a>
+
+<script>
+  // ---------- PROPERTY DATA ----------
+  const properties = [
+    { name: 'Villa Serenità', loc: 'Lake Como, Italy', price: '$8,400,000', type: 'Villa', beds: 6, baths: 7, sqft: '8,200', img: 'https://images.unsplash.com/photo-1613553474179-e1eda3ea52a0?auto=format&fit=crop&w=900&q=80' },
+    { name: 'The Glass House', loc: 'Los Angeles, USA', price: '$14,750,000', type: 'Modern', beds: 5, baths: 6, sqft: '7,400', img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Riverside Manor', loc: 'London, UK', price: '£12,900,000', type: 'Estate', beds: 8, baths: 9, sqft: '11,500', img: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Azure Penthouse', loc: 'Miami, USA', price: '$9,200,000', type: 'Penthouse', beds: 4, baths: 5, sqft: '5,100', img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Château Lumière', loc: 'Provence, France', price: '€16,500,000', type: 'Estate', beds: 10, baths: 12, sqft: '14,800', img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Harbor Residence', loc: 'Sydney, Australia', price: 'A$11,200,000', type: 'Waterfront', beds: 5, baths: 5, sqft: '6,300', img: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Nordic Retreat', loc: 'Oslo, Norway', price: 'NOK 78,000,000', type: 'Modern', beds: 4, baths: 4, sqft: '4,800', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Desert Oasis', loc: 'Scottsdale, USA', price: '$6,900,000', type: 'Villa', beds: 5, baths: 6, sqft: '7,100', img: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=900&q=80' },
+    { name: 'Skyline Suite', loc: 'Dubai, UAE', price: '$22,400,000', type: 'Penthouse', beds: 6, baths: 7, sqft: '9,200', img: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=900&q=80' },
+  ];
+
+  const grid = document.getElementById('propertyGrid');
+  grid.innerHTML = properties.map(p => `
+    <article class="property">
+      <div class="property-img">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <span class="property-badge">${p.type}</span>
+        <button class="property-fav" aria-label="Save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="property-body">
+        <div class="property-loc">${p.loc}</div>
+        <h3 class="property-name">${p.name}</h3>
+        <div class="property-specs">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7M3 7l4-4h10l4 4M3 7h18"/></svg>${p.beds} Beds</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M4 12v8h16v-8M6 12V6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>${p.baths} Baths</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>${p.sqft} ft²</span>
+        </div>
+        <div class="property-foot">
+          <div class="property-price">${p.price}</div>
+          <a href="#" class="property-link">View
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  // ---------- NAV SCROLL ----------
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ---------- MOBILE MENU TOGGLE ----------
+const burger = document.querySelector('.burger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+// Close menu when a link is clicked
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    burger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+  // ---------- PARALLAX HERO ----------
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      heroBg.style.transform = `scale(1.1) translateY(${y * 0.3}px)`;
+    }
+  }, { passive: true });
+
+  // ---------- REVEAL ON SCROLL ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
+
+  // ---------- FILTER CHIPS ----------
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // ---------- FORM ----------
+  document.getElementById('consultForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Sending...';
+    setTimeout(() => {
+      btn.textContent = '✓ Inquiry Received';
+      btn.style.background = 'linear-gradient(135deg, #4a9d6e, #6ec28f)';
+      setTimeout(() => {
+        btn.textContent = 'Send Inquiry';
+        btn.style.background = '';
+        e.target.reset();
+      }, 2800);
+    }, 1200);
+  });
+
+  // ---------- SMOOTH ANCHOR OFFSET ----------
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const el = document.querySelector(id);
+        if (el) {
+          e.preventDefault();
+          window.scrollTo({ top: el.offsetTop - 70, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+</script>
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "real-estate-001",
+    replace: "#consultForm",
+    accent: "#B08D57"
+  };
+</script>
+<script src="webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>

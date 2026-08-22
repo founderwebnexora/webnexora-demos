@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Al Noor Car Rentals — Where Every Journey Begins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Root ---------- */
+  :root{
+    --bg:#f5f1ea;
+    --bg-2:#ece4d5;
+    --bg-3:#e3d9c6;
+    --ink:#1a1613;
+    --ink-soft:#3d3630;
+    --muted:#8a7f70;
+    --line:rgba(26,22,19,0.09);
+    --line-2:rgba(26,22,19,0.14);
+    --accent:#c9a96a;
+    --accent-2:#a88947;
+    --accent-soft:#e0c99a;
+    --cream:#fbf7ef;
+    --glow:0 0 0 rgba(201,169,106,0);
+    --glow-hover:0 30px 80px -30px rgba(201,169,106,0.5), 0 0 60px -20px rgba(201,169,106,0.25);
+    --radius:22px;
+    --radius-lg:32px;
+    --ease:cubic-bezier(.2,.8,.2,1);
+    --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    cursor:none;
+  }
+  ::selection{background:var(--accent);color:var(--cream)}
+
+  h1,h2,h3,h4{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-0.02em;line-height:1}
+  .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1360px;margin:0 auto;padding:0 32px}
+
+  /* ---------- Custom cursor ---------- */
+  .cursor-dot,.cursor-ring{
+    position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);
+    mix-blend-mode:multiply;
+  }
+  .cursor-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--ink);
+    transition:transform .15s var(--ease), background .3s var(--ease);
+  }
+  .cursor-ring{
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid rgba(26,22,19,0.3);
+    transition:transform .3s var(--ease), width .3s var(--ease), height .3s var(--ease), border-color .3s var(--ease);
+  }
+  .cursor-ring.hover{
+    width:60px;height:60px;
+    border-color:var(--accent);
+    background:rgba(201,169,106,0.08);
+  }
+  .cursor-dot.hover{transform:translate(-50%,-50%) scale(0)}
+  @media (max-width:1024px){
+    body{cursor:auto}
+    .cursor-dot,.cursor-ring{display:none}
+  }
+
+  /* ---------- Ambient background ---------- */
+  .ambient{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 50% at 15% 0%, rgba(201,169,106,0.12), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 40%, rgba(227,217,198,0.6), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,169,106,0.08), transparent 60%);
+  }
+  .grain{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:22px 0;
+    transition:all .5s var(--ease);
+  }
+  nav.scrolled{
+    background:rgba(245,241,234,0.85);
+    backdrop-filter:blur(20px) saturate(1.2);
+    -webkit-backdrop-filter:blur(20px) saturate(1.2);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+  .logo{
+    font-family:'Instrument Serif',serif;
+    font-size:24px;
+    display:flex;align-items:center;gap:12px;
+    letter-spacing:-0.01em;
+  }
+  .logo-mark{
+    width:38px;height:38px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, var(--accent-soft), var(--accent) 60%, var(--accent-2));
+    display:grid;place-items:center;color:var(--cream);
+    box-shadow:0 4px 20px rgba(201,169,106,0.4), inset 0 1px 2px rgba(255,255,255,0.4);
+    position:relative;
+  }
+  .logo-mark::after{
+    content:'';position:absolute;inset:-4px;border-radius:50%;
+    background:radial-gradient(circle, rgba(201,169,106,0.3), transparent 70%);
+    filter:blur(8px);z-index:-1;
+  }
+  .logo-mark svg{width:18px;height:18px}
+  .logo-text{display:flex;flex-direction:column;line-height:1}
+  .logo-text small{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:.25em;
+    color:var(--muted);margin-top:4px;
+  }
+  .nav-links{display:flex;gap:40px;align-items:center}
+  .nav-links a{
+    font-size:14px;font-weight:400;color:var(--ink-soft);
+    position:relative;transition:color .3s var(--ease);
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-6px;
+    width:0;height:1px;background:var(--accent);
+    transition:width .4s var(--ease);
+  }
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    padding:12px 24px;
+    background:var(--ink);color:var(--cream);
+    border-radius:100px;
+    font-size:13px;font-weight:500;
+    transition:all .4s var(--ease);
+    display:inline-flex;align-items:center;gap:10px;
+    position:relative;overflow:hidden;
+  }
+  .nav-cta::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    opacity:0;transition:opacity .4s var(--ease);
+  }
+  .nav-cta span{position:relative;z-index:1}
+  .nav-cta:hover::before{opacity:1}
+  .nav-cta:hover{
+    box-shadow:0 10px 30px -10px rgba(201,169,106,0.6);
+    transform:translateY(-2px);
+  }
+  .menu-toggle{display:none;background:none;border:none;cursor:pointer;font-size:22px;color:var(--ink)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:160px 0 100px;
+    position:relative;z-index:2;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 16px;
+    background:rgba(201,169,106,0.08);
+    border:1px solid rgba(201,169,106,0.25);
+    border-radius:100px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--accent-2);
+    margin-bottom:32px;
+  }
+  .hero-tag .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:.5;transform:scale(1.4)}
+  }
+  .hero h1{
+    font-size:clamp(56px,8vw,128px);
+    font-weight:400;
+    letter-spacing:-0.04em;
+    line-height:0.92;
+    margin-bottom:36px;
+  }
+  .hero h1 .serif{color:var(--accent-2)}
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line span{display:inline-block;transform:translateY(110%);animation:reveal 1.3s var(--ease-out) forwards}
+  .hero h1 .line:nth-child(2) span{animation-delay:.18s}
+  .hero h1 .line:nth-child(3) span{animation-delay:.36s}
+  @keyframes reveal{to{transform:translateY(0)}}
+
+  .hero-desc{
+    font-size:17px;color:var(--ink-soft);
+    max-width:520px;margin-bottom:44px;
+    opacity:0;animation:fadeUp 1s var(--ease) .7s forwards;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s var(--ease) .9s forwards}
+  .btn{
+    padding:18px 32px;
+    border-radius:100px;
+    font-size:14px;font-weight:500;
+    cursor:none;border:none;
+    transition:all .5s var(--ease);
+    display:inline-flex;align-items:center;gap:12px;
+    position:relative;overflow:hidden;
+    font-family:inherit;
+  }
+  .btn-primary{
+    background:var(--ink);color:var(--cream);
+  }
+  .btn-primary:hover{
+    background:var(--accent-2);color:var(--cream);
+    box-shadow:var(--glow-hover);
+    transform:translateY(-3px);
+  }
+  .btn-ghost{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--line-2);
+  }
+  .btn-ghost:hover{
+    border-color:var(--ink);
+    background:var(--ink);color:var(--cream);
+  }
+  .btn .arrow{transition:transform .4s var(--ease)}
+  .btn:hover .arrow{transform:translateX(5px)}
+
+  .hero-meta{
+    display:flex;gap:40px;margin-top:60px;padding-top:32px;
+    border-top:1px solid var(--line);
+    opacity:0;animation:fadeUp 1s var(--ease) 1.1s forwards;
+  }
+  .hero-meta-item .n{
+    font-family:'Instrument Serif',serif;
+    font-size:44px;line-height:1;
+    color:var(--ink);
+  }
+  .hero-meta-item .n .serif{color:var(--accent-2)}
+  .hero-meta-item .l{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.15em;margin-top:8px;
+  }
+
+  /* ---------- Hero visual ---------- */
+  .hero-visual{
+    position:relative;
+    aspect-ratio:1;
+    display:grid;place-items:center;
+  }
+  .hero-visual::before{
+    content:'';position:absolute;inset:10%;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,169,106,0.25), transparent 65%);
+    filter:blur(40px);
+    animation:glow-pulse 5s ease-in-out infinite;
+  }
+  @keyframes glow-pulse{
+    0%,100%{opacity:.6;transform:scale(1)}
+    50%{opacity:1;transform:scale(1.08)}
+  }
+  .hero-car-wrap{
+    width:100%;height:100%;
+    position:relative;
+    transition:transform .3s var(--ease);
+    will-change:transform;
+  }
+  .hero-car{
+    width:100%;height:100%;
+    object-fit:cover;object-position:center 40%;
+    border-radius:28px;
+    box-shadow:0 40px 60px rgba(26,22,19,0.25), 0 0 60px rgba(201,169,106,0.15);
+  }
+  .hero-badge{
+    position:absolute;
+    background:rgba(251,247,239,0.85);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:20px;
+    padding:16px 20px;
+    display:flex;align-items:center;gap:12px;
+    box-shadow:0 20px 50px -20px rgba(26,22,19,0.2);
+    animation:float 6s ease-in-out infinite;
+  }
+  .hero-badge.top{top:8%;left:-5%;animation-delay:0s}
+  .hero-badge.bottom{bottom:12%;right:-8%;animation-delay:1.5s}
+  @keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+  }
+  .hero-badge-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;color:var(--cream);
+    flex-shrink:0;
+  }
+  .hero-badge-text .t{font-size:13px;font-weight:500;line-height:1.2}
+  .hero-badge-text .s{font-size:11px;color:var(--muted);margin-top:2px}
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    padding:40px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    position:relative;z-index:2;
+    margin-top:40px;
+  }
+  .marquee-track{
+    display:flex;gap:60px;
+    animation:scroll 40s linear infinite;
+    white-space:nowrap;
+  }
+  .marquee-item{
+    font-family:'Instrument Serif',serif;
+    font-size:32px;font-style:italic;
+    color:var(--ink-soft);
+    display:flex;align-items:center;gap:60px;
+  }
+  .marquee-item::after{
+    content:'✦';color:var(--accent);font-style:normal;font-size:18px;
+  }
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---------- Section base ---------- */
+  section{padding:140px 0;position:relative;z-index:2}
+  .section-head{margin-bottom:80px;max-width:820px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;font-weight:500;
+    color:var(--accent-2);
+    text-transform:uppercase;
+    letter-spacing:.2em;
+    margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:'';width:32px;height:1px;background:var(--accent);
+  }
+  .section-title{
+    font-size:clamp(40px,6vw,84px);
+    font-weight:400;
+    margin-bottom:24px;
+    letter-spacing:-0.03em;
+  }
+  .section-title .serif{color:var(--accent-2);font-weight:400}
+  .section-desc{font-size:17px;color:var(--ink-soft);max-width:560px}
+
+  /* ---------- About bento ---------- */
+  .about-bento{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:minmax(180px,auto);
+    gap:20px;
+  }
+  .bento{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px;
+    position:relative;overflow:hidden;
+    transition:all .6s var(--ease);
+    cursor:none;
+  }
+  .bento::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(201,169,106,0.15), transparent 50%);
+    opacity:0;transition:opacity .5s var(--ease);
+    pointer-events:none;
+  }
+  .bento:hover::before{opacity:1}
+  .bento:hover{
+    transform:translateY(-8px);
+    border-color:rgba(201,169,106,0.35);
+    box-shadow:0 30px 80px -30px rgba(26,22,19,0.2), 0 0 60px -20px rgba(201,169,106,0.2);
+  }
+  .bento h3{font-size:28px;margin-bottom:12px;font-weight:400;letter-spacing:-0.02em}
+  .bento p{color:var(--ink-soft);font-size:14.5px}
+  .bento-1{grid-column:span 3;grid-row:span 2;background:linear-gradient(135deg,var(--ink) 0%,#2a2420 100%);color:var(--cream)}
+  .bento-1 p{color:rgba(251,247,239,0.7)}
+  .bento-2{grid-column:span 3}
+  .bento-3{grid-column:span 2}
+  .bento-4{grid-column:span 2;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--cream)}
+  .bento-4 p{color:rgba(251,247,239,0.9)}
+  .bento-5{grid-column:span 2;background:var(--bg-2)}
+  .bento-icon{
+    width:48px;height:48px;border-radius:14px;
+    background:rgba(201,169,106,0.12);
+    border:1px solid rgba(201,169,106,0.25);
+    display:grid;place-items:center;
+    margin-bottom:22px;color:var(--accent-2);
+    transition:all .5s var(--ease);
+  }
+  .bento:hover .bento-icon{
+    background:var(--accent);color:var(--cream);
+    transform:rotate(-8deg) scale(1.08);
+    box-shadow:0 10px 30px -10px rgba(201,169,106,0.5);
+  }
+  .bento-1 .bento-icon{background:rgba(201,169,106,0.15);color:var(--accent-soft);border-color:rgba(201,169,106,0.3)}
+  .bento-1:hover .bento-icon{background:var(--accent);color:var(--ink)}
+  .bento-4 .bento-icon{background:rgba(251,247,239,0.2);color:var(--cream);border-color:rgba(251,247,239,0.3)}
+  .bento-4:hover .bento-icon{background:var(--cream);color:var(--accent-2)}
+  .big-number{
+    font-family:'Instrument Serif',serif;
+    font-size:100px;font-weight:400;
+    line-height:1;margin-bottom:12px;
+    letter-spacing:-0.04em;
+  }
+  .bento-1 .big-number{
+    background:linear-gradient(135deg,var(--cream),var(--accent-soft));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .bento-4 .big-number{
+    background:linear-gradient(135deg,var(--cream),#fff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* ---------- Fleet bento ---------- */
+  .fleet-bento{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    grid-auto-rows:240px;
+    gap:20px;
+  }
+  .fleet-card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:32px;
+    position:relative;overflow:hidden;
+    transition:all .6s var(--ease);
+    cursor:none;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .fleet-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(201,169,106,0.18), transparent 50%);
+    opacity:0;transition:opacity .5s var(--ease);
+    pointer-events:none;
+  }
+  .fleet-card:hover::before{opacity:1}
+  .fleet-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(201,169,106,0.35);
+    box-shadow:0 30px 80px -30px rgba(26,22,19,0.25);
+  }
+  .fleet-1{grid-column:span 7;grid-row:span 2;background:linear-gradient(135deg,#2a2420,#1a1613);color:var(--cream)}
+  .fleet-1 .fleet-meta{color:rgba(251,247,239,0.6)}
+  .fleet-2{grid-column:span 5}
+  .fleet-3{grid-column:span 5}
+  .fleet-4{grid-column:span 4;background:var(--bg-2)}
+  .fleet-5{grid-column:span 4;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--cream)}
+  .fleet-5 .fleet-meta{color:rgba(251,247,239,0.8)}
+  .fleet-6{grid-column:span 4}
+
+  .fleet-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .fleet-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.2em;
+    color:var(--muted);text-transform:uppercase;
+  }
+  .fleet-1 .fleet-tag{color:var(--accent-soft)}
+  .fleet-5 .fleet-tag{color:rgba(251,247,239,0.8)}
+  .fleet-price{
+    font-family:'Instrument Serif',serif;
+    font-size:22px;
+  }
+  .fleet-price small{font-family:'Inter',sans-serif;font-size:11px;color:var(--muted);font-weight:400}
+  .fleet-1 .fleet-price small{color:rgba(251,247,239,0.5)}
+  .fleet-5 .fleet-price small{color:rgba(251,247,239,0.7)}
+
+  .fleet-car{
+    flex:1;display:grid;place-items:center;
+    margin:12px 0;
+    transition:transform .6s var(--ease);
+  }
+  .fleet-card:hover .fleet-car{transform:translateX(10px) scale(1.04)}
+  .fleet-car svg{width:100%;max-width:280px;height:auto;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.15))}
+  .fleet-1 .fleet-car svg{max-width:420px;filter:drop-shadow(0 30px 40px rgba(0,0,0,0.4))}
+  .fleet-car img{
+    width:100%;height:100%;object-fit:cover;object-position:center 60%;
+    border-radius:14px;
+    filter:drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+  }
+  .fleet-1 .fleet-car img{filter:drop-shadow(0 30px 40px rgba(0,0,0,0.4))}
+  .fleet-car{aspect-ratio:16/10;overflow:hidden}
+  .fleet-1 .fleet-car{aspect-ratio:16/9}
+  /* Portrait source photos need their own crop point — the car sits low in
+     the original frame, so the shared 60% center point showed empty sky. */
+  .fleet-car img[src*="rolls-royce"]{object-position:center bottom}
+
+  .fleet-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+  .fleet-name{
+    font-family:'Instrument Serif',serif;
+    font-size:32px;line-height:1;letter-spacing:-0.02em;
+  }
+  .fleet-1 .fleet-name{font-size:48px}
+  .fleet-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:var(--muted);
+    letter-spacing:.15em;text-transform:uppercase;
+    display:flex;gap:16px;
+  }
+  .fleet-meta span{display:flex;align-items:center;gap:5px}
+  .fleet-arrow{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--bg);
+    border:1px solid var(--line);
+    display:grid;place-items:center;
+    color:var(--ink);
+    transition:all .4s var(--ease);
+    flex-shrink:0;
+  }
+  .fleet-card:hover .fleet-arrow{
+    background:var(--accent);color:var(--cream);border-color:var(--accent);
+    transform:rotate(-45deg);
+    box-shadow:0 10px 30px -10px rgba(201,169,106,0.5);
+  }
+  .fleet-1 .fleet-arrow{background:rgba(251,247,239,0.1);border-color:rgba(251,247,239,0.2);color:var(--cream)}
+  .fleet-1:hover .fleet-arrow{background:var(--accent);color:var(--ink)}
+  .fleet-5 .fleet-arrow{background:rgba(251,247,239,0.15);border-color:rgba(251,247,239,0.3);color:var(--cream)}
+  .fleet-5:hover .fleet-arrow{background:var(--cream);color:var(--accent-2)}
+
+  /* ---------- Occasions ---------- */
+  .occasions{
+    background:var(--bg-2);
+    border-radius:var(--radius-lg);
+    margin:0 32px;padding:120px 80px;
+    position:relative;overflow:hidden;
+    z-index:2;
+  }
+  .occasions::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,169,106,0.15), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 15% 85%, rgba(201,169,106,0.1), transparent 60%);
+    pointer-events:none;
+  }
+  .occasions-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+    position:relative;z-index:2;
+  }
+  .occasions-list{display:flex;flex-direction:column;gap:16px;margin-top:40px}
+  .occasion-item{
+    display:flex;gap:20px;align-items:center;
+    padding:24px;
+    background:rgba(251,247,239,0.6);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:var(--radius);
+    transition:all .5s var(--ease);
+    cursor:none;
+  }
+  .occasion-item:hover{
+    transform:translateX(8px);
+    background:var(--cream);
+    border-color:rgba(201,169,106,0.4);
+    box-shadow:0 20px 50px -20px rgba(26,22,19,0.15);
+  }
+  .occasion-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;color:var(--cream);
+    flex-shrink:0;
+    transition:all .5s var(--ease);
+  }
+  .occasion-item:hover .occasion-icon{
+    transform:rotate(-8deg) scale(1.08);
+    box-shadow:0 10px 30px -10px rgba(201,169,106,0.6);
+  }
+  .occasion-text h4{font-size:22px;margin-bottom:4px;font-weight:400;letter-spacing:-0.01em}
+  .occasion-text p{font-size:13.5px;color:var(--ink-soft)}
+
+  /* Occasions visual */
+  .occasions-visual{
+    aspect-ratio:1;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    position:relative;
+    display:grid;place-items:center;
+    overflow:hidden;
+  }
+  .occasions-visual::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 30%, rgba(201,169,106,0.2), transparent 60%);
+  }
+  .occasions-car{
+    width:80%;
+    filter:drop-shadow(0 30px 50px rgba(26,22,19,0.2));
+    animation:float 6s ease-in-out infinite;
+  }
+  .occasions-decor{
+    position:absolute;
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    color:var(--accent-2);
+    opacity:.3;
+    pointer-events:none;
+  }
+  .occasions-decor.t1{top:10%;left:8%;font-size:28px}
+  .occasions-decor.t2{bottom:12%;right:10%;font-size:24px}
+
+  /* ---------- Process ---------- */
+  .process-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  .process-card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px 28px;
+    position:relative;overflow:hidden;
+    transition:all .5s var(--ease);
+    cursor:none;
+  }
+  .process-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .6s var(--ease);
+  }
+  .process-card:hover::before{transform:scaleX(1)}
+  .process-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(201,169,106,0.35);
+    box-shadow:0 30px 60px -25px rgba(26,22,19,0.2);
+  }
+  .process-num{
+    font-family:'Instrument Serif',serif;
+    font-size:64px;line-height:1;
+    color:var(--accent);
+    margin-bottom:20px;
+    letter-spacing:-0.04em;
+  }
+  .process-card h4{font-size:24px;margin-bottom:10px;font-weight:400;letter-spacing:-0.01em}
+  .process-card p{font-size:14px;color:var(--ink-soft)}
+
+  /* ---------- Stats ---------- */
+  .stats{
+    background:linear-gradient(135deg,var(--ink) 0%,#2a2420 100%);
+    color:var(--cream);
+    border-radius:var(--radius-lg);
+    margin:0 32px;padding:100px 80px;
+    position:relative;overflow:hidden;
+    z-index:2;
+  }
+  .stats::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 50% 60% at 20% 30%, rgba(201,169,106,0.15), transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(201,169,106,0.1), transparent 60%);
+    pointer-events:none;
+  }
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:40px;
+    position:relative;z-index:2;
+  }
+  .stat{text-align:left}
+  .stat-n{
+    font-family:'Instrument Serif',serif;
+    font-size:88px;line-height:1;letter-spacing:-0.04em;
+    background:linear-gradient(135deg,var(--cream),var(--accent-soft));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:12px;
+  }
+  .stat-l{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:rgba(251,247,239,0.6);
+    text-transform:uppercase;letter-spacing:.15em;
+  }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  .testimonial{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px;
+    transition:all .5s var(--ease);
+    position:relative;
+    cursor:none;
+  }
+  .testimonial:hover{
+    transform:translateY(-8px);
+    border-color:rgba(201,169,106,0.35);
+    box-shadow:0 30px 60px -25px rgba(26,22,19,0.2);
+  }
+  .testimonial::before{
+    content:'"';
+    position:absolute;top:10px;right:28px;
+    font-family:'Instrument Serif',serif;
+    font-size:140px;
+    color:var(--accent);
+    opacity:.15;
+    line-height:1;
+  }
+  .testimonial-text{
+    font-family:'Instrument Serif',serif;
+    font-size:20px;line-height:1.4;
+    margin-bottom:32px;color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .testimonial-author{display:flex;align-items:center;gap:14px}
+  .author-avatar{
+    width:48px;height:48px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;
+    color:var(--cream);
+    font-family:'Instrument Serif',serif;
+    font-size:18px;
+  }
+  .author-info .name{font-weight:500;font-size:14px}
+  .author-info .role{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-top:2px}
+  .stars{color:var(--accent);font-size:13px;margin-bottom:18px;letter-spacing:3px}
+
+  /* ---------- Booking CTA ---------- */
+  .booking{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    margin:0 32px 140px;
+    padding:80px;
+    position:relative;overflow:hidden;
+    z-index:2;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+  }
+  .booking::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 50% 60% at 10% 20%, rgba(201,169,106,0.15), transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 80%, rgba(201,169,106,0.1), transparent 60%);
+    pointer-events:none;
+  }
+  .booking-grid{
+    display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center;
+    position:relative;z-index:2;
+  }
+  .booking h2{
+    font-size:clamp(40px,5vw,72px);
+    margin-bottom:24px;letter-spacing:-0.03em;
+  }
+  .booking h2 .serif{color:var(--accent-2)}
+  .booking-desc{font-size:16px;color:var(--ink-soft);margin-bottom:32px;max-width:440px}
+  .booking-features{display:flex;flex-direction:column;gap:14px}
+  .booking-feature{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink-soft)}
+  .booking-feature::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 10px var(--accent);
+    flex-shrink:0;
+  }
+
+  .booking-form{
+    background:rgba(251,247,239,0.7);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:var(--radius);
+    padding:36px;
+    box-shadow:0 30px 80px -30px rgba(26,22,19,0.15);
+  }
+  .booking-form h3{font-size:28px;margin-bottom:6px;letter-spacing:-0.01em}
+  .booking-form > p{font-size:13px;color:var(--muted);margin-bottom:24px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .form-field{position:relative}
+  .form-field label{
+    display:block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.15em;
+    margin-bottom:6px;
+  }
+  .form-field input,.form-field select{
+    width:100%;
+    padding:14px 16px;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:12px;
+    color:var(--ink);
+    font-family:inherit;font-size:14px;
+    transition:all .3s var(--ease);
+  }
+  .form-field input:focus,.form-field select:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(201,169,106,0.12);
+  }
+  .form-field select{appearance:none;cursor:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a7f70' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+  .form-field select option{background:var(--cream)}
+  .booking-form .btn{width:100%;justify-content:center;margin-top:14px}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--bg);
+    padding:80px 0 30px;
+    border-top:1px solid var(--line);
+    position:relative;z-index:2;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:60px;
+    padding-bottom:60px;
+    border-bottom:1px solid var(--line);
+  }
+  .footer-brand p{color:var(--ink-soft);font-size:14px;margin-top:20px;max-width:340px}
+  .footer-col h5{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;text-transform:uppercase;letter-spacing:.2em;
+    margin-bottom:20px;color:var(--muted);
+  }
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .footer-col a{font-size:14px;color:var(--ink-soft);transition:all .3s var(--ease);position:relative;display:inline-block}
+  .footer-col a::after{
+    content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--accent);transition:width .3s var(--ease);
+  }
+  .footer-col a:hover{color:var(--ink)}
+  .footer-col a:hover::after{width:100%}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:30px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:var(--muted);letter-spacing:.1em;
+  }
+
+  /* ---------- Reveal animations ---------- */
+  .reveal{opacity:0;transform:translateY(40px);transition:all 1.1s var(--ease-out)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-stagger > *{opacity:0;transform:translateY(30px);transition:all .9s var(--ease-out)}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0)}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.15s}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.25s}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.35s}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.45s}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.55s}
+  .reveal-stagger.in > *:nth-child(7){transition-delay:.65s}
+  .reveal-stagger.in > *:nth-child(8){transition-delay:.75s}
+  .reveal-stagger.in > *:nth-child(9){transition-delay:.85s}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1024px){
+    .hero-grid,.occasions-grid,.booking-grid{grid-template-columns:1fr}
+    .hero-visual{max-width:500px;margin:40px auto 0}
+    .about-bento{grid-template-columns:repeat(2,1fr)}
+    .bento-1,.bento-2,.bento-3,.bento-4,.bento-5{grid-column:span 2;grid-row:auto}
+    .fleet-bento{grid-template-columns:1fr;grid-auto-rows:auto}
+    .fleet-1,.fleet-2,.fleet-3,.fleet-4,.fleet-5,.fleet-6{grid-column:span 1;grid-row:auto;min-height:320px}
+    .process-grid{grid-template-columns:1fr 1fr}
+    .stats-grid{grid-template-columns:1fr 1fr;gap:40px}
+    .testimonials-grid{grid-template-columns:1fr}
+    .occasions,.stats,.booking{margin:0 20px;padding:80px 40px}
+    .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+  }
+  @media (max-width:640px){
+    .container{padding:0 20px}
+    .nav-links{display:none}
+    .menu-toggle{display:block}
+    .hero{padding:120px 0 60px}
+    section{padding:80px 0}
+    .occasions,.stats,.booking{margin:0 16px;padding:60px 24px}
+    .process-grid{grid-template-columns:1fr}
+    .stats-grid{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .hero-meta{flex-wrap:wrap;gap:24px}
+    .hero-badge{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+<div class="grain"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+      </span>
+      <span class="logo-text">
+        Al Noor
+        <small>CAR RENTALS · EST. 2008</small>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#fleet">Fleet</a>
+      <a href="#occasions">Occasions</a>
+      <a href="#process">How it works</a>
+      <a href="#stories">Stories</a>
+      <a href="#book">Book</a>
+    </div>
+    <a href="#book" class="nav-cta"><span>Reserve a car</span> <span>→</span></a>
+    <button class="menu-toggle">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          Premium fleet · Available now
+        </div>
+        <h1>
+          <span class="line"><span>Drive in</span></span>
+          <span class="line"><span><em class="serif">light.</em> Arrive</span></span>
+          <span class="line"><span>in style.</span></span>
+        </h1>
+        <p class="hero-desc">
+          From quiet morning commutes to once-in-a-lifetime weddings, Al Noor delivers a fleet of immaculate vehicles — and a standard of care that turns every journey into a memory.
+        </p>
+        <div class="hero-actions">
+          <a href="#book" class="btn btn-primary">Reserve your car <span class="arrow">→</span></a>
+          <a href="#fleet" class="btn btn-ghost">Explore the fleet</a>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><div class="n" data-count="18">0</div><div class="l">Years of trust</div></div>
+          <div class="hero-meta-item"><div class="n"><span data-count="120">0</span><span class="serif">+</span></div><div class="l">Premium vehicles</div></div>
+          <div class="hero-meta-item"><div class="n"><span data-count="25">0</span><span class="serif">k</span></div><div class="l">Happy journeys</div></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" id="heroVisual">
+        <div class="hero-badge top">
+          <div class="hero-badge-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="hero-badge-text">
+            <div class="t">Fully insured</div>
+            <div class="s">Comprehensive coverage</div>
+          </div>
+        </div>
+
+        <div class="hero-car-wrap" id="heroCarWrap">
+          <img class="hero-car" src="images/fleet/hero-car.jpg" alt="Al Noor luxury sedan">
+        </div>
+
+        <div class="hero-badge bottom">
+          <div class="hero-badge-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          </div>
+          <div class="hero-badge-text">
+            <div class="t">5-star rated</div>
+            <div class="s">By 4,800+ travelers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item">Daily Commutes</div>
+    <div class="marquee-item">Weekend Tours</div>
+    <div class="marquee-item">Long Journeys</div>
+    <div class="marquee-item">Weddings</div>
+    <div class="marquee-item">Airport Transfers</div>
+    <div class="marquee-item">Corporate Travel</div>
+    <div class="marquee-item">Daily Commutes</div>
+    <div class="marquee-item">Weekend Tours</div>
+    <div class="marquee-item">Long Journeys</div>
+    <div class="marquee-item">Weddings</div>
+    <div class="marquee-item">Airport Transfers</div>
+    <div class="marquee-item">Corporate Travel</div>
+  </div>
+</div>
+
+<!-- ABOUT BENTO -->
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">The Al Noor promise</div>
+      <h2 class="section-title">More than a rental. <span class="serif">A standard</span> of care.</h2>
+      <p class="section-desc">Every vehicle in our fleet is hand-selected, meticulously maintained, and delivered with the kind of attention that turns first-time renters into lifelong clients.</p>
+    </div>
+
+    <div class="about-bento reveal-stagger">
+      <div class="bento bento-1">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+        </div>
+        <h3>Crafted for those who notice the details.</h3>
+        <p>From the scent of the leather to the silence of the cabin, we obsess over the small things — because the small things are what make a journey feel like a moment worth remembering.</p>
+        <div class="big-number" style="margin-top:40px">18<em class="serif">yrs</em></div>
+      </div>
+      <div class="bento bento-2">
+        <div class="big-number">120+</div>
+        <p>Immaculate vehicles — from elegant sedans to luxurious SUVs and wedding-ready limousines.</p>
+      </div>
+      <div class="bento bento-3">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>24/7 concierge</h3>
+        <p>A real human, any hour.</p>
+      </div>
+      <div class="bento bento-4">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Wedding specialists</h3>
+        <p>Bespoke decor & chauffeur service.</p>
+      </div>
+      <div class="bento bento-5">
+        <div class="bento-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Transparent pricing</h3>
+        <p>No hidden fees. Ever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET BENTO -->
+<section id="fleet">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">The fleet</div>
+      <h2 class="section-title">A car for <span class="serif">every chapter</span> of your journey.</h2>
+      <p class="section-desc">Whether you're heading to a meeting, a mountaintop, or the altar — we have the perfect vehicle, prepared to perfection.</p>
+    </div>
+
+    <div class="fleet-bento reveal-stagger">
+      <!-- Featured: Luxury Sedan -->
+      <div class="fleet-card fleet-1">
+        <div class="fleet-top">
+          <div class="fleet-tag">Flagship · Luxury</div>
+          <div class="fleet-price">$189<small> / day</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/mercedes-e-class.jpg" alt="Mercedes E-Class" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Mercedes E-Class</div>
+            <div class="fleet-meta">
+              <span>◆ Auto</span><span>◆ 5 seats</span><span>◆ Premium</span>
+            </div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- SUV -->
+      <div class="fleet-card fleet-2">
+        <div class="fleet-top">
+          <div class="fleet-tag">SUV · Adventure</div>
+          <div class="fleet-price">$159<small> / day</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/range-rover-sport.jpg" alt="Range Rover Sport" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Range Rover Sport</div>
+            <div class="fleet-meta"><span>◆ 4WD</span><span>◆ 7 seats</span></div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- Wedding -->
+      <div class="fleet-card fleet-3">
+        <div class="fleet-top">
+          <div class="fleet-tag">Wedding · Bespoke</div>
+          <div class="fleet-price">$399<small> / event</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/rolls-royce-phantom.jpg" alt="Rolls-Royce Phantom" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Rolls-Royce Phantom</div>
+            <div class="fleet-meta"><span>◆ Chauffeur</span><span>◆ Decor</span></div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- Compact -->
+      <div class="fleet-card fleet-4">
+        <div class="fleet-top">
+          <div class="fleet-tag">Economy · Daily</div>
+          <div class="fleet-price">$59<small> / day</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/toyota-corolla.jpg" alt="Toyota Corolla" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Toyota Corolla</div>
+            <div class="fleet-meta"><span>◆ Efficient</span></div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- Van / Family -->
+      <div class="fleet-card fleet-5">
+        <div class="fleet-top">
+          <div class="fleet-tag">Family · Tours</div>
+          <div class="fleet-price">$129<small> / day</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/mercedes-v-class.jpg" alt="Mercedes V-Class" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Mercedes V-Class</div>
+            <div class="fleet-meta"><span>◆ 8 seats</span></div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- Sport -->
+      <div class="fleet-card fleet-6">
+        <div class="fleet-top">
+          <div class="fleet-tag">Sport · Weekend</div>
+          <div class="fleet-price">$249<small> / day</small></div>
+        </div>
+        <div class="fleet-car">
+          <img src="images/fleet/porsche-911.jpg" alt="Porsche 911" loading="lazy">
+        </div>
+        <div class="fleet-bottom">
+          <div>
+            <div class="fleet-name">Porsche 911</div>
+            <div class="fleet-meta"><span>◆ 2 seats</span><span>◆ Sport</span></div>
+          </div>
+          <div class="fleet-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OCCASIONS -->
+<section id="occasions" style="padding-top:0">
+  <div class="occasions">
+    <div class="occasions-grid">
+      <div class="reveal">
+        <div class="eyebrow">For every occasion</div>
+        <h2 class="section-title">From <span class="serif">ordinary</span> drives to <span class="serif">extraordinary</span> days.</h2>
+        <p class="section-desc">We don't just rent cars. We match the right vehicle to the moment — because the right car makes the moment unforgettable.</p>
+
+        <div class="occasions-list">
+          <div class="occasion-item">
+            <div class="occasion-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="occasion-text">
+              <h4>Daily commutes</h4>
+              <p>Reliable, efficient, and always ready when you are.</p>
+            </div>
+          </div>
+          <div class="occasion-item">
+            <div class="occasion-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z"/><path d="M12 22V12M4 7l8 5 8-5"/></svg>
+            </div>
+            <div class="occasion-text">
+              <h4>Weekend tours</h4>
+              <p>SUVs and crossovers built for the road less traveled.</p>
+            </div>
+          </div>
+          <div class="occasion-item">
+            <div class="occasion-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+            </div>
+            <div class="occasion-text">
+              <h4>Long-distance trips</h4>
+              <p>Comfort, space, and peace of mind for every mile.</p>
+            </div>
+          </div>
+          <div class="occasion-item">
+            <div class="occasion-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="occasion-text">
+              <h4>Weddings & occasions</h4>
+              <p>Bespoke chauffeur service with floral decoration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="occasions-visual reveal">
+        <img src="https://images.unsplash.com/photo-1624578571415-09e9b1991929?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dG95b3RhJTIwY2FyfGVufDB8MXwwfHx8MA%3D%3D" alt="">
+        <div class="occasions-decor t1">Drive</div>
+        <div class="occasions-decor t2">in style</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">How it works</div>
+      <h2 class="section-title">Four simple steps to <span class="serif">your journey</span>.</h2>
+      <p class="section-desc">We've removed every friction point — so you can focus on the road ahead, not the paperwork behind you.</p>
+    </div>
+
+    <div class="process-grid reveal-stagger">
+      <div class="process-card">
+        <div class="process-num">01</div>
+        <h4>Choose your car</h4>
+        <p>Browse our fleet by occasion, size, or style. Every vehicle photographed in detail.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">02</div>
+        <h4>Reserve online</h4>
+        <p>Pick your dates, add extras like chauffeur or decor, and confirm in under two minutes.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">03</div>
+        <h4>We deliver</h4>
+        <p>Your car arrives at your door, airport, or hotel — cleaned, fueled, and ready to drive.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">04</div>
+        <h4>Drive & return</h4>
+        <p>Enjoy the journey. Return it anywhere in the city, or we'll collect it from you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section style="padding-top:0">
+  <div class="stats">
+    <div class="stats-grid reveal-stagger">
+      <div class="stat">
+        <div class="stat-n"><span data-count="25">0</span><em class="serif">k+</em></div>
+        <div class="stat-l">Journeys completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n"><span data-count="120">0</span><em class="serif">+</em></div>
+        <div class="stat-l">Premium vehicles</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n"><span data-count="98">0</span><em class="serif">%</em></div>
+        <div class="stat-l">Client satisfaction</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n"><span data-count="18">0</span><em class="serif">yrs</em></div>
+        <div class="stat-l">Of trusted service</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="stories">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Client stories</div>
+      <h2 class="section-title">Journeys remembered, <span class="serif">voices</span> shared.</h2>
+    </div>
+
+    <div class="testimonials-grid reveal-stagger">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">They delivered the Rolls-Royce to our venue an hour early, decorated with white roses exactly as we'd asked. Our wedding photos wouldn't be the same without Al Noor.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">L</div>
+          <div class="author-info">
+            <div class="name">Layla & Omar</div>
+            <div class="role">WEDDING · 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">I rent from Al Noor every month for work travel. The cars are immaculate, the team remembers my preferences, and there's never a single surprise on the invoice.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">K</div>
+          <div class="author-info">
+            <div class="name">Khalid Al-Rashid</div>
+            <div class="role">CORPORATE CLIENT</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Took the Range Rover on a week-long desert tour. The vehicle was perfect — clean, powerful, and fully serviced. They even packed a cooler for us. That's the Al Noor touch.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div class="author-info">
+            <div class="name">Sara Mansour</div>
+            <div class="role">WEEKEND TOUR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING CTA -->
+<section id="book" style="padding-top:0">
+  <div class="booking reveal">
+    <div class="booking-grid">
+      <div>
+        <div class="eyebrow">Reserve your journey</div>
+        <h2>Your next drive is <span class="serif">one click</span> away.</h2>
+        <p class="booking-desc">Tell us when, where, and how — and we'll have the perfect vehicle waiting for you, exactly when you need it.</p>
+        <div class="booking-features">
+          <div class="booking-feature">Free cancellation up to 24 hours before</div>
+          <div class="booking-feature">Comprehensive insurance included</div>
+          <div class="booking-feature">24/7 roadside assistance</div>
+          <div class="booking-feature">Delivery & collection available</div>
+        </div>
+      </div>
+
+      <form class="booking-form" onsubmit="event.preventDefault(); this.querySelector('button').innerHTML='Reservation confirmed ✓'">
+        <h3>Quick reservation</h3>
+        <p>We'll confirm availability within 30 minutes.</p>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Pick-up date</label>
+            <input type="date" required>
+          </div>
+          <div class="form-field">
+            <label>Return date</label>
+            <input type="date" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Vehicle type</label>
+            <select required>
+              <option value="">Select category</option>
+              <option>Luxury Sedan</option>
+              <option>SUV / 4WD</option>
+              <option>Wedding Car</option>
+              <option>Economy</option>
+              <option>Family Van</option>
+              <option>Sports Car</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Occasion</label>
+            <select>
+              <option value="">Select occasion</option>
+              <option>Daily commute</option>
+              <option>Weekend tour</option>
+              <option>Long trip</option>
+              <option>Wedding</option>
+              <option>Business</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Full name</label>
+            <input type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-field">
+            <label>Phone</label>
+            <input type="tel" placeholder="+971 ..." required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Check availability <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+          </span>
+          <span class="logo-text">
+            Al Noor
+            <small>CAR RENTALS · EST. 2008</small>
+          </span>
+        </a>
+        <p>Premium car rentals for daily commutes, tours, long journeys, and weddings. Crafted with care since 2008.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Fleet</h5>
+        <ul>
+          <li><a href="#">Luxury Sedans</a></li>
+          <li><a href="#">SUVs & 4WD</a></li>
+          <li><a href="#">Wedding Cars</a></li>
+          <li><a href="#">Economy</a></li>
+          <li><a href="#">Sports Cars</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#">+971 4 123 4567</a></li>
+          <li><a href="#">hello@alnoor.ae</a></li>
+          <li><a href="#">Dubai · Abu Dhabi</a></li>
+          <li><a href="#">24/7 support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Al Noor Car Rentals · All rights reserved</div>
+      <div>Privacy · Terms · Cookies</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Custom cursor ----------
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let rx = mx, ry = my;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+  function animateRing(){
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover state for interactive elements
+  document.querySelectorAll('a, button, .bento, .fleet-card, .occasion-item, .process-card, .testimonial, .form-field input, .form-field select').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.classList.add('hover');
+      dot.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.classList.remove('hover');
+      dot.classList.remove('hover');
+    });
+  });
+
+  // ---------- Nav scroll ----------
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // ---------- Hero car parallax ----------
+  const heroVisual = document.getElementById('heroVisual');
+  const heroCarWrap = document.getElementById('heroCarWrap');
+  function updateHeroParallax(e){
+    if(!heroVisual) return;
+    const r = heroVisual.getBoundingClientRect();
+    const cx = r.left + r.width/2;
+    const cy = r.top + r.height/2;
+    const dx = (e.clientX - cx) / (r.width/2);
+    const dy = (e.clientY - cy) / (r.height/2);
+    const clampX = Math.max(-1, Math.min(1, dx));
+    const clampY = Math.max(-1, Math.min(1, dy));
+    heroCarWrap.style.transform = `translate(${clampX * 15}px, ${clampY * 10}px) rotateY(${clampX * 6}deg) rotateX(${-clampY * 4}deg)`;
+  }
+  window.addEventListener('mousemove', updateHeroParallax);
+
+  // ---------- Reveal on scroll ----------
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+  // ---------- Count-up animation ----------
+  const countEls = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        const dur = 2000;
+        const start = performance.now();
+        function tick(now){
+          const p = Math.min((now - start)/dur, 1);
+          const eased = 1 - Math.pow(1-p, 3);
+          el.textContent = Math.floor(target * eased).toLocaleString();
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countIO.observe(el));
+
+  // ---------- Mouse glow on cards ----------
+  document.querySelectorAll('.bento, .fleet-card, .occasion-item, .process-card, .testimonial').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top)/r.height*100) + '%');
+    });
+  });
+
+  // ---------- Magnetic buttons ----------
+  document.querySelectorAll('.btn, .nav-cta, .fleet-arrow').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.25}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // ---------- Ripple on click ----------
+  document.querySelectorAll('.bento, .fleet-card, .occasion-item, .process-card').forEach(el => {
+    el.addEventListener('click', function(e){
+      const ripple = document.createElement('span');
+      const r = this.getBoundingClientRect();
+      const size = Math.max(r.width, r.height);
+      ripple.style.cssText = `
+        position:absolute;
+        width:${size}px;height:${size}px;
+        border-radius:50%;
+        background:radial-gradient(circle, rgba(201,169,106,0.3), transparent 70%);
+        left:${e.clientX - r.left - size/2}px;
+        top:${e.clientY - r.top - size/2}px;
+        transform:scale(0);
+        animation:rippleOut .8s var(--ease) forwards;
+        pointer-events:none;
+        z-index:1;
+      `;
+      this.style.position = this.style.position || 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 800);
+    });
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes rippleOut{to{transform:scale(1.5);opacity:0}}`;
+  document.head.appendChild(style);
+
+  // ---------- Mobile menu ----------
+  const toggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle?.addEventListener('click', () => {
+    if(links.style.display === 'flex'){
+      links.style.display = '';
+    } else {
+      links.style.display = 'flex';
+      links.style.position = 'absolute';
+      links.style.top = '70px';
+      links.style.right = '20px';
+      links.style.background = 'var(--cream)';
+      links.style.flexDirection = 'column';
+      links.style.padding = '24px';
+      links.style.borderRadius = '20px';
+      links.style.border = '1px solid var(--line)';
+      links.style.boxShadow = '0 20px 60px -20px rgba(26,22,19,0.15)';
+    }
+  });
+
+  // ---------- Smooth anchor scroll ----------
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href === '#' || href.length < 2) return;
+      const target = document.querySelector(href);
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+        if(links.style.display === 'flex' && window.innerWidth < 1024){
+          links.style.display = '';
+        }
+      }
+    });
+  });
+</script>
+
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "car-rental-001",
+    replace: "#book form",
+    accent: "#C9A227"
+  };
+</script>
+<script src="webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>

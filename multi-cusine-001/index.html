@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Grand Epicure — Cinematic Fine Dining</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     EDITABLE DATA OBJECT IS AT THE TOP OF <body>
+     ========================================================= */
+  :root{
+    --obsidian: #0a0a0b;
+    --obsidian-2: #121214;
+    --onyx: #1a1a1d;
+    --emerald-deep: #0d3b2e;
+    --emerald: #145c47;
+    --emerald-soft: #1f7a5f;
+    --gold: #c9a961;
+    --gold-bright: #e0c27a;
+    --brass: #b8924a;
+    --cream: #f3ecd9;
+    --cream-soft: #e8dfc5;
+    --muted: #8a8478;
+    --line: rgba(201,169,97,0.18);
+    --serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--obsidian);color:var(--cream);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{line-height:1.7;letter-spacing:.01em;font-size:16px}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+  ::selection{background:var(--gold);color:var(--obsidian)}
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--obsidian)}
+  ::-webkit-scrollbar-thumb{background:var(--emerald-deep);border-radius:4px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-height:1.1}
+  .eyebrow{font-family:var(--sans);font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .display{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6.5vw,5.5rem);line-height:1.05}
+  .display em{font-style:italic;color:var(--gold-bright);font-weight:400}
+
+  .container{width:min(1200px,90%);margin-inline:auto}
+  section{padding:clamp(5rem,10vw,9rem) 0;position:relative}
+
+  /* ---------- Navigation ---------- */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:1.2rem 0;transition:all .4s var(--ease);backdrop-filter:blur(0)}
+  .nav.scrolled{background:rgba(10,10,11,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .nav__inner{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:var(--serif);font-size:1.5rem;letter-spacing:.18em;color:var(--cream);font-weight:400}
+  .logo span{color:var(--gold)}
+  .nav__links{display:flex;gap:2.2rem;list-style:none;align-items:center}
+  .nav__links a{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cream-soft);position:relative;padding:.3rem 0;transition:color .3s;white-space:nowrap}
+  .nav__links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .4s var(--ease)}
+  .nav__links a:hover{color:var(--gold)}
+  .nav__links a:hover::after{width:100%}
+  .nav__cta{display:inline-flex;align-items:center;padding:.7rem 1.4rem;border:1px solid var(--gold);color:var(--gold);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;transition:all .3s var(--ease);background:transparent}
+  .nav__cta:hover{background:var(--gold);color:var(--obsidian)}
+  .nav__burger{display:none;flex-direction:column;gap:6px;padding:.6rem;z-index:101;background:none}
+  .nav__burger span{width:26px;height:1.5px;background:var(--cream);transition:.3s;display:block}
+
+  @media(max-width:900px){.nav__links,.nav__cta{display:none}.nav__burger{display:flex}}
+
+  /* Mobile Menu Overlay */
+  .mobile-menu{position:fixed;inset:0;z-index:102;background:rgba(10,10,11,.98);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+  .mobile-menu.open{opacity:1;pointer-events:all}
+  .mobile-menu a{display:block; font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.8rem);color:var(--cream);opacity:0;transform:translateY(20px);transition:all .5s var(--ease);position:relative}
+  .mobile-menu.open a{opacity:1;transform:translateY(0)}
+  .mobile-menu a::after{content:"";position:absolute;left:50%;bottom:-4px;width:0;height:1px;background:var(--gold);transition:all .4s var(--ease);transform:translateX(-50%)}
+  .mobile-menu a:hover::after{width:100%}
+  .mobile-menu a:hover{color:var(--gold-bright)}
+  .mobile-menu__close{position:absolute;top:1.4rem;right:1.4rem;width:44px;height:44px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem;transition:all .3s}
+  .mobile-menu__close:hover{border-color:var(--gold);color:var(--gold);transform:rotate(90deg)}
+
+  /* ---------- Hero ---------- */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:7rem 1.5rem 4rem}
+  .hero__bg{position:absolute;inset:0;z-index:0}
+  .hero__bg::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(ellipse at 50% 50%, rgba(20,92,71,.25), transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(13,59,46,.35), transparent 50%),
+    linear-gradient(180deg, rgba(10,10,11,.2), rgba(10,10,11,.92) 80%);
+    z-index:2}
+  .hero__bg::after{content:"";position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80');background-size:cover;background-position:center;opacity:.4;z-index:1;filter:contrast(1.05) saturate(.8)}
+  .hero__grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .hero__content{position:relative;z-index:4;max-width:900px;margin-inline:auto;display:flex;flex-direction:column;align-items:center}
+  .hero__tag{display:inline-flex;align-items:center;gap:.8rem;margin-bottom:2rem}
+  .hero__tag::before,.hero__tag::after{content:"";width:40px;height:1px;background:var(--gold);opacity:.6}
+  .hero__title{margin-bottom:1.2rem}
+  .hero__sub{max-width:60ch;font-size:1.1rem;color:var(--cream-soft);margin-bottom:2.8rem;font-weight:300}
+  .hero__actions{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center}
+  .hero__scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.6rem;color:var(--muted);font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;animation:bounce 2s infinite}
+  .hero__scroll::after{content:"";width:1px;height:30px;background:linear-gradient(to bottom,var(--gold),transparent);opacity:.5}
+  @keyframes bounce{0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-8px)}60%{transform:translateX(-50%) translateY(-4px)}}
+
+  /* ---------- Buttons ---------- */
+  .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.05rem 2.4rem;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;font-weight:500;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease);will-change:transform}
+  .btn--primary{background:var(--gold);color:var(--obsidian);border:1px solid var(--gold)}
+  .btn--primary::before{content:"";position:absolute;inset:0;background:var(--gold-bright);transform:translateY(100%);transition:transform .5s var(--ease)}
+  .btn--primary:hover::before{transform:translateY(0)}
+  .btn--primary:hover{box-shadow:0 10px 40px rgba(201,169,97,.25)}
+  .btn--primary span{position:relative;z-index:1}
+  .btn--ghost{border:1px solid var(--line);color:var(--cream)}
+  .btn--ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn__arrow{transition:transform .3s var(--ease)}
+  .btn:hover .btn__arrow{transform:translateX(4px)}
+
+  /* ---------- Section Headers ---------- */
+  .section-head{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:4rem;max-width:720px}
+  .section-head.center{margin-inline:auto;text-align:center;align-items:center}
+  .section-head h2{margin-top:.6rem}
+  .section-head p{color:var(--cream-soft);max-width:58ch;font-size:1.05rem}
+
+  /* ---------- Philosophy ---------- */
+  .philosophy{background:var(--obsidian-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .philosophy__grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5rem;align-items:center}
+  .philosophy__text p{margin-top:1.4rem;color:var(--cream-soft);font-size:1.05rem}
+  .philosophy__text blockquote{margin-top:2.2rem;padding-left:1.6rem;border-left:2px solid var(--gold);font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--cream);line-height:1.55}
+  .philosophy__visual{position:relative;aspect-ratio:4/5;overflow:hidden}
+  .philosophy__visual img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.05)}
+  .philosophy__badge{position:absolute;bottom:1.5rem;left:1.5rem;background:rgba(10,10,11,.88);backdrop-filter:blur(10px);border:1px solid var(--gold);padding:1.1rem 1.6rem;font-family:var(--serif)}
+  .philosophy__badge strong{display:block;color:var(--gold);font-size:1.8rem;font-weight:500}
+  .philosophy__badge small{font-family:var(--sans);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-soft)}
+  @media(max-width:860px){.philosophy__grid{grid-template-columns:1fr;gap:3rem}}
+
+  /* ---------- Featured Dishes ---------- */
+  .featured{background:var(--obsidian)}
+  .featured__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .dish{position:relative;background:var(--obsidian-2);border:1px solid var(--line);overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .dish:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,.4);border-color:rgba(201,169,97,.35)}
+  .dish__img{aspect-ratio:4/3;overflow:hidden}
+  .dish__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);filter:saturate(.85)}
+  .dish:hover .dish__img img{transform:scale(1.08);filter:saturate(1)}
+  .dish__body{padding:1.8rem 1.6rem}
+  .dish__body h4{font-family:var(--serif);font-size:1.5rem;font-weight:500;margin-bottom:.4rem}
+  .dish__body p{color:var(--muted);font-size:.92rem;margin-bottom:1rem;line-height:1.6}
+  .dish__foot{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px dashed var(--line)}
+  .dish__foot .price{font-family:var(--serif);color:var(--gold);font-size:1.25rem;font-style:italic}
+  .dish__tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+  .dish__tags span{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;padding:.3rem .7rem;border:1px solid var(--emerald);color:var(--emerald-soft);border-radius:2px}
+  .dish__tags span.sig{border-color:var(--gold);color:var(--gold)}
+  @media(max-width:900px){.featured__grid{grid-template-columns:1fr}}
+
+  /* ---------- Testimonials ---------- */
+  .testimonials{background:linear-gradient(180deg,var(--obsidian-2) 0%,var(--obsidian) 100%);border-top:1px solid var(--line)}
+  .testimonials__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .testimonial{background:var(--obsidian-2);border:1px solid var(--line);padding:2.2rem;position:relative;transition:transform .4s var(--ease)}
+  .testimonial:hover{transform:translateY(-4px);border-color:rgba(201,169,97,.25)}
+  .testimonial__quote{font-family:var(--serif);font-size:3rem;color:var(--gold);line-height:1;opacity:.3;position:absolute;top:1.2rem;left:1.4rem}
+  .testimonial__text{position:relative;z-index:1;font-size:1.02rem;color:var(--cream-soft);line-height:1.7;margin-bottom:1.6rem;margin-top:.6rem;font-style:italic}
+  .testimonial__stars{color:var(--gold);letter-spacing:.15em;font-size:.9rem;margin-bottom:.8rem}
+  .testimonial__author{font-family:var(--serif);font-size:1.15rem;color:var(--cream)}
+  .testimonial__date{font-size:.72rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-top:.3rem}
+  @media(max-width:900px){.testimonials__grid{grid-template-columns:1fr}}
+
+  /* ---------- Awards ---------- */
+  .awards{background:var(--obsidian)}
+  .awards__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+  .award{background:var(--obsidian-2);border:1px solid var(--line);padding:1.8rem 1.4rem;text-align:center;transition:all .4s var(--ease)}
+  .award:hover{border-color:var(--gold);transform:translateY(-4px)}
+  .award__year{font-family:var(--serif);color:var(--gold);font-size:1.4rem;margin-bottom:.4rem}
+  .award__title{font-family:var(--serif);font-size:1.1rem;color:var(--cream);margin-bottom:.3rem}
+  .award__org{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  @media(max-width:900px){.awards__grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:500px){.awards__grid{grid-template-columns:1fr}}
+
+  /* ---------- Contact ---------- */
+  .contact{background:var(--obsidian-2);border-top:1px solid var(--line)}
+  .contact__grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start}
+  .contact__info h4{font-family:var(--serif);font-size:1.6rem;margin-bottom:1.2rem;color:var(--cream)}
+  .contact__info p{color:var(--cream-soft);margin-bottom:1.6rem;max-width:36ch;line-height:1.7}
+  .contact__item{margin-bottom:1.4rem}
+  .contact__item label{display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;font-weight:500}
+  .contact__item a,.contact__item span{display:block;color:var(--cream-soft);font-size:.95rem;transition:color .3s}
+  .contact__item a:hover{color:var(--gold)}
+  .contact__hours{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem;margin-top:.4rem}
+  .contact__hours div{display:flex;justify-content:space-between;font-size:.88rem;color:var(--cream-soft)}
+  .contact__hours div span{color:var(--muted);font-size:.75rem}
+  .contact__social{display:flex;gap:1rem;margin-top:2rem}
+  .contact__social a{width:44px;height:44px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--cream-soft);transition:all .3s}
+  .contact__social a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+
+  .contact__form{background:var(--obsidian);border:1px solid var(--line);padding:2.2rem}
+  .contact__form h4{font-family:var(--serif);font-size:1.5rem;margin-bottom:.4rem}
+  .contact__form .sub{color:var(--muted);font-size:.9rem;margin-bottom:1.8rem}
+  .field{margin-bottom:1.2rem}
+  .field label{display:block;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;font-weight:500}
+  .field input,.field textarea{width:100%;background:var(--obsidian-2);border:1px solid var(--line);color:var(--cream);padding:1rem 1.1rem;font-family:var(--sans);font-size:.95rem;transition:border-color .3s,box-shadow .3s;outline:none}
+  .field input:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,97,.08)}
+  .field textarea{min-height:120px;resize:vertical}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .contact__form .btn{width:100%;margin-top:.4rem}
+  .form-success{display:none;text-align:center;padding:2rem}
+  .form-success.show{display:block}
+  .form-success__icon{width:60px;height:60px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 1.2rem;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.6rem}
+  .form-success h4{font-family:var(--serif);font-size:1.6rem;margin-bottom:.4rem}
+  .form-success p{color:var(--cream-soft);font-size:.95rem}
+
+  @media(max-width:860px){.contact__grid{grid-template-columns:1fr;gap:3rem}}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--obsidian-2);border-top:1px solid var(--line);padding:4rem 0 2rem}
+  .footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+  .footer__col h5{font-family:var(--sans);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;font-weight:500}
+  .footer__col p,.footer__col a{color:var(--cream-soft);font-size:.92rem;display:block;margin-bottom:.5rem;transition:color .3s}
+  .footer__col a:hover{color:var(--gold)}
+  .footer__brand p{margin-top:1rem;max-width:34ch;font-size:.92rem;line-height:1.7}
+  .footer__bottom{padding-top:2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);flex-wrap:wrap;gap:1rem}
+  .footer__bottom .halal{color:var(--emerald-soft)}
+  @media(max-width:760px){.footer__grid{grid-template-columns:1fr 1fr;gap:2rem}}
+
+  /* ---------- Scroll Reveal ---------- */
+  .reveal{clip-path:inset(100% 0 0 0);transition:clip-path 1.1s var(--ease);will-change:clip-path}
+  .reveal.in{clip-path:inset(0 0 0 0)}
+  .reveal-fade{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal-fade.in{opacity:1;transform:translateY(0)}
+
+  /* ---------- Decorative ---------- */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1rem 0}
+  .ornament::before,.ornament::after{content:"";width:40px;height:1px;background:var(--gold);opacity:.5}
+  .ornament span{color:var(--gold);font-family:var(--serif);font-size:1.2rem}
+
+  @media(max-width:640px){
+    .hero__actions{flex-direction:column;align-items:center;width:100%}
+    .hero__actions .btn{width:100%;max-width:300px}
+    .footer__bottom{flex-direction:column;text-align:center}
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- =========================================================
+     EDITABLE DATA — Change everything below to update content
+     ========================================================= -->
+<script>
+window.GRAND_DATA = {
+  nav: {
+    links: [
+      { label: "Featured", href: "#featured" },
+      { label: "Menu", href: "menu.html" },
+      { label: "Contact", href: "#contact" }
+    ],
+    cta: "Reserve a Table"
+  },
+  hero: {
+    tag: "Est. MMXII · Halal Fine Dining",
+    title: ["A Cinematic", "Feast"],
+    subtitle: "for the Discerning Palate.",
+    description: "Where every plate is a chapter, every sip a taste. The Grand Epicure weaves multi-cultural artistry into a single, unforgettable evening — crafted entirely in accordance with halal tradition.",
+    ctaPrimary: "Get in Touch",
+    ctaPrimaryHref: "#contact",
+    ctaSecondary: "Explore the Menu",
+    ctaSecondaryHref: "menu.html",
+    meta: ["★ ★ ★ ★ ★", "Multi-Cuisine · Halal Certified", "Since 2012"]
+  },
+  philosophy: {
+    eyebrow: "Our Philosophy",
+    title: ["Culinary", "storytelling,"],
+    titleEm: "reimagined nightly.",
+    paragraphs: [
+      "The Grand Epicure is not merely a restaurant — it is a stage. Our chefs compose each course as a movement in a larger symphony: heritage techniques from the Levant, precision from Kyoto, warmth from the Maghreb, and the quiet confidence of modern gastronomy.",
+      "Every ingredient is sourced with intention. Every plate, a study in restraint and reverence. And every evening, a story only you can finish."
+    ],
+    quote: "We do not serve meals. We author evenings.",
+    chef: "CHEF AMIRA HASSAN",
+    image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=900&q=80",
+    badge: { value: "100%", label: "Halal Certified" }
+  },
+  featured: {
+    eyebrow: "Chef's Selection",
+    title: ["Featured", "Creations"],
+    description: "Handpicked plates that define our culinary identity — available nightly while ingredients last.",
+    dishes: [
+      {
+        name: "48-Hour Short Rib",
+        description: "Slow-braised wagyu short rib, truffle polenta, red wine jus (alcohol-free).",
+        price: "58",
+        tags: [{ text: "Signature", sig: true }],
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"
+      },
+      {
+        name: "Smoked Lamb Tartare",
+        description: "Applewood-smoked lamb, quail yolk, caper berry, sourdough crisp.",
+        price: "28",
+        tags: [{ text: "Signature", sig: true }, { text: "Halal", sig: false }],
+        image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"
+      },
+      {
+        name: "Charred Sea Bass",
+        description: "Wild sea bass, saffron fennel, preserved lemon beurre blanc.",
+        price: "52",
+        tags: [{ text: "Gluten-Free", sig: false }],
+        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80"
+      }
+    ]
+  },
+  testimonials: {
+    eyebrow: "Guest Experiences",
+    title: ["Words of", "Praise"],
+    description: "What our guests say about their evenings with us.",
+    reviews: [
+      {
+        text: "An absolutely transcendent experience. The 48-hour short rib dissolved on the tongue, and the service was theatre in the best possible way. A new standard for halal fine dining.",
+        author: "Sarah Al-Rashid",
+        rating: 5,
+        date: "March 2026"
+      },
+      {
+        text: "We celebrated our anniversary here and were treated like family. Every course told a story. The mocktail pairings were as thoughtful as any wine flight I've had in Paris.",
+        author: "James & Aisha Chen",
+        rating: 5,
+        date: "February 2026"
+      },
+      {
+        text: "The Grand Epicure proves that halal cuisine can stand at the pinnacle of global gastronomy. Impeccable technique, stunning presentation, and genuine warmth.",
+        author: "Omar Farooq",
+        rating: 5,
+        date: "January 2026"
+      }
+    ]
+  },
+  awards: {
+    eyebrow: "Recognition",
+    title: ["Awards &", "Accolades"],
+    items: [
+      { year: "2025", title: "Best Halal Restaurant", org: "NYC Culinary Awards" },
+      { year: "2024", title: "Michelin Selected", org: "Michelin Guide NY" },
+      { year: "2024", title: "Excellence in Service", org: "Hospitality Guild" },
+      { year: "2023", title: "Rising Star Chef", org: "Chef Amira Hassan" }
+    ]
+  },
+  contact: {
+    eyebrow: "Reach Us",
+    title: ["Begin Your", "Experience"],
+    description: "We welcome reservations, private event inquiries, and simple hellos. Reach out and we will respond within one business day.",
+    phone: "+1 (555) 012-3456",
+    email: "hello@thegrandepicure.com",
+    address: ["42 Crescent Avenue", "Downtown Arts District", "New York, NY 10013"],
+    hours: {
+      tue_thu: "6–10PM",
+      fri_sat: "6–11PM",
+      sun: "5–9PM",
+      mon: "Closed"
+    },
+    social: {
+      instagram: "#",
+      facebook: "#",
+      twitter: "#"
+    }
+  },
+  footer: {
+    brand: "A cinematic fine dining experience — multi-cultural, multi-sensory, and entirely halal.",
+    address: ["42 Crescent Avenue", "Downtown Arts District", "New York, NY 10013"],
+    hours: [
+      "Tuesday — Thursday · 6–10PM",
+      "Friday — Saturday · 6–11PM",
+      "Sunday · 5–9PM",
+      "Monday · Closed"
+    ],
+    links: [
+      { label: "Instagram", href: "#" },
+      { label: "Journal", href: "#" },
+      { label: "Private Events", href: "#" },
+      { label: "Press", href: "#" }
+    ],
+    copyright: "© 2026 The Grand Epicure. All rights reserved.",
+    halal: "✦ 100% Halal Certified · No Alcohol Served ✦"
+  }
+};
+</script>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="logo">THE GRAND <span>EPICURE</span></a>
+    <nav>
+      <ul class="nav__links" id="navLinks"></ul>
+    </nav>
+    <a href="#contact" class="nav__cta" id="navCta"></a>
+    <button class="nav__burger" id="burger" aria-label="Open Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu__close" id="mobileClose" aria-label="Close Menu">✕</button>
+  <div id="mobileLinks"></div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grain"></div>
+  <div class="container hero__content">
+    <div class="hero__tag eyebrow reveal-fade" id="heroTag"></div>
+    <h1 class="display hero__title reveal-fade" id="heroTitle"></h1>
+    <p class="hero__sub reveal-fade" id="heroDesc"></p>
+    <div class="hero__actions reveal-fade" id="heroActions"></div>
+  </div>
+  <div class="hero__scroll reveal-fade">Scroll</div>
+</section>
+
+<!-- ============ PHILOSOPHY ============ -->
+<section class="philosophy" id="philosophy">
+  <div class="container philosophy__grid">
+    <div class="philosophy__text reveal-fade">
+      <span class="eyebrow" id="philEyebrow"></span>
+      <h2 class="display" style="margin-top:1rem" id="philTitle"></h2>
+      <div id="philBody"></div>
+      <blockquote id="philQuote"></blockquote>
+    </div>
+    <div class="philosophy__visual reveal">
+      <img id="philImg" src="" alt="Chef at work" />
+      <div class="philosophy__badge" id="philBadge"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED DISHES ============ -->
+<section class="featured" id="featured">
+  <div class="container">
+    <div class="section-head center reveal-fade">
+      <span class="eyebrow" id="featEyebrow"></span>
+      <h2 class="display" id="featTitle"></h2>
+      <p id="featDesc"></p>
+    </div>
+    <div class="featured__grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-head center reveal-fade">
+      <span class="eyebrow" id="testEyebrow"></span>
+      <h2 class="display" id="testTitle"></h2>
+      <p id="testDesc"></p>
+    </div>
+    <div class="testimonials__grid" id="testimonialsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ AWARDS ============ -->
+<section class="awards" id="awards">
+  <div class="container">
+    <div class="section-head center reveal-fade">
+      <span class="eyebrow" id="awardEyebrow"></span>
+      <h2 class="display" id="awardTitle"></h2>
+    </div>
+    <div class="awards__grid" id="awardsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-head center reveal-fade">
+      <span class="eyebrow" id="contEyebrow"></span>
+      <h2 class="display" id="contTitle"></h2>
+      <p id="contDesc"></p>
+    </div>
+    <div class="contact__grid">
+      <div class="contact__info reveal-fade">
+        <h4>Visit Us</h4>
+        <p id="contVisitText"></p>
+        <div id="contDetails"></div>
+        <div class="contact__social" id="contSocial"></div>
+      </div>
+      <div class="contact__form reveal-fade">
+        <h4>Send a Message</h4>
+        <p class="sub">We will respond within one business day.</p>
+        <form id="contactForm">
+          <div class="field-row">
+            <div class="field"><label>First Name</label><input type="text" name="first" required placeholder="Amira" /></div>
+            <div class="field"><label>Last Name</label><input type="text" name="last" required placeholder="Hassan" /></div>
+          </div>
+          <div class="field"><label>Email</label><input type="email" name="email" required placeholder="you@example.com" /></div>
+          <div class="field"><label>Phone</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000" /></div>
+          <div class="field"><label>Message</label><textarea name="message" required placeholder="Tell us about your visit, dietary needs, or private event..."></textarea></div>
+          <button type="submit" class="btn btn--primary"><span>Send Message</span></button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success__icon">✓</div>
+          <h4>Message Received</h4>
+          <p>Thank you for reaching out. We will be in touch shortly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer__grid" id="footerGrid"></div>
+    <div class="footer__bottom" id="footerBottom"></div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   RENDERING ENGINE — Pulls from GRAND_DATA at top of <body>
+   ========================================================= */
+const d = window.GRAND_DATA;
+
+/* Nav */
+document.getElementById('navLinks').innerHTML = d.nav.links.map(l =>
+  `<li><a href="${l.href}">${l.label}</a></li>`
+).join('');
+document.getElementById('navCta').textContent = d.nav.cta;
+document.getElementById('mobileLinks').innerHTML = d.nav.links.map((l,i) =>
+  `<a href="${l.href}" style="transition-delay:${i*60}ms">${l.label}</a>`
+).join('');
+
+/* Hero */
+document.getElementById('heroTag').textContent = d.hero.tag;
+document.getElementById('heroTitle').innerHTML = d.hero.title.map((t,i) =>
+  i === d.hero.title.length-1 ? `<em>${t}</em>` : t
+).join('<br>');
+document.getElementById('heroDesc').textContent = d.hero.description;
+document.getElementById('heroActions').innerHTML = `
+  <a href="${d.hero.ctaPrimaryHref}" class="btn btn--primary magnetic"><span>${d.hero.ctaPrimary}</span><span class="btn__arrow">→</span></a>
+  <a href="${d.hero.ctaSecondaryHref}" class="btn btn--ghost magnetic"><span>${d.hero.ctaSecondary}</span></a>
+`;
+
+/* Philosophy */
+document.getElementById('philEyebrow').textContent = d.philosophy.eyebrow;
+document.getElementById('philTitle').innerHTML = d.philosophy.title.join('<br>') + '<br><em>' + d.philosophy.titleEm + '</em>';
+document.getElementById('philBody').innerHTML = d.philosophy.paragraphs.map(p => `<p>${p}</p>`).join('');
+document.getElementById('philQuote').innerHTML = `"${d.philosophy.quote}"<br><span style="font-size:.9rem;color:var(--gold);font-style:normal;letter-spacing:.2em">— ${d.philosophy.chef}</span>`;
+document.getElementById('philImg').src = d.philosophy.image;
+document.getElementById('philBadge').innerHTML = `<strong>${d.philosophy.badge.value}</strong><small>${d.philosophy.badge.label}</small>`;
+
+/* Featured */
+document.getElementById('featEyebrow').textContent = d.featured.eyebrow;
+document.getElementById('featTitle').innerHTML = d.featured.title[0] + ' <em>' + d.featured.title[1] + '</em>';
+document.getElementById('featDesc').textContent = d.featured.description;
+document.getElementById('featuredGrid').innerHTML = d.featured.dishes.map(dish => `
+  <article class="dish reveal-fade">
+    <div class="dish__img"><img src="${dish.image}" alt="${dish.name}" loading="lazy" /></div>
+    <div class="dish__body">
+      <h4>${dish.name}</h4>
+      <p>${dish.description}</p>
+      <div class="dish__tags">${dish.tags.map(t => `<span class="${t.sig?'sig':''}">${t.text}</span>`).join('')}</div>
+      <div class="dish__foot">
+        <span class="price">$${dish.price}</span>
+      </div>
+    </div>
+  </article>
+`).join('');
+
+/* Testimonials */
+document.getElementById('testEyebrow').textContent = d.testimonials.eyebrow;
+document.getElementById('testTitle').innerHTML = d.testimonials.title[0] + ' <em>' + d.testimonials.title[1] + '</em>';
+document.getElementById('testDesc').textContent = d.testimonials.description;
+document.getElementById('testimonialsGrid').innerHTML = d.testimonials.reviews.map(r => `
+  <div class="testimonial reveal-fade">
+    <div class="testimonial__quote">"</div>
+    <div class="testimonial__stars">${'★'.repeat(r.rating)}</div>
+    <p class="testimonial__text">${r.text}</p>
+    <div class="testimonial__author">${r.author}</div>
+    <div class="testimonial__date">${r.date}</div>
+  </div>
+`).join('');
+
+/* Awards */
+document.getElementById('awardEyebrow').textContent = d.awards.eyebrow;
+document.getElementById('awardTitle').innerHTML = d.awards.title[0] + ' <em>' + d.awards.title[1] + '</em>';
+document.getElementById('awardsGrid').innerHTML = d.awards.items.map(a => `
+  <div class="award reveal-fade">
+    <div class="award__year">${a.year}</div>
+    <div class="award__title">${a.title}</div>
+    <div class="award__org">${a.org}</div>
+  </div>
+`).join('');
+
+/* Contact */
+document.getElementById('contEyebrow').textContent = d.contact.eyebrow;
+document.getElementById('contTitle').innerHTML = d.contact.title[0] + ' <em>' + d.contact.title[1] + '</em>';
+document.getElementById('contDesc').textContent = d.contact.description;
+document.getElementById('contVisitText').textContent = "We are located in the heart of the Downtown Arts District, steps from the waterfront.";
+document.getElementById('contDetails').innerHTML = `
+  <div class="contact__item">
+    <label>Phone</label>
+    <a href="tel:${d.contact.phone.replace(/\s/g,'')}">${d.contact.phone}</a>
+  </div>
+  <div class="contact__item">
+    <label>Email</label>
+    <a href="mailto:${d.contact.email}">${d.contact.email}</a>
+  </div>
+  <div class="contact__item">
+    <label>Address</label>
+    ${d.contact.address.map(l => `<span>${l}</span>`).join('')}
+  </div>
+  <div class="contact__item">
+    <label>Hours</label>
+    <div class="contact__hours">
+      <div>Tue — Thu <span>${d.contact.hours.tue_thu}</span></div>
+      <div>Fri — Sat <span>${d.contact.hours.fri_sat}</span></div>
+      <div>Sunday <span>${d.contact.hours.sun}</span></div>
+      <div>Monday <span>${d.contact.hours.mon}</span></div>
+    </div>
+  </div>
+`;
+document.getElementById('contSocial').innerHTML = Object.entries(d.contact.social).map(([k,v]) => `
+  <a href="${v}" aria-label="${k}" title="${k}">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+  </a>
+`).join('');
+
+/* Footer */
+document.getElementById('footerGrid').innerHTML = `
+  <div class="footer__col footer__brand">
+    <div class="logo">THE GRAND <span>EPICURE</span></div>
+    <p>${d.footer.brand}</p>
+  </div>
+  <div class="footer__col">
+    <h5>Visit</h5>
+    ${d.footer.address.map(l => `<p>${l}</p>`).join('')}
+  </div>
+  <div class="footer__col">
+    <h5>Hours</h5>
+    ${d.footer.hours.map(l => `<p>${l}</p>`).join('')}
+  </div>
+  <div class="footer__col">
+    <h5>Connect</h5>
+    ${d.footer.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('')}
+  </div>
+`;
+document.getElementById('footerBottom').innerHTML = `
+  <div>${d.footer.copyright}</div>
+  <div class="halal">${d.footer.halal}</div>
+`;
+
+/* =========================================================
+   INTERACTIONS
+   ========================================================= */
+
+/* Nav scroll state */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* Mobile menu */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+const mobileLinks = document.querySelectorAll('#mobileLinks a');
+
+function openMobile(){ mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobile(){ mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
+burger.addEventListener('click', openMobile);
+mobileClose.addEventListener('click', closeMobile);
+mobileLinks.forEach(a => a.addEventListener('click', closeMobile));
+
+/* Scroll Reveal */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal, .reveal-fade').forEach(el => io.observe(el));
+
+/* Magnetic buttons */
+const magnetics = document.querySelectorAll('.magnetic');
+const STRENGTH = 0.35, RANGE = 120;
+function handleMagnetic(e, el){
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  const px = e.touches ? e.touches[0].clientX : e.clientX;
+  const py = e.touches ? e.touches[0].clientY : e.clientY;
+  const dx = px - cx, dy = py - cy;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist < RANGE){
+    const pull = (1 - dist/RANGE) * STRENGTH;
+    el.style.transform = `translate(${dx*pull}px, ${dy*pull}px)`;
+  } else { el.style.transform = ''; }
+}
+magnetics.forEach(el => {
+  el.addEventListener('mousemove', e => handleMagnetic(e, el));
+  el.addEventListener('touchmove', e => handleMagnetic(e, el), {passive:true});
+  el.addEventListener('mouseleave', () => el.style.transform = '');
+  el.addEventListener('touchend', () => el.style.transform = '');
+});
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id.length > 1){
+      const t = document.querySelector(id);
+      if (t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+    }
+  });
+});
+
+/* Contact form */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+});
+</script>
+<!-- Webnexora booking form — begin -->
+<script>
+  window.WEBNEXORA = {
+    client: "multi-cusine-001",
+    replace: "#contactForm",
+    accent: "#C8A24A"
+  };
+</script>
+<script src="../webnexora-embed.js" defer></script>
+<!-- Webnexora booking form — end -->
+</body>
+</html>
