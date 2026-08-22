@@ -10,7 +10,7 @@
   :root{
     --canvas:#FBF6EE; --surface:#FFFFFF; --line:#EDE1CC;
     --text-primary:#2B2117; --text-secondary:#6E5F4C; --text-muted:#9C8C74;
-    --brand:#2F6FED; --brand-hover:#2557C4;
+    --brand:#2F6FED; --brand-hover:#2557C4; --brand-bg:#E7EFFD;
     --radius:14px;
     --shadow-card:0 1px 2px rgba(60,43,17,0.06), 0 6px 20px rgba(60,43,17,0.05);
     --font-display:'Space Grotesk', sans-serif;
@@ -30,24 +30,32 @@
   h1{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:600;margin:0 0 12px;line-height:1.2;}
   header p{font-size:15px;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.6;}
 
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px 70px;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 70px;}
 
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
-    box-shadow:var(--shadow-card);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;}
-  .card:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(60,43,17,.08),0 16px 32px rgba(60,43,17,.10);}
-  .card-head{padding:22px 22px 20px;color:#fff;position:relative;background:linear-gradient(135deg,var(--brand),#1B3F8F);}
-  .card-head .tier{position:absolute;top:16px;right:18px;font-size:10px;font-weight:700;text-transform:uppercase;
-    letter-spacing:.05em;background:rgba(255,255,255,.22);padding:3px 9px;border-radius:100px;}
-  .card-head .type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.85;margin-bottom:7px;}
-  .card-head .name{font-family:var(--font-display);font-size:20px;font-weight:600;line-height:1.2;}
-  .card-body{padding:18px 22px 22px;flex:1;display:flex;flex-direction:column;}
-  .tagline{font-size:13.5px;color:var(--text-secondary);line-height:1.55;margin:0 0 16px;flex:1;}
-  .price{font-family:var(--font-mono);font-size:13.5px;font-weight:600;margin-bottom:16px;color:var(--text-primary);}
-  .price small{font-family:var(--font-body);font-weight:400;color:var(--text-muted);}
-  .card-body a{display:block;text-align:center;padding:10px 14px;border-radius:9px;font-size:13px;font-weight:600;
-    background:var(--brand);color:#fff;transition:background .12s;}
-  .card-body a:hover{background:var(--brand-hover);}
+  .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card);}
+  .row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:22px;
+    padding:24px 26px;border-bottom:1px solid var(--line);transition:background .12s;}
+  .row:last-child{border-bottom:none;}
+  .row:hover{background:#FFFBF3;}
+
+  .row-main .type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:6px;}
+  .row-main .name{font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.2;margin-bottom:6px;}
+  .row-main .tagline{font-size:13.5px;color:var(--text-secondary);line-height:1.55;max-width:460px;}
+
+  .tier-chip{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    background:var(--canvas);color:var(--text-secondary);border:1px solid var(--line);padding:5px 11px;border-radius:100px;white-space:nowrap;}
+
+  .price{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text-primary);white-space:nowrap;text-align:right;}
+  .price small{display:block;font-family:var(--font-body);font-weight:400;color:var(--text-muted);font-size:11px;margin-top:2px;}
+
+  .row a.cta{display:inline-block;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;
+    background:var(--brand-bg,#E7EFFD);color:var(--brand);border:1px solid transparent;white-space:nowrap;transition:all .12s;}
+  .row a.cta:hover{background:var(--brand);color:#fff;}
+
+  @media (max-width:720px){
+    .row{grid-template-columns:1fr;gap:12px;}
+    .price{text-align:left;}
+  }
 
   footer{text-align:center;padding:30px 24px 50px;font-size:12px;color:var(--text-muted);}
 </style>
@@ -61,7 +69,7 @@
 </header>
 
 <div class="wrap">
-  <div class="grid" id="grid"></div>
+  <div class="list" id="list"></div>
 </div>
 
 <footer>Internal catalogue for the Webnexora sales team · pricing shown is a starting range, not final quote.</footer>
@@ -92,18 +100,16 @@ const SITES = [
 
 function money(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n); }
 
-document.getElementById('grid').innerHTML = SITES.map(s => `
-  <div class="card">
-    <div class="card-head">
-      <div class="tier">${s.tier}</div>
+document.getElementById('list').innerHTML = SITES.map(s => `
+  <div class="row">
+    <div class="row-main">
       <div class="type">${s.type}</div>
       <div class="name">${s.name}</div>
-    </div>
-    <div class="card-body">
       <p class="tagline">${s.tagline}</p>
-      <div class="price">${money(s.min)} – ${money(s.max)} <small>starting</small></div>
-      <a href="${s.url}" target="_blank" rel="noopener">View live demo →</a>
     </div>
+    <span class="tier-chip">${s.tier}</span>
+    <div class="price">${money(s.min)} – ${money(s.max)}<small>starting</small></div>
+    <a class="cta" href="${s.url}" target="_blank" rel="noopener">View demo →</a>
   </div>
 `).join('');
 </script>
