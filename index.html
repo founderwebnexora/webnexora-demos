@@ -32,11 +32,11 @@
 
   .wrap{max-width:920px;margin:0 auto;padding:0 24px 70px;}
 
-  .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card);}
+  .list{display:flex;flex-direction:column;gap:14px;}
   .row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:22px;
-    padding:24px 26px;border-bottom:1px solid var(--line);transition:background .12s;}
-  .row:last-child{border-bottom:none;}
-  .row:hover{background:#FFFBF3;}
+    padding:24px 26px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow-card);transition:background .12s,transform .12s,box-shadow .12s;}
+  .row:hover{background:#FFFBF3;transform:translateY(-2px);box-shadow:0 2px 4px rgba(60,43,17,.06),0 10px 24px rgba(60,43,17,.08);}
 
   .row-main .type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:6px;}
   .row-main .name{font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.2;margin-bottom:6px;}
