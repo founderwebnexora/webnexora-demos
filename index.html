@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webnexora — Website Demos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#FBF6EE; --surface:#FFFFFF; --line:#EDE1CC;
+    --text-primary:#2B2117; --text-secondary:#6E5F4C; --text-muted:#9C8C74;
+    --brand:#2F6FED; --brand-hover:#2557C4;
+    --radius:14px;
+    --shadow-card:0 1px 2px rgba(60,43,17,0.06), 0 6px 20px rgba(60,43,17,0.05);
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:var(--font-body);background:var(--canvas);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  header{padding:48px 24px 36px;text-align:center;background:radial-gradient(circle at 50% 0%, #FFF3DE 0%, transparent 60%), var(--canvas);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--brand),#5B8DEF);
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:13px;color:#fff;}
+  .brand .word{font-family:var(--font-display);font-weight:600;font-size:18px;}
+  h1{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:600;margin:0 0 12px;line-height:1.2;}
+  header p{font-size:15px;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.6;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px 70px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow-card);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(60,43,17,.08),0 16px 32px rgba(60,43,17,.10);}
+  .card-head{padding:22px 22px 20px;color:#fff;position:relative;}
+  .card-head .tier{position:absolute;top:16px;right:18px;font-size:10px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;background:rgba(255,255,255,.22);padding:3px 9px;border-radius:100px;}
+  .card-head .type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.85;margin-bottom:7px;}
+  .card-head .name{font-family:var(--font-display);font-size:20px;font-weight:600;line-height:1.2;}
+  .card-body{padding:18px 22px 22px;flex:1;display:flex;flex-direction:column;}
+  .tagline{font-size:13.5px;color:var(--text-secondary);line-height:1.55;margin:0 0 16px;flex:1;}
+  .price{font-family:var(--font-mono);font-size:13.5px;font-weight:600;margin-bottom:16px;color:var(--text-primary);}
+  .price small{font-family:var(--font-body);font-weight:400;color:var(--text-muted);}
+  .card-body a{display:block;text-align:center;padding:10px 14px;border-radius:9px;font-size:13px;font-weight:600;
+    background:var(--brand);color:#fff;transition:background .12s;}
+  .card-body a:hover{background:var(--brand-hover);}
+
+  footer{text-align:center;padding:30px 24px 50px;font-size:12px;color:var(--text-muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><div class="mark">WX</div><div class="word">webnexora</div></div>
+  <h1>Website designs, ready to launch.</h1>
+  <p>Ten fully built, live business websites — each with real booking or contact forms wired in. Pick one, show it, sell it.</p>
+</header>
+
+<div class="wrap">
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>Internal catalogue for the Webnexora sales team · pricing shown is a starting range, not final quote.</footer>
+
+<script>
+const SITES = [
+  { url:'car-rental-001.html',    type:'Car Rental',                name:'Al Noor Car Rentals',
+    tagline:'A fleet-forward booking site that makes renting feel like arriving.', tier:'Tier 2', min:10000, max:12000, accent:'#C9A227' },
+  { url:'cctv-security-001.html', type:'Surveillance & Security',   name:'Ayoub Securities',
+    tagline:'Confidence-first security branding with clear package tiers.', tier:'Tier 1', min:12000, max:18000, accent:'#2F6FED' },
+  { url:'ortho-care-001.html',    type:'Orthopedic Clinic',         name:'Meridian Orthopedics',
+    tagline:'A calm, clinical site built to turn visits into booked consultations.', tier:'Tier 2', min:10000, max:12000, accent:'#1F7A6B' },
+  { url:'cardio-care.html',       type:'Cardiology Clinic',         name:'Sanjeev Cardiologist',
+    tagline:'A solo-practice site that reads like a trusted specialist, not a template.', tier:'Tier 2', min:10000, max:12000, accent:'#C0362E' },
+  { url:'cctv-security-002.html', type:'Surveillance & Security',   name:'Zystem Security',
+    tagline:'A lean, modern intake site for security consultations.', tier:'Tier 3', min:8000, max:10000, accent:'#3A7BD5' },
+  { url:'multi-cusine-001/',      type:'Fine Dining Restaurant',    name:'The Grand Epicure',
+    tagline:'Cinematic fine-dining presentation with a real seat-reservation flow.', tier:'Tier 2', min:10000, max:12000, accent:'#C8A24A' },
+  { url:'qsr-001/',               type:'Quick-Service Restaurant',  name:'Burger Blaze',
+    tagline:'Bold, energetic QSR branding built to move orders, not just look good.', tier:'Tier 1', min:15000, max:18000, accent:'#E4572E' },
+  { url:'cafe-small-001.html',    type:'Café',                      name:'Crust and Brew',
+    tagline:'A warm neighbourhood-café feel with menu, gallery and easy contact.', tier:'Tier 2', min:10000, max:12000, accent:'#8C6239' },
+  { url:'real-estate-001.html',   type:'Real Estate',               name:'Apex Prime Realty',
+    tagline:'Luxury-listings presentation built for high-value lead capture.', tier:'Tier 1', min:12000, max:15000, accent:'#B08D57' },
+  { url:'car-detailing-001.html', type:'Auto Detailing',            name:'Prisma Atelier',
+    tagline:'A before/after-driven booking site for premium detailing packages.', tier:'Tier 1', min:15000, max:18000, accent:'#1B2532' },
+];
+
+function money(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n); }
+function shade(hex, pct){
+  hex = hex.replace('#','');
+  const num = parseInt(hex,16);
+  let r=(num>>16)+Math.round(2.55*pct), g=(num>>8&0xff)+Math.round(2.55*pct), b=(num&0xff)+Math.round(2.55*pct);
+  r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
+  return '#'+(0x1000000+r*0x10000+g*0x100+b).toString(16).slice(1);
+}
+
+document.getElementById('grid').innerHTML = SITES.map(s => `
+  <div class="card">
+    <div class="card-head" style="background:linear-gradient(135deg, ${s.accent}, ${shade(s.accent,-18)});">
+      <div class="tier">${s.tier}</div>
+      <div class="type">${s.type}</div>
+      <div class="name">${s.name}</div>
+    </div>
+    <div class="card-body">
+      <p class="tagline">${s.tagline}</p>
+      <div class="price">${money(s.min)} – ${money(s.max)} <small>starting</small></div>
+      <a href="${s.url}" target="_blank" rel="noopener">View live demo →</a>
+    </div>
+  </div>
+`).join('');
+</script>
+
+</body>
+</html>
