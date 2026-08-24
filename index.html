@@ -12,7 +12,6 @@
     --text-primary:#2B2117; --text-secondary:#6E5F4C; --text-muted:#9C8C74;
     --brand:#2F6FED; --brand-hover:#2557C4; --brand-bg:#E7EFFD;
     --radius:14px;
-    --shadow-card:0 1px 2px rgba(60,43,17,0.06), 0 6px 20px rgba(60,43,17,0.05);
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'Inter', sans-serif;
     --font-mono:'IBM Plex Mono', monospace;
@@ -22,40 +21,36 @@
   body{font-family:var(--font-body);background:var(--canvas);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
 
-  header{padding:48px 24px 36px;text-align:center;background:radial-gradient(circle at 50% 0%, #FFF3DE 0%, transparent 60%), var(--canvas);}
-  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;}
-  .brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--brand),#5B8DEF);
-    display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:13px;color:#fff;}
-  .brand .word{font-family:var(--font-display);font-weight:600;font-size:18px;}
-  h1{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:600;margin:0 0 12px;line-height:1.2;}
-  header p{font-size:15px;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.6;}
+  header{padding:44px 24px 32px;text-align:center;background:radial-gradient(circle at 50% 0%, #FFF3DE 0%, transparent 60%), var(--canvas);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .brand .mark{width:32px;height:32px;border-radius:8px;background:var(--brand);
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:12px;color:#fff;}
+  .brand .word{font-family:var(--font-display);font-weight:600;font-size:17px;}
+  h1{font-family:var(--font-display);font-size:clamp(26px,4vw,36px);font-weight:600;margin:0 0 10px;line-height:1.2;}
+  header p{font-size:14.5px;color:var(--text-secondary);max-width:480px;margin:0 auto;line-height:1.6;}
 
-  .wrap{max-width:920px;margin:0 auto;padding:0 24px 70px;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px 70px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px;}
 
-  .list{display:flex;flex-direction:column;gap:14px;}
-  .row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:22px;
-    padding:24px 26px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow-card);transition:background .12s,transform .12s,box-shadow .12s;}
-  .row:hover{background:#FFFBF3;transform:translateY(-2px);box-shadow:0 2px 4px rgba(60,43,17,.06),0 10px 24px rgba(60,43,17,.08);}
+  .tile{border-radius:var(--radius);overflow:hidden;background:var(--surface);
+    transition:transform .15s ease, box-shadow .15s ease;}
+  .tile:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(60,43,17,.10);}
 
-  .row-main .type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:6px;}
-  .row-main .name{font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.2;margin-bottom:6px;}
-  .row-main .tagline{font-size:13.5px;color:var(--text-secondary);line-height:1.55;max-width:460px;}
+  /* Live scaled preview of the real site — not a static image, so it stays
+     accurate automatically as each demo changes. JS sets the scale to match
+     each tile's actual rendered width. */
+  .thumb{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--line);border-radius:var(--radius);}
+  .thumb iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;
+    transform-origin:top left;pointer-events:none;}
+  .thumb-veil{position:absolute;inset:0;}
 
-  .tier-chip{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
-    background:var(--canvas);color:var(--text-secondary);border:1px solid var(--line);padding:5px 11px;border-radius:100px;white-space:nowrap;}
-
-  .price{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text-primary);white-space:nowrap;text-align:right;}
-  .price small{display:block;font-family:var(--font-body);font-weight:400;color:var(--text-muted);font-size:11px;margin-top:2px;}
-
-  .row a.cta{display:inline-block;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;
-    background:var(--brand-bg,#E7EFFD);color:var(--brand);border:1px solid transparent;white-space:nowrap;transition:all .12s;}
-  .row a.cta:hover{background:var(--brand);color:#fff;}
-
-  @media (max-width:720px){
-    .row{grid-template-columns:1fr;gap:12px;}
-    .price{text-align:left;}
-  }
+  .info{display:flex;align-items:center;gap:10px;padding:13px 2px 0;}
+  .avatar{width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:11px;font-weight:600;}
+  .info-main{min-width:0;flex:1;}
+  .info-main .name{font-size:13.5px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .info-main .type{font-size:11.5px;color:var(--text-muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .info-price{font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:var(--text-secondary);white-space:nowrap;flex-shrink:0;}
 
   footer{text-align:center;padding:30px 24px 50px;font-size:12px;color:var(--text-muted);}
 </style>
@@ -69,49 +64,60 @@
 </header>
 
 <div class="wrap">
-  <div class="list" id="list"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
 <footer>Internal catalogue for the Webnexora sales team · pricing shown is a starting range, not final quote.</footer>
 
 <script>
 const SITES = [
-  { url:'car-rental-001.html',    type:'Car Rental',                name:'Al Noor Car Rentals',
-    tagline:'A fleet-forward booking site that makes renting feel like arriving.', tier:'Tier 2', min:10000, max:12000 },
-  { url:'cctv-security-001.html', type:'Surveillance & Security',   name:'Ayoub Securities',
-    tagline:'Confidence-first security branding with clear package tiers.', tier:'Tier 1', min:12000, max:18000 },
-  { url:'ortho-care-001.html',    type:'Orthopedic Clinic',         name:'Meridian Orthopedics',
-    tagline:'A calm, clinical site built to turn visits into booked consultations.', tier:'Tier 2', min:10000, max:12000 },
-  { url:'cardio-care.html',       type:'Cardiology Clinic',         name:'Sanjeev Cardiologist',
-    tagline:'A solo-practice site that reads like a trusted specialist, not a template.', tier:'Tier 2', min:10000, max:12000 },
-  { url:'cctv-security-002.html', type:'Surveillance & Security',   name:'Zystem Security',
-    tagline:'A lean, modern intake site for security consultations.', tier:'Tier 3', min:8000, max:10000 },
-  { url:'multi-cusine-001/',      type:'Fine Dining Restaurant',    name:'The Grand Epicure',
-    tagline:'Cinematic fine-dining presentation with a real seat-reservation flow.', tier:'Tier 2', min:10000, max:12000 },
-  { url:'qsr-001/',               type:'Quick-Service Restaurant',  name:'Burger Blaze',
-    tagline:'Bold, energetic QSR branding built to move orders, not just look good.', tier:'Tier 1', min:15000, max:18000 },
-  { url:'cafe-small-001.html',    type:'Café',                      name:'Crust and Brew',
-    tagline:'A warm neighbourhood-café feel with menu, gallery and easy contact.', tier:'Tier 2', min:10000, max:12000 },
-  { url:'real-estate-001.html',   type:'Real Estate',               name:'Apex Prime Realty',
-    tagline:'Luxury-listings presentation built for high-value lead capture.', tier:'Tier 1', min:12000, max:15000 },
-  { url:'car-detailing-001.html', type:'Auto Detailing',            name:'Prisma Atelier',
-    tagline:'A before/after-driven booking site for premium detailing packages.', tier:'Tier 1', min:15000, max:18000 },
+  { url:'car-rental-001.html',    type:'Car Rental',                name:'Al Noor Car Rentals',   min:10000, max:12000 },
+  { url:'cctv-security-001.html', type:'Surveillance & Security',   name:'Ayoub Securities',      min:12000, max:18000 },
+  { url:'ortho-care-001.html',    type:'Orthopedic Clinic',         name:'Meridian Orthopedics',  min:10000, max:12000 },
+  { url:'cardio-care.html',       type:'Cardiology Clinic',         name:'Sanjeev Cardiologist',  min:10000, max:12000 },
+  { url:'cctv-security-002.html', type:'Surveillance & Security',   name:'Zystem Security',       min:8000,  max:10000 },
+  { url:'multi-cusine-001/',      type:'Fine Dining Restaurant',    name:'The Grand Epicure',     min:10000, max:12000 },
+  { url:'qsr-001/',               type:'Quick-Service Restaurant',  name:'Burger Blaze',          min:15000, max:18000 },
+  { url:'cafe-small-001.html',    type:'Café',                      name:'Crust and Brew',        min:10000, max:12000 },
+  { url:'real-estate-001.html',   type:'Real Estate',               name:'Apex Prime Realty',     min:12000, max:15000 },
+  { url:'car-detailing-001.html', type:'Auto Detailing',            name:'Prisma Atelier',        min:15000, max:18000 },
 ];
 
 function money(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n); }
+function initial(name){ return (name||'?').trim().charAt(0).toUpperCase(); }
 
-document.getElementById('list').innerHTML = SITES.map(s => `
-  <div class="row">
-    <div class="row-main">
-      <div class="type">${s.type}</div>
-      <div class="name">${s.name}</div>
-      <p class="tagline">${s.tagline}</p>
+const grid = document.getElementById('grid');
+grid.innerHTML = SITES.map(s => `
+  <a class="tile" href="${s.url}" target="_blank" rel="noopener">
+    <div class="thumb">
+      <iframe src="${s.url}" loading="lazy" tabindex="-1" title="${s.name} preview"></iframe>
+      <div class="thumb-veil"></div>
     </div>
-    <span class="tier-chip">${s.tier}</span>
-    <div class="price">${money(s.min)} – ${money(s.max)}<small>starting</small></div>
-    <a class="cta" href="${s.url}" target="_blank" rel="noopener">View demo →</a>
-  </div>
+    <div class="info">
+      <div class="avatar">${initial(s.name)}</div>
+      <div class="info-main">
+        <div class="name">${s.name}</div>
+        <div class="type">${s.type}</div>
+      </div>
+      <div class="info-price">${money(s.min)}+</div>
+    </div>
+  </a>
 `).join('');
+
+/* Scale each iframe (fixed at desktop 1280x800) down to fit its tile's
+   actual rendered width, keeping the whole page layout visible in miniature
+   rather than showing a cropped slice of it. */
+function scaleThumbs(){
+  document.querySelectorAll('.thumb').forEach(t => {
+    const w = t.clientWidth;
+    const scale = w / 1280;
+    const iframe = t.querySelector('iframe');
+    iframe.style.transform = `scale(${scale})`;
+  });
+}
+window.addEventListener('resize', scaleThumbs);
+scaleThumbs();
+window.addEventListener('load', scaleThumbs);
 </script>
 
 </body>
