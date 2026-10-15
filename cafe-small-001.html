@@ -102,6 +102,7 @@
     font-weight:500;
     color:var(--espresso);
     display:flex;align-items:center;gap:10px;
+    text-decoration:none;
   }
   .logo-mark{
     width:28px;height:28px;
@@ -131,16 +132,27 @@
     transition:width .35s ease;
   }
   .nav-links a:hover::after{width:100%}
-  .nav-cta{
-    padding:10px 22px;
-    background:var(--espresso);
-    color:var(--cream);
-    border-radius:100px;
-    font-size:.85rem;
-    transition:background .3s ease, transform .3s ease;
+  .nav-cta {
+    width: 128px;
+    padding: 10px 24px;
+    background: var(--terracotta);
+    color: var(--cream);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .3s ease, transform .3s ease;
   }
-  .nav-cta:hover{background:var(--terracotta);color:var(--cream)}
-  .nav-cta::after{display:none}
+  .nav-cta:hover {
+    background: var(--espresso);
+    color: var(--cream);
+  }
+  .nav-cta::after {
+    display: none !important;
+  }
 
   .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:8px}
   .hamburger span{width:24px;height:1.5px;background:var(--espresso);transition:transform .3s ease, opacity .3s ease}
@@ -622,7 +634,7 @@
 <nav id="nav">
   <a href="#" class="logo">
     <span class="logo-mark"></span>
-    Crust &amp; Daily Brew
+    <span class="dynamic-business-name">Crust &amp; Daily Brew</span>
   </a>
   <div class="nav-links" id="navLinks">
     <a href="#story">Story</a>
@@ -943,7 +955,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <div class="logo"><span class="logo-mark"></span>Crust &amp; Daily Brew</div>
+        <div class="logo"><span class="logo-mark"></span><span class="dynamic-business-name">Crust &amp; Daily Brew</span></div>
         <p>A small cafe and pizzeria on the corner of Maple &amp; 5th. Slow coffee, honest pizza, open faces.</p>
       </div>
       <div class="foot-col">
@@ -968,7 +980,7 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Crust &amp; Daily Brew. Baked with care.</span>
+      <span>© 2026 <span class="dynamic-business-name">Crust &amp; Daily Brew</span>. Baked with care.</span>
       <span>Made slowly, served warm.</span>
     </div>
   </div>
@@ -1067,15 +1079,7 @@
     if(parseInt(li.dataset.day)===today) li.classList.add('today');
   });
 </script>
-<!-- Webnexora booking form — begin -->
-<script>
-  window.WEBNEXORA = {
-    client: "cafe-small-001",
-    appendTo: "body",
-    accent: "#8C6239"
-  };
-</script>
-<script src="webnexora-embed.js" defer></script>
-<!-- Webnexora booking form — end -->
+<!-- Client Generator Dynamic Loader Script -->
+<script src="client-loader.js" defer></script>
 </body>
 </html>

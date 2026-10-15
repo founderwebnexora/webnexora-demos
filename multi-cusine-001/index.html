@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Grand Epicure — Cinematic Fine Dining</title>
+<title>Premium Dine — Cinematic Fine Dining</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -343,7 +343,7 @@ window.GRAND_DATA = {
     title: ["Begin Your", "Experience"],
     description: "We welcome reservations, private event inquiries, and simple hellos. Reach out and we will respond within one business day.",
     phone: "+1 (555) 012-3456",
-    email: "hello@thegrandepicure.com",
+    email: "hello@finedine.webnexora",
     address: ["42 Crescent Avenue", "Downtown Arts District", "New York, NY 10013"],
     hours: {
       tue_thu: "6–10PM",
@@ -381,7 +381,7 @@ window.GRAND_DATA = {
 <!-- ============ NAVIGATION ============ -->
 <header class="nav" id="nav">
   <div class="container nav__inner">
-    <a href="index.html" class="logo">THE GRAND <span>EPICURE</span></a>
+    <a href="index.html" class="logo"><span class="dynamic-business-name">The Grand Epicure</span></a>
     <nav>
       <ul class="nav__links" id="navLinks"></ul>
     </nav>
@@ -620,7 +620,7 @@ document.getElementById('contSocial').innerHTML = Object.entries(d.contact.socia
 /* Footer */
 document.getElementById('footerGrid').innerHTML = `
   <div class="footer__col footer__brand">
-    <div class="logo">THE GRAND <span>EPICURE</span></div>
+    <div class="logo"><span class="dynamic-business-name">The Grand Epicure</span></div>
     <p>${d.footer.brand}</p>
   </div>
   <div class="footer__col">
@@ -714,7 +714,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   document.getElementById('formSuccess').classList.add('show');
 });
 </script>
-<!-- Webnexora booking form — begin -->
+<!-- Webnexora booking form — begin 
 <script>
   window.WEBNEXORA = {
     client: "multi-cusine-001",
@@ -723,6 +723,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   };
 </script>
 <script src="../webnexora-embed.js" defer></script>
-<!-- Webnexora booking form — end -->
+Webnexora booking form — end -->
+<script src="../client-loader.js" defer></script>
 </body>
 </html>

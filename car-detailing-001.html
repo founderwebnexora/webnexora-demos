@@ -6,7 +6,7 @@
 <title>PRISMA — Automotive Atelier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0a0a0f;
@@ -67,7 +67,7 @@
     -webkit-backdrop-filter:blur(22px) saturate(140%);
     border:1px solid var(--line);
   }
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:.01em}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-weight:600;font-size:18px;letter-spacing:.12em;text-transform:uppercase}
   .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
   .nav-links{display:flex;gap:28px;font-size:13px;color:var(--muted)}
   .nav-links a{transition:color .25s}
@@ -252,16 +252,17 @@
   .ba-thumb.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
   .ba-thumb::after{content:attr(data-label);position:absolute;bottom:6px;left:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text);background:rgba(0,0,0,0.5);padding:3px 6px;border-radius:4px}
 
-  /* ---------- Booking ---------- */
+  /* ---------- Booking / Contact Section ---------- */
   .booking{
-    display:grid;grid-template-columns:1fr 1.2fr;gap:40px;
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;
     border:1px solid var(--line);border-radius:var(--radius);
     background:linear-gradient(180deg,var(--surface) 0%,var(--bg-2) 100%);
     overflow:hidden;
+    align-items:stretch;
   }
   @media (max-width:900px){.booking{grid-template-columns:1fr}}
 
-  .booking-left{padding:40px;border-right:1px solid var(--line);position:relative;overflow:hidden}
+  .booking-left{padding:48px;border-right:1px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
   @media (max-width:900px){.booking-left{border-right:none;border-bottom:1px solid var(--line)}}
   .booking-left::before{
     content:"";position:absolute;width:300px;height:300px;right:-100px;top:-100px;
@@ -283,7 +284,7 @@
   .step .t{font-size:14px}
   .step .t small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 
-  .booking-right{padding:40px}
+  .booking-right{padding:48px;display:flex;flex-direction:column;justify-content:center}
   .bk-stage{display:none;animation:fadeUp .5s ease}
   .bk-stage.active{display:block}
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -468,7 +469,7 @@
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="#" class="logo"><span class="dot"></span>PRISMA<span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;margin-left:6px">ATELIER</span></a>
+  <a href="#" class="logo"><span class="dot"></span><span class="dynamic-business-name">PRISMA</span><span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;margin-left:6px">ATELIER</span></a>
   <div class="nav-links">
     <a href="#work">Work</a>
     <a href="#services">Services</a>
@@ -606,40 +607,41 @@
         <span class="eyebrow"><span class="pulse"></span>Archive / Selected</span>
         <h2 style="margin-top:20px">The proof is in the <em>surface</em>.</h2>
       </div>
-      <p>Drag the handle to reveal the transformation. Every frame is captured in-studio, under identical lighting, with no post-processing.</p>
+      <p>Drag the handle to reveal the PPF transformation. Real workshop staging showing pre-film prep and high-gloss protected output.</p>
     </div>
 
     <div class="reveal">
       <div class="ba-wrap" id="ba">
-        <img class="ba-img ba-before" id="baBefore" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80" alt="Before">
-        <img class="ba-img ba-after" id="baAfter" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80" alt="After">
+        <!-- Using authentic professional detailing / PPF application stage photos -->
+        <img class="ba-img ba-before" id="baBefore" src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1600&q=80" alt="Before PPF">
+        <img class="ba-img ba-after" id="baAfter" src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1600&q=80" alt="After PPF">
         <div class="ba-handle" id="baHandle">
           <div class="ba-knob"><span class="arr l"></span><span class="arr r"></span></div>
         </div>
-        <div class="ba-label before">Before</div>
-        <div class="ba-label after">After</div>
+        <div class="ba-label before">Before Prep</div>
+        <div class="ba-label after">After PPF &amp; Polish</div>
       </div>
 
       <div class="ba-meta">
-        <div class="title">2022 Porsche 911 GT3 — <em>Full correction</em></div>
+        <div class="title">Porsche GT3 — <em>PPF &amp; Gloss Defense</em></div>
         <div class="specs">
-          <span>14h · 3-stage</span>
-          <span>Gloss +38%</span>
-          <span>9H ceramic</span>
+          <span>16h · Full Armor</span>
+          <span>Self-Healing Film</span>
+          <span>9H Topcoat</span>
         </div>
       </div>
 
       <div class="ba-thumbs" id="baThumbs">
-        <div class="ba-thumb active" data-before="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80" data-after="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80" data-label="GT3 · Correction"><img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&q=80" alt=""></div>
-        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600&q=80" data-after="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1600&q=80" data-label="Urus · PPF"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&q=80" alt=""></div>
-        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1600&q=80" data-after="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1600&q=80" data-label="M4 · Ceramic"><img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=400&q=80" alt=""></div>
-        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1600&q=80" data-after="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1600&q=80" data-label="AMG · Revival"><img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&q=80" alt=""></div>
+        <div class="ba-thumb active" data-before="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1600&q=80" data-after="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1600&q=80" data-label="GT3 · PPF Armor"><img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&q=80" alt=""></div>
+        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80" data-after="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80" data-label="Supercar · Correction"><img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&q=80" alt=""></div>
+        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600&q=80" data-after="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1600&q=80" data-label="SUV · Stealth PPF"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&q=80" alt=""></div>
+        <div class="ba-thumb" data-before="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1600&q=80" data-after="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1600&q=80" data-label="Coupe · Ceramic"><img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=400&q=80" alt=""></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BOOKING -->
+<!-- BOOKING / CONTACT -->
 <section id="book">
   <div class="container">
     <div class="sec-head reveal">
@@ -759,7 +761,7 @@
 <footer>
   <div class="foot">
     <div>
-      <div class="brand">PRISMA<em>.</em></div>
+      <div class="brand"><span class="dynamic-business-name">PRISMA</span><em>.</em></div>
       <p class="tagline">A private automotive atelier. By appointment only.</p>
     </div>
     <div>
@@ -788,7 +790,7 @@
     </div>
   </div>
   <div class="foot-bottom">
-    <span>© 2026 PRISMA Atelier</span>
+    <span>© 2026 <span class="dynamic-business-name">PRISMA</span> Atelier</span>
     <span>Designed with intent · Built by hand</span>
   </div>
 </footer>
@@ -1040,15 +1042,6 @@ document.querySelectorAll('[data-tilt]').forEach(tile=>{
   });
 })();
 </script>
-<!-- Webnexora booking form — begin -->
-<script>
-  window.WEBNEXORA = {
-    client: "car-detailing-001",
-    appendTo: "#book",
-    accent: "#1B2532"
-  };
-</script>
-<script src="webnexora-embed.js" defer></script>
-<!-- Webnexora booking form — end -->
+<script src="client-loader.js" defer></script>
 </body>
 </html>
